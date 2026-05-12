@@ -108,6 +108,7 @@ export class WheelEngine {
     for (let i = 0; i < count; i++) {
       const startAngle = this.angle + i * sliceAngle;
       const endAngle = startAngle + sliceAngle;
+      const midAngle = startAngle + sliceAngle / 2;
 
       // Segment fill
       ctx.beginPath();
@@ -122,20 +123,23 @@ export class WheelEngine {
       ctx.lineWidth = 2;
       ctx.stroke();
 
-      // Label
+      // Label — placed along the radial midline of the segment
       ctx.save();
       ctx.translate(cx, cy);
-      ctx.rotate(startAngle + sliceAngle / 2);
-      ctx.textAlign = 'right';
+      ctx.rotate(midAngle);
+      // Text reads outward from center; anchor at 70% of radius
+      const labelRadius = radius * 0.68;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
       ctx.fillStyle = '#fff';
       ctx.font = `bold ${this._labelFontSize(count)}px Outfit, sans-serif`;
-      ctx.shadowColor = 'rgba(0,0,0,0.5)';
+      ctx.shadowColor = 'rgba(0,0,0,0.6)';
       ctx.shadowBlur = 4;
 
       const label = this.segments[i].label;
-      const maxWidth = radius - 32;
+      const maxWidth = radius * 0.55;
       const truncated = this._truncate(ctx, label, maxWidth);
-      ctx.fillText(truncated, radius - 16, 5);
+      ctx.fillText(truncated, labelRadius, 0);
       ctx.restore();
     }
 
