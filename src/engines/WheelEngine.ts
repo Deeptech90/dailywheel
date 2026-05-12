@@ -70,15 +70,15 @@ export class WheelEngine {
     const count = this.segments.length;
     const sliceAngle = TWO_PI / count;
 
-    // The pointer is at the top (-PI/2). We need to find which segment is under it.
-    // Normalize the current angle into [0, TWO_PI)
-    const normalized = ((this.angle % TWO_PI) + TWO_PI) % TWO_PI;
-    // The pointer at top: map to segment index
-    // Wheel rotates clockwise, segments drawn from top
-    const pointerAngle = ((POINTER_ANGLE - normalized + TWO_PI * 3) % TWO_PI);
-    const index = Math.floor(pointerAngle / sliceAngle) % count;
+    // Segment i is drawn from angle: (this.angle + i*sliceAngle)
+    // The pointer sits at -PI/2 (12 o'clock in canvas coords).
+    // We need the segment i whose range contains -PI/2:
+    //   this.angle + i*sliceAngle <= -PI/2 < this.angle + (i+1)*sliceAngle
+    // => i = floor( (-PI/2 - this.angle) / sliceAngle )  [normalised to [0, count)]
+    const relativeAngle = ((POINTER_ANGLE - this.angle) % TWO_PI + TWO_PI) % TWO_PI;
+    const index = Math.floor(relativeAngle / sliceAngle) % count;
 
-    return this.segments[((count - 1 - index) + count) % count] ?? this.segments[0];
+    return this.segments[index] ?? this.segments[0];
   }
 
   draw(canvas: HTMLCanvasElement) {
