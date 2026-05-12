@@ -1,0 +1,222 @@
+import { Segment } from '../types';
+
+const TWO_PI = Math.PI * 2;
+const MIN_VELOCITY = 0.002;
+const FRICTION = 0.985;
+const POINTER_ANGLE = -Math.PI / 2; // Top-center (12 o'clock)
+
+export class WheelEngine {
+  segments: Segment[];
+  angle: number;
+  angularVelocity: number;
+  isSpinning: boolean;
+  direction: 1 | -1; // 1 = clockwise, -1 = counterclockwise
+  private onStop: ((winner: Segment) => void) | null = null;
+  private onTick: (() => void) | null = null;
+  private tickInterval = 0;
+  private lastTickAt = 0;
+
+  constructor(segments: Segment[]) {
+    this.segments = segments;
+    this.angle = 0;
+    this.angularVelocity = 0;
+    this.isSpinning = false;
+    this.direction = 1;
+  }
+
+  setCallbacks(onStop: (winner: Segment) => void, onTick: () => void) {
+    this.onStop = onStop;
+    this.onTick = onTick;
+  }
+
+  spin(velocityOverride?: number) {
+    if (this.isSpinning) return;
+    this.isSpinning = true;
+    // Random initial velocity between 15 and 25 rad/s
+    this.angularVelocity = velocityOverride ?? (15 + Math.random() * 10);
+    this.tickInterval = Math.PI / 4;
+    this.lastTickAt = this.angle;
+  }
+
+  update(): boolean {
+    if (!this.isSpinning) return false;
+
+    // Apply direction to the angle update
+    this.angle += this.direction * this.angularVelocity * (1 / 60);
+    this.angle = ((this.angle % TWO_PI) + TWO_PI) % TWO_PI;
+    this.angularVelocity *= FRICTION;
+
+    // Tick sound trigger
+    if (this.onTick) {
+      const delta = Math.abs(this.angle - this.lastTickAt);
+      if (delta >= this.tickInterval || delta < 0.01) {
+        this.onTick();
+        this.lastTickAt = this.angle;
+      }
+    }
+
+    if (this.angularVelocity < MIN_VELOCITY) {
+      this.angularVelocity = 0;
+      this.isSpinning = false;
+      const winner = this.getWinner();
+      this.onStop?.(winner);
+      return false;
+    }
+
+    return true;
+  }
+
+  getWinner(): Segment {
+    const count = this.segments.length;
+    const sliceAngle = TWO_PI / count;
+
+    // The pointer is at the top (-PI/2). We need to find which segment is under it.
+    // Normalize the current angle into [0, TWO_PI)
+    const normalized = ((this.angle % TWO_PI) + TWO_PI) % TWO_PI;
+    // The pointer at top: map to segment index
+    // Wheel rotates clockwise, segments drawn from top
+    const pointerAngle = ((POINTER_ANGLE - normalized + TWO_PI * 3) % TWO_PI);
+    const index = Math.floor(pointerAngle / sliceAngle) % count;
+
+    return this.segments[((count - 1 - index) + count) % count] ?? this.segments[0];
+  }
+
+  draw(canvas: HTMLCanvasElement) {
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const w = canvas.width;
+    const h = canvas.height;
+    const cx = w / 2;
+    const cy = h / 2;
+    const radius = Math.min(cx, cy) - 10;
+    const count = this.segments.length;
+    const sliceAngle = TWO_PI / count;
+
+    ctx.clearRect(0, 0, w, h);
+
+    // --- Draw outer glow ring ---
+    const glowGradient = ctx.createRadialGradient(cx, cy, radius - 4, cx, cy, radius + 18);
+    glowGradient.addColorStop(0, 'rgba(168, 85, 247, 0.6)');
+    glowGradient.addColorStop(1, 'rgba(168, 85, 247, 0)');
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius + 12, 0, TWO_PI);
+    ctx.fillStyle = glowGradient;
+    ctx.fill();
+
+    // --- Draw segments ---
+    for (let i = 0; i < count; i++) {
+      const startAngle = this.angle + i * sliceAngle;
+      const endAngle = startAngle + sliceAngle;
+
+      // Segment fill
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.arc(cx, cy, radius, startAngle, endAngle);
+      ctx.closePath();
+      ctx.fillStyle = this.segments[i].color;
+      ctx.fill();
+
+      // Segment border
+      ctx.strokeStyle = 'rgba(10, 10, 26, 0.8)';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      // Label
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(startAngle + sliceAngle / 2);
+      ctx.textAlign = 'right';
+      ctx.fillStyle = '#fff';
+      ctx.font = `bold ${this._labelFontSize(count)}px Outfit, sans-serif`;
+      ctx.shadowColor = 'rgba(0,0,0,0.5)';
+      ctx.shadowBlur = 4;
+
+      const label = this.segments[i].label;
+      const maxWidth = radius - 32;
+      const truncated = this._truncate(ctx, label, maxWidth);
+      ctx.fillText(truncated, radius - 16, 5);
+      ctx.restore();
+    }
+
+    // --- Draw inner shadow ring ---
+    const innerGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, 48);
+    innerGrad.addColorStop(0, 'rgba(10,10,26,0.9)');
+    innerGrad.addColorStop(1, 'rgba(10,10,26,0)');
+    ctx.beginPath();
+    ctx.arc(cx, cy, 48, 0, TWO_PI);
+    ctx.fillStyle = innerGrad;
+    ctx.fill();
+
+    // --- Draw center hub ---
+    ctx.beginPath();
+    ctx.arc(cx, cy, 34, 0, TWO_PI);
+    const hubGrad = ctx.createRadialGradient(cx - 6, cy - 6, 2, cx, cy, 34);
+    hubGrad.addColorStop(0, '#a855f7');
+    hubGrad.addColorStop(1, '#4c1d95');
+    ctx.fillStyle = hubGrad;
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(168,85,247,0.8)';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Hub icon: spinning arrow symbol
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 18px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('✦', 0, 0);
+    ctx.restore();
+
+    // --- Draw pointer ---
+    this._drawPointer(ctx, cx, radius);
+  }
+
+  private _drawPointer(ctx: CanvasRenderingContext2D, cx: number, radius: number) {
+    const tipY = 10;
+    const baseY = 42;
+    const halfBase = 14;
+
+    ctx.save();
+    ctx.translate(cx, 0);
+
+    // Pointer glow
+    ctx.shadowColor = '#f59e0b';
+    ctx.shadowBlur = 20;
+
+    ctx.beginPath();
+    ctx.moveTo(0, tipY);
+    ctx.lineTo(-halfBase, baseY);
+    ctx.lineTo(halfBase, baseY);
+    ctx.closePath();
+
+    const grad = ctx.createLinearGradient(0, tipY, 0, baseY);
+    grad.addColorStop(0, '#fbbf24');
+    grad.addColorStop(1, '#f59e0b');
+    ctx.fillStyle = grad;
+    ctx.fill();
+
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  private _labelFontSize(count: number): number {
+    if (count <= 6) return 14;
+    if (count <= 10) return 12;
+    if (count <= 14) return 10;
+    return 9;
+  }
+
+  private _truncate(ctx: CanvasRenderingContext2D, text: string, maxWidth: number): string {
+    if (ctx.measureText(text).width <= maxWidth) return text;
+    let truncated = text;
+    while (ctx.measureText(truncated + '…').width > maxWidth && truncated.length > 0) {
+      truncated = truncated.slice(0, -1);
+    }
+    return truncated + '…';
+  }
+}

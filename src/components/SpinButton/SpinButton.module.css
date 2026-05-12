@@ -1,0 +1,110 @@
+.btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 40px;
+  background: linear-gradient(135deg, #7c3aed, #4c1d95);
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(168, 85, 247, 0.3),
+    0 4px 24px rgba(124, 58, 237, 0.5),
+    0 0 60px rgba(124, 58, 237, 0.2);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.3s ease;
+  user-select: none;
+}
+
+.btn:hover:not(:disabled) {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow:
+    0 0 0 1px rgba(168, 85, 247, 0.5),
+    0 8px 32px rgba(124, 58, 237, 0.7),
+    0 0 80px rgba(124, 58, 237, 0.3);
+}
+
+.btn:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.btn.spinning {
+  animation: spinningDrift 1.8s ease-in-out infinite;
+  opacity: 0.85;
+}
+
+.btn.spinning .icon {
+  animation: rotateStar 0.5s linear infinite;
+}
+
+.icon {
+  font-size: 1.2rem;
+  display: inline-block;
+}
+
+.label {
+  position: relative;
+  z-index: 1;
+}
+
+.ripple {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.15) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.btn:active .ripple {
+  opacity: 1;
+}
+
+/* Pulse glow animation when idle */
+.btn:not(:disabled):not(.spinning) {
+  animation: pulseGlow 2.5s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow:
+      0 0 0 1px rgba(168, 85, 247, 0.3),
+      0 4px 24px rgba(124, 58, 237, 0.5);
+    transform: translateY(0);
+  }
+  50% {
+    box-shadow:
+      0 0 0 2px rgba(168, 85, 247, 0.6),
+      0 8px 40px rgba(124, 58, 237, 0.8),
+      0 0 80px rgba(124, 58, 237, 0.4);
+    transform: translateY(-3px);
+  }
+}
+
+/* Physics-inspired upward drift during spin */
+@keyframes spinningDrift {
+  0%   { transform: translateY(0) rotate(0deg); }
+  15%  { transform: translateY(-8px) rotate(-0.5deg); }
+  30%  { transform: translateY(-14px) rotate(0.3deg); }
+  45%  { transform: translateY(-10px) rotate(-0.2deg); }
+  60%  { transform: translateY(-16px) rotate(0.4deg); }
+  75%  { transform: translateY(-11px) rotate(-0.3deg); }
+  90%  { transform: translateY(-13px) rotate(0.2deg); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
+
+@keyframes rotateStar {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
