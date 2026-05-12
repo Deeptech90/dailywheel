@@ -1,4 +1,4 @@
-import { useReducer, useCallback, useEffect, useRef, useState } from 'react';
+import { useReducer, useCallback, useEffect, useRef, useState, MutableRefObject } from 'react';
 import { WheelCanvas } from './components/WheelCanvas/WheelCanvas';
 import { SpinButton } from './components/SpinButton/SpinButton';
 import { ResultModal } from './components/ResultModal/ResultModal';
@@ -84,6 +84,9 @@ export default function App() {
   // Ref to the wheel section div — used by FloatingElements for orbital positioning
   const wheelSectionRef = useRef<HTMLDivElement>(null);
 
+  // Ref to WheelCanvas's internal spin trigger — connects SpinButton to the engine
+  const wheelSpinRef = useRef<(() => void) | null>(null);
+
   // Info panel (Section 7 — comparative analysis + how-to)
   const [showInfo, setShowInfo] = useState(false);
 
@@ -99,6 +102,12 @@ export default function App() {
     dispatch({ type: 'SPIN_START' });
     activateAntiGravity();
   }, [activateAntiGravity]);
+
+  // Called by SpinButton — triggers the engine via ref
+  const handleSpinButtonClick = useCallback(() => {
+    if (state.isSpinning) return;
+    wheelSpinRef.current?.();
+  }, [state.isSpinning]);
 
   const handleSpinEnd = useCallback((winner: Segment) => {
     // Trigger particle burst at wheel center
@@ -232,6 +241,7 @@ export default function App() {
             onSpinEnd={handleSpinEnd}
             onTick={handleTick}
             physicsCanvasRef={physicsCanvasRef}
+            spinRef={wheelSpinRef as MutableRefObject<(() => void) | null>}
           />
           {/* Orbital decorative icons with anti-gravity physics */}
           <FloatingElements
@@ -243,7 +253,7 @@ export default function App() {
         {/* Controls */}
         <div className={`${styles.controls} ${state.isSpinning ? styles.controlsFloating : ''}`}>
           <SpinButton
-            onClick={handleSpinStart}
+            onClick={handleSpinButtonClick}
             disabled={state.isSpinning}
           />
           <div className={styles.secondaryBtns}>

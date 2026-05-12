@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState, useCallback } from 'react';
+import { useRef, useEffect, useState, useCallback, MutableRefObject } from 'react';
 import { Segment } from '../../types';
 import { useWheel } from '../../hooks/useWheel';
 import { useTouch } from '../../hooks/useTouch';
@@ -13,6 +13,8 @@ interface WheelCanvasProps {
   onSpinEnd: (winner: Segment) => void;
   onTick: () => void;
   physicsCanvasRef: React.RefObject<HTMLCanvasElement>;
+  /** Pass a ref here and WheelCanvas will assign a spin() function to it */
+  spinRef?: MutableRefObject<(() => void) | null>;
 }
 
 /** Returns ideal canvas size based on viewport and orientation */
@@ -38,6 +40,7 @@ export function WheelCanvas({
   onSpinEnd,
   onTick,
   physicsCanvasRef,
+  spinRef,
 }: WheelCanvasProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -61,6 +64,13 @@ export function WheelCanvas({
     onSpinStart();
     spin(velocity);
   }, [isSpinning, onSpinStart, spin]);
+
+  // Expose triggerSpin to parent via spinRef
+  useEffect(() => {
+    if (spinRef) {
+      spinRef.current = () => triggerSpin();
+    }
+  }, [spinRef, triggerSpin]);
 
   // Pinch scale handler — computes relative to scale at pinch start
   const handlePinchScale = useCallback((rawScale: number) => {
