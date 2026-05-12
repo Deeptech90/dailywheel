@@ -152,7 +152,35 @@ export class WheelEngine {
     ctx.fillStyle = innerGrad;
     ctx.fill();
 
-    // --- Draw center hub ---
+    // --- Draw fixed needle from center hub toward 12 o'clock ---
+    // Needle is FIXED (doesn't rotate with wheel) — always points UP
+    const needleLength = radius - 18; // tip stops just inside the rim
+    const hubEdge = 36;               // starts just outside the hub
+    ctx.save();
+    ctx.translate(cx, cy);
+    // Glow
+    ctx.shadowColor = '#fbbf24';
+    ctx.shadowBlur = 12;
+    // Needle line
+    ctx.beginPath();
+    ctx.moveTo(0, -hubEdge);
+    ctx.lineTo(0, -needleLength);
+    ctx.strokeStyle = '#fbbf24';
+    ctx.lineWidth = 3;
+    ctx.lineCap = 'round';
+    ctx.stroke();
+    // Arrowhead triangle at tip
+    ctx.beginPath();
+    ctx.moveTo(0, -needleLength - 8);
+    ctx.lineTo(-6, -needleLength + 4);
+    ctx.lineTo(6,  -needleLength + 4);
+    ctx.closePath();
+    ctx.fillStyle = '#fbbf24';
+    ctx.fill();
+    ctx.shadowBlur = 0;
+    ctx.restore();
+
+    // --- Draw center hub (on top of needle base) ---
     ctx.beginPath();
     ctx.arc(cx, cy, 34, 0, TWO_PI);
     const hubGrad = ctx.createRadialGradient(cx - 6, cy - 6, 2, cx, cy, 34);
@@ -164,49 +192,18 @@ export class WheelEngine {
     ctx.lineWidth = 2;
     ctx.stroke();
 
-    // Hub icon: spinning arrow symbol
+    // Hub icon
     ctx.save();
     ctx.translate(cx, cy);
     ctx.fillStyle = '#fff';
-    ctx.font = 'bold 18px sans-serif';
+    ctx.font = 'bold 16px sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText('▶', 2, 1);
     ctx.restore();
-
-    // --- Draw pointer ---
-    this._drawPointer(ctx, cx, radius);
   }
 
-  private _drawPointer(ctx: CanvasRenderingContext2D, cx: number, radius: number) {
-    const tipY = 10;
-    const baseY = 42;
-    const halfBase = 14;
-
-    ctx.save();
-    ctx.translate(cx, 0);
-
-    // Pointer glow
-    ctx.shadowColor = '#f59e0b';
-    ctx.shadowBlur = 20;
-
-    ctx.beginPath();
-    ctx.moveTo(0, tipY);
-    ctx.lineTo(-halfBase, baseY);
-    ctx.lineTo(halfBase, baseY);
-    ctx.closePath();
-
-    const grad = ctx.createLinearGradient(0, tipY, 0, baseY);
-    grad.addColorStop(0, '#fbbf24');
-    grad.addColorStop(1, '#f59e0b');
-    ctx.fillStyle = grad;
-    ctx.fill();
-
-    ctx.strokeStyle = '#fff';
-    ctx.lineWidth = 1.5;
-    ctx.stroke();
-    ctx.restore();
-  }
+  // _drawPointer removed — needle is now drawn from the center hub
 
   private _labelFontSize(count: number): number {
     if (count <= 6) return 14;
