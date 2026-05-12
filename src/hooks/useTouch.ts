@@ -5,6 +5,8 @@ interface UseTouchOptions {
   onSpin: (velocity: number) => void;
   onPinchScale?: (scale: number) => void;
   disabled?: boolean;
+  /** Ref to the wheel canvas — used to detect center-hub clicks */
+  canvasRef?: React.RefObject<HTMLCanvasElement>;
 }
 
 /**
@@ -14,7 +16,7 @@ interface UseTouchOptions {
  *
  * Uses debounce on spin trigger to prevent duplicate fires from rapid taps.
  */
-export function useTouch({ onSpin, onPinchScale, disabled }: UseTouchOptions) {
+export function useTouch({ onSpin, onPinchScale, disabled, canvasRef }: UseTouchOptions) {
   const startRef = useRef<{ x: number; y: number; t: number } | null>(null);
   const lastSpinRef = useRef<number>(0);           // For debounce
   const pinchStartDistRef = useRef<number | null>(null); // For pinch tracking
@@ -114,11 +116,50 @@ export function useTouch({ onSpin, onPinchScale, disabled }: UseTouchOptions) {
     if (distance > 10) triggerSpin(angularVelocity);
   }, [disabled, triggerSpin]);
 
+  // ── Center-hub click handler ─────────────────────────────────────────────
+  /** Spins the wheel when the user clicks/taps within 40px of the canvas center */
+  const handleCanvasClick = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
+    if (disabled || !canvasRef?.current) return;
+    const canvas = canvasRef.current;
+    const rect = canvas.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const dx = e.clientX - cx;
+    const dy = e.clientY - cy;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    // Hub radius is 34px in the engine — allow a 40px hit area
+    if (dist <= 40) {
+      triggerSpin(15 + Math.random() * 10);
+    }
+  }, [disabled, canvasRef, triggerSpin]);
+
+  /** Touch tap on center hub (single-finger tap with minimal movement) */
+  const handleCenterTap = useCallback((e: React.TouchEvent) => {
+    if (disabled || !canvasRef?.current || !startRef.current) return;
+    const t = e.changedTouches[0];
+    const dx = t.clientX - startRef.current.x;
+    const dy = t.clientY - startRef.current.y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    if (distance > 20) return; // Not a tap — it's a swipe
+
+    const canvas = canvasRef.current;
+    const rect = canvas.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const tdx = startRef.current.x - cx;
+    const tdy = startRef.current.y - cy;
+    if (Math.sqrt(tdx * tdx + tdy * tdy) <= 40) {
+      triggerSpin(15 + Math.random() * 10);
+    }
+  }, [disabled, canvasRef, triggerSpin]);
+
   return {
     handleTouchStart,
     handleTouchMove,
     handleTouchEnd,
     handleMouseDown,
+    handleCanvasClick,
+    handleCenterTap,
     handleMouseUp,
   };
 }

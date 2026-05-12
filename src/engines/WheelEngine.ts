@@ -167,7 +167,7 @@ export class WheelEngine {
     ctx.font = 'bold 18px sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText('✦', 0, 0);
+    ctx.fillText('▶', 2, 1);
     ctx.restore();
 
     // --- Draw pointer ---

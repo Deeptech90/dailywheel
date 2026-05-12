@@ -83,19 +83,21 @@ export function WheelCanvas({
     handleTouchMove,
     handleTouchEnd,
     handleMouseDown,
-    handleMouseUp,
+    handleCanvasClick,
+    handleCenterTap,
   } = useTouch({
     onSpin: triggerSpin,
     onPinchScale: handlePinchScale,
     disabled: isSpinning,
+    canvasRef,
   });
 
   // Update pinch base whenever a pinch ends so next pinch starts fresh
   const handleTouchEndWrapper = useCallback((e: React.TouchEvent) => {
+    handleCenterTap(e);   // check center-hub tap first
     handleTouchEnd(e);
-    // When pinch is released, commit the current scale as the new base
     pinchBaseRef.current = pinchScale;
-  }, [handleTouchEnd, pinchScale]);
+  }, [handleTouchEnd, handleCenterTap, pinchScale]);
 
   // Size canvas responsively (portrait + landscape)
   useEffect(() => {
@@ -136,8 +138,16 @@ export function WheelCanvas({
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEndWrapper}
         onMouseDown={handleMouseDown}
-        onMouseUp={handleMouseUp}
-        aria-label="Spinning wheel — tap, swipe, or pinch to interact"
+        onClick={handleCanvasClick}
+        onMouseMove={(e) => {
+          const canvas = canvasRef.current;
+          if (!canvas) return;
+          const rect = canvas.getBoundingClientRect();
+          const dx = e.clientX - (rect.left + rect.width / 2);
+          const dy = e.clientY - (rect.top + rect.height / 2);
+          canvas.style.cursor = Math.sqrt(dx * dx + dy * dy) <= 40 ? 'pointer' : 'grab';
+        }}
+        aria-label="Spinning wheel — click center to spin, or swipe to spin"
         role="button"
         tabIndex={0}
         onKeyDown={e => (e.key === 'Enter' || e.key === ' ') ? triggerSpin() : undefined}
