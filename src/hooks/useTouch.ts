@@ -74,47 +74,21 @@ export function useTouch({ onSpin, onPinchScale, disabled, canvasRef }: UseTouch
   const handleTouchEnd = useCallback((e: React.TouchEvent) => {
     if (disabled) return;
 
-    // Pinch ended
+    // Pinch ended — reset pinch tracker, do not spin
     if (pinchStartDistRef.current !== null && e.touches.length < 2) {
       pinchStartDistRef.current = null;
+      startRef.current = null;
       return;
     }
 
-    if (!startRef.current) return;
+    startRef.current = null; // Reset without spinning
+  }, [disabled]);
 
-    const t = e.changedTouches[0];
-    const dx = t.clientX - startRef.current.x;
-    const dy = t.clientY - startRef.current.y;
-    const dt = Math.max((Date.now() - startRef.current.t) / 1000, 0.05);
-    const distance = Math.sqrt(dx * dx + dy * dy);
-    const rawVelocity = distance / dt;
-
-    // Map pixel velocity to angular velocity
-    const angularVelocity = clamp(rawVelocity * 0.05, 6, 28);
-    startRef.current = null;
-
-    if (distance > 20) {
-      triggerSpin(angularVelocity);
-    }
-  }, [disabled, triggerSpin]);
-
-  // ── Mouse handlers (desktop fallback) ───────────────────────────────────
+  // ── Mouse handlers (desktop — only center hub click matters) ─────────────
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
     if (disabled) return;
     startRef.current = { x: e.clientX, y: e.clientY, t: Date.now() };
   }, [disabled]);
-
-  const handleMouseUp = useCallback((e: React.MouseEvent) => {
-    if (disabled || !startRef.current) return;
-    const dx = e.clientX - startRef.current.x;
-    const dy = e.clientY - startRef.current.y;
-    const dt = Math.max((Date.now() - startRef.current.t) / 1000, 0.05);
-    const distance = Math.sqrt(dx * dx + dy * dy);
-    const rawVelocity = distance / dt;
-    const angularVelocity = clamp(rawVelocity * 0.05, 6, 28);
-    startRef.current = null;
-    if (distance > 10) triggerSpin(angularVelocity);
-  }, [disabled, triggerSpin]);
 
   // ── Center-hub click handler ─────────────────────────────────────────────
   /** Spins the wheel when the user clicks/taps within 40px of the canvas center */
