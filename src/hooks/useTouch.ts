@@ -134,6 +134,5 @@ export function useTouch({ onSpin, onPinchScale, disabled, canvasRef }: UseTouch
     handleMouseDown,
     handleCanvasClick,
     handleCenterTap,
-    handleMouseUp,
   };
 }
