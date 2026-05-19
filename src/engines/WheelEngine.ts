@@ -159,13 +159,13 @@ export class WheelEngine {
     ctx.save();
     ctx.translate(cx, cy);
     // Glow
-    ctx.shadowColor = '#fbbf24';
-    ctx.shadowBlur = 12;
+    ctx.shadowColor = 'rgba(0,0,0,0.5)';
+    ctx.shadowBlur = 6;
     // Needle line
     ctx.beginPath();
     ctx.moveTo(0, -hubEdge);
     ctx.lineTo(0, -needleLength);
-    ctx.strokeStyle = '#fbbf24';
+    ctx.strokeStyle = '#000000';
     ctx.lineWidth = 3;
     ctx.lineCap = 'round';
     ctx.stroke();
@@ -175,7 +175,7 @@ export class WheelEngine {
     ctx.lineTo(-6, -needleLength + 4);
     ctx.lineTo(6,  -needleLength + 4);
     ctx.closePath();
-    ctx.fillStyle = '#fbbf24';
+    ctx.fillStyle = '#000000';
     ctx.fill();
     ctx.shadowBlur = 0;
     ctx.restore();
