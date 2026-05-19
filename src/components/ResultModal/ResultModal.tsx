@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import confetti from 'canvas-confetti';
 import { Segment } from '../../types';
+import { adjustColorOpacity, getContrastTextColor } from '../../utils/colors';
 import styles from './ResultModal.module.css';
 
 interface ResultModalProps {
@@ -111,7 +112,10 @@ export function ResultModal({ segment, onClose }: ResultModalProps) {
             id="result-close-btn"
             className={styles.closeBtn}
             onClick={onClose}
-            style={{ background: `linear-gradient(135deg, ${segment.color}, ${segment.color}bb)` }}
+            style={{
+              background: `linear-gradient(135deg, ${segment.color || '#a855f7'}, ${adjustColorOpacity(segment.color || '#a855f7', 0.75)})`,
+              color: getContrastTextColor(segment.color || '#a855f7')
+            }}
           >
             Awesome, let's go! 🚀
           </button>
