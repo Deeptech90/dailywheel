@@ -1,16 +1,16 @@
-import Link from 'next/link';
+import { useEffect } from 'react';
+import { Link } from '../../components/Link/Link';
 import styles from '../legal.module.css';
 import { CookieSettingsButton } from '../../components/CookieSettingsButton/CookieSettingsButton';
 
-export const metadata = {
-  title: 'Cookie Policy | UniqueBusinessName.com',
-  description: 'Detailed Cookie Policy for UniqueBusinessName.com. Understand how we use cookies for analytics and advertising.',
-  alternates: {
-    canonical: 'https://uniquebusinessname.com/cookies',
-  },
-};
-
 export default function CookiePolicy() {
+  useEffect(() => {
+    document.title = 'Cookie Policy | UniqueBusinessName.com';
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute('content', 'Detailed Cookie Policy for UniqueBusinessName.com. Understand how we use cookies for analytics and advertising.');
+    }
+  }, []);
   return (
     <div className={styles.container}>
       <Link href="/" className={styles.backLink}>

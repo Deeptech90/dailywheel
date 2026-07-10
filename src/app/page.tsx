@@ -1,6 +1,6 @@
 import { GeneratorApp } from '../components/GeneratorApp/GeneratorApp';
 import { AdSlot } from '../components/AdSlot/AdSlot';
-import Link from 'next/link';
+import { Link } from '../components/Link/Link';
 
 export const metadata = {
   title: 'AI-Powered Unique Business Name Generator | Anti-Gravity Wheel',

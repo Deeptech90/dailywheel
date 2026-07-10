@@ -1,15 +1,15 @@
-import Link from 'next/link';
+import { useEffect } from 'react';
+import { Link } from '../../components/Link/Link';
 import styles from '../legal.module.css';
 
-export const metadata = {
-  title: 'About Us | UniqueBusinessName.com',
-  description: 'Discover the story behind UniqueBusinessName.com, our anti-gravity physics decision wheel, and our creative naming engine.',
-  alternates: {
-    canonical: 'https://uniquebusinessname.com/about',
-  },
-};
-
 export default function AboutUs() {
+  useEffect(() => {
+    document.title = 'About Us | UniqueBusinessName.com';
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute('content', 'Discover the story behind UniqueBusinessName.com, our anti-gravity physics decision wheel, and our creative naming engine.');
+    }
+  }, []);
   return (
     <div className={styles.container}>
       <Link href="/" className={styles.backLink}>

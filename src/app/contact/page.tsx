@@ -1,10 +1,15 @@
-'use client';
-
-import { useState } from 'react';
-import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { Link } from '../../components/Link/Link';
 import styles from '../legal.module.css';
 
 export default function ContactUs() {
+  useEffect(() => {
+    document.title = 'Contact Us | UniqueBusinessName.com';
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute('content', 'Get in touch with the UniqueBusinessName.com team for inquiries or feedback.');
+    }
+  }, []);
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
 

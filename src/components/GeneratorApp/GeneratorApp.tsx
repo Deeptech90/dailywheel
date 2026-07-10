@@ -1,8 +1,7 @@
 'use client';
 
 import { useReducer, useCallback, useEffect, useRef, useState } from 'react';
-import dynamic from 'next/dynamic';
-import Link from 'next/link';
+import { Link } from '../Link/Link';
 
 // Static components
 import { WheelCanvas } from '../WheelCanvas/WheelCanvas';
@@ -14,11 +13,10 @@ import { Icon } from '../Icon/Icon';
 import { WheelModeSelector } from '../WheelModeSelector/WheelModeSelector';
 import { DailyChoicesInput } from '../DailyChoicesInput/DailyChoicesInput';
 
-// Dynamic modules
-const ResultModal = dynamic(() => import('../ResultModal/ResultModal').then(m => m.ResultModal), { ssr: false });
-const EditPanel = dynamic(() => import('../EditPanel/EditPanel').then(m => m.EditPanel), { ssr: false });
-const HistoryFeed = dynamic(() => import('../HistoryFeed/HistoryFeed').then(m => m.HistoryFeed), { ssr: false });
-const InfoPanel = dynamic(() => import('../InfoPanel/InfoPanel').then(m => m.InfoPanel), { ssr: false });
+import { ResultModal } from '../ResultModal/ResultModal';
+import { EditPanel } from '../EditPanel/EditPanel';
+import { HistoryFeed } from '../HistoryFeed/HistoryFeed';
+import { InfoPanel } from '../InfoPanel/InfoPanel';
 
 // Hooks & utils
 import { usePhysics } from '../../hooks/usePhysics';

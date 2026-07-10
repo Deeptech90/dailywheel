@@ -1,15 +1,15 @@
-import Link from 'next/link';
+import { useEffect } from 'react';
+import { Link } from '../../components/Link/Link';
 import styles from '../legal.module.css';
 
-export const metadata = {
-  title: 'Privacy Policy | UniqueBusinessName.com',
-  description: 'Learn how we collect, use, and protect your personal information at UniqueBusinessName.com. Fully GDPR & CCPA compliant.',
-  alternates: {
-    canonical: 'https://uniquebusinessname.com/privacy',
-  },
-};
-
 export default function PrivacyPolicy() {
+  useEffect(() => {
+    document.title = 'Privacy Policy | UniqueBusinessName.com';
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute('content', 'Learn how we collect, use, and protect your personal information at UniqueBusinessName.com. Fully GDPR & CCPA compliant.');
+    }
+  }, []);
   return (
     <div className={styles.container}>
       <Link href="/" className={styles.backLink}>

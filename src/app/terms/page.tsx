@@ -1,15 +1,15 @@
-import Link from 'next/link';
+import { useEffect } from 'react';
+import { Link } from '../../components/Link/Link';
 import styles from '../legal.module.css';
 
-export const metadata = {
-  title: 'Terms of Service | UniqueBusinessName.com',
-  description: 'Read the Terms of Service for using UniqueBusinessName.com decision wheel and business name generator.',
-  alternates: {
-    canonical: 'https://uniquebusinessname.com/terms',
-  },
-};
-
 export default function TermsOfService() {
+  useEffect(() => {
+    document.title = 'Terms of Service | UniqueBusinessName.com';
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute('content', 'Read the Terms of Service for using UniqueBusinessName.com decision wheel and business name generator.');
+    }
+  }, []);
   return (
     <div className={styles.container}>
       <Link href="/" className={styles.backLink}>

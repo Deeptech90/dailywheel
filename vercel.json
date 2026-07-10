@@ -1,4 +1,7 @@
 {
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ],
   "headers": [
     {
       "source": "/(.*)",
@@ -30,7 +33,7 @@
       ]
     },
     {
-      "source": "/_next/static/(.*)",
+      "source": "/assets/(.*)",
       "headers": [
         {
           "key": "Cache-Control",

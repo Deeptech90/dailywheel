@@ -1,19 +1,22 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { Link } from '../Link/Link';
 import { Icon } from '../Icon/Icon';
 import styles from './NavigationDrawer.module.css';
 
 export function NavigationDrawer() {
   const [isOpen, setIsOpen] = useState(false);
-  const pathname = usePathname();
+  const [pathname, setPathname] = useState(window.location.pathname);
 
-  // Close drawer on path change
   useEffect(() => {
-    setIsOpen(false);
-  }, [pathname]);
+    const handleLocationChange = () => {
+      setPathname(window.location.pathname);
+      setIsOpen(false);
+    };
+    window.addEventListener('popstate', handleLocationChange);
+    return () => window.removeEventListener('popstate', handleLocationChange);
+  }, []);
 
   const toggleDrawer = () => setIsOpen(!isOpen);
 
