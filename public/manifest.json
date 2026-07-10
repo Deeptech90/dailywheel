@@ -1,7 +1,7 @@
 {
-  "name": "Daily Spin",
-  "short_name": "DailySpin",
-  "description": "Anti-Gravity Spinning Wheel for daily suggestions",
+  "name": "Unique Business Name Generator",
+  "short_name": "UniqueBusinessName",
+  "description": "Anti-Gravity Spinning Wheel & Unique Business Name Generator",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0a0a1a",

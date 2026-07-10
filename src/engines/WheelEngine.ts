@@ -81,6 +81,28 @@ export class WheelEngine {
     return this.segments[index] ?? this.segments[0];
   }
 
+  /**
+   * Instantly resolves a winner without animation.
+   * Used for prefers-reduced-motion accessibility.
+   * Picks a uniformly random segment and snaps the wheel angle to it.
+   */
+  instantResolve(): Segment {
+    const count = this.segments.length;
+    const sliceAngle = TWO_PI / count;
+    const randomIndex = Math.floor(Math.random() * count);
+
+    // Snap the wheel angle so this segment sits under the pointer
+    // Pointer is at POINTER_ANGLE (-PI/2). We want segment randomIndex centered under it.
+    const targetMid = POINTER_ANGLE - (randomIndex * sliceAngle + sliceAngle / 2);
+    this.angle = ((targetMid % TWO_PI) + TWO_PI) % TWO_PI;
+    this.angularVelocity = 0;
+    this.isSpinning = false;
+
+    const winner = this.segments[randomIndex] ?? this.segments[0];
+    this.onStop?.(winner);
+    return winner;
+  }
+
   draw(canvas: HTMLCanvasElement) {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;

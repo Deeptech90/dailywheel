@@ -138,6 +138,37 @@
   transform: scale(0.98);
 }
 
+.traitText {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  color: #fff;
+  background: rgba(168, 85, 247, 0.15);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  padding: 12px 16px;
+  border-radius: 12px;
+  margin: 0 0 24px;
+  line-height: 1.5;
+}
+
+.copyBtn {
+  width: 100%;
+  padding: 12px 24px;
+  border: 1px dashed rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.copyBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
 .respinBtn {
   width: 100%;
   padding: 12px 24px;

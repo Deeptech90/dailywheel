@@ -52,7 +52,7 @@ export function WheelCanvas({
     onSpinEnd(winner);
   };
 
-  const { canvasRef, spin } = useWheel({
+  const { canvasRef, spin, instantResolve } = useWheel({
     segments,
     onStop: handleStop,
     onTick,
@@ -62,8 +62,19 @@ export function WheelCanvas({
   const triggerSpin = useCallback((velocity?: number) => {
     if (isSpinning) return;
     onSpinStart();
+    
+    // Accessibility: Reduced Motion
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const winner = instantResolve();
+      if (winner) {
+        // Small delay to let UI catch up, then show result instantly
+        setTimeout(() => handleStop(winner), 200);
+      }
+      return;
+    }
+    
     spin(velocity);
-  }, [isSpinning, onSpinStart, spin]);
+  }, [isSpinning, onSpinStart, spin, instantResolve, handleStop]);
 
   // Expose triggerSpin to parent via spinRef
   useEffect(() => {

@@ -1,0 +1,54 @@
+.adContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 1.5rem auto;
+  width: 100%;
+  max-width: 1200px;
+  background: rgba(18, 18, 42, 0.4);
+  border: 1px dashed rgba(168, 85, 247, 0.15);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  position: relative;
+  text-align: center;
+}
+
+/* Reserved size to prevent Cumulative Layout Shift (CLS) */
+.banner {
+  min-height: 100px;
+  max-height: 100px;
+  height: 100px;
+}
+
+.box {
+  min-height: 280px;
+  max-height: 280px;
+  height: 280px;
+  max-width: 336px;
+}
+
+.adLabel {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 0.5rem;
+  user-select: none;
+}
+
+.placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  width: 100%;
+  height: 100%;
+}
+
+.placeholder a {
+  color: var(--glow);
+  text-decoration: underline;
+  margin-left: 0.25rem;
+}

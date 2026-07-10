@@ -2,7 +2,12 @@ export interface Segment {
   id: string;
   label: string;
   color: string;
+  /** Optional metadata for animal mode */
+  icon?: string;
+  trait?: string;
 }
+
+export type WheelMode = 'business' | 'daily' | 'animal';
 
 export interface Particle {
   x: number;
@@ -41,6 +46,7 @@ export type AppState = {
   currentResult: Segment | null;
   showEdit: boolean;
   showHistory: boolean;
+  wheelMode: WheelMode;
 };
 
 export type AppAction =
@@ -51,4 +57,6 @@ export type AppAction =
   | { type: 'TOGGLE_SOUND' }
   | { type: 'TOGGLE_DIRECTION' }
   | { type: 'TOGGLE_EDIT' }
-  | { type: 'TOGGLE_HISTORY' };
+  | { type: 'TOGGLE_HISTORY' }
+  | { type: 'SET_MODE'; mode: WheelMode }
+  | { type: 'HYDRATE_STATE'; segments: Segment[]; history: SpinResult[]; soundEnabled: boolean };

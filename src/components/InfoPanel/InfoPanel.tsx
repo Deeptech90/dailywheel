@@ -67,7 +67,7 @@ export function InfoPanel({ onClose }: InfoPanelProps) {
 
         <div className={styles.header}>
           <h2 id="info-panel-title" className={styles.title}>
-            ✦ About DailySpin
+            ✦ About UniqueBusinessName
           </h2>
           <button
             id="info-panel-close"
@@ -81,7 +81,7 @@ export function InfoPanel({ onClose }: InfoPanelProps) {
 
         <p className={styles.intro}>
           An immersive, physics-driven spinning wheel that goes beyond traditional
-          implementations — powered by a custom anti-gravity engine.
+          implementations — powered by a custom anti-gravity engine to select your perfect business name.
         </p>
 
         {/* How to use */}
@@ -98,7 +98,7 @@ export function InfoPanel({ onClose }: InfoPanelProps) {
         {/* Comparative analysis table — Section 7.1 */}
         <h3 className={styles.sectionTitle}>Why anti-gravity?</h3>
         <p className={styles.tableCaption}>
-          Table 1 · Traditional vs. Anti-Gravity Enhanced Spinning Wheel
+          Table 1 · Traditional vs. Anti-Gravity Enhanced Naming Wheel
         </p>
         <div className={styles.tableWrapper}>
           <table className={styles.table}>
@@ -106,7 +106,7 @@ export function InfoPanel({ onClose }: InfoPanelProps) {
               <tr>
                 <th className={styles.th}>Feature</th>
                 <th className={styles.th}>Traditional</th>
-                <th className={`${styles.th} ${styles.thHighlight}`}>DailySpin ✦</th>
+                <th className={`${styles.th} ${styles.thHighlight}`}>UniqueBusinessName ✦</th>
               </tr>
             </thead>
             <tbody>

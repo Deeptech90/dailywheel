@@ -55,6 +55,10 @@ export function useWheel({ segments, onStop, onTick, direction = 1 }: UseWheelOp
     engineRef.current?.spin(velocity);
   }, []);
 
+  const instantResolve = useCallback(() => {
+    return engineRef.current?.instantResolve() ?? null;
+  }, []);
+
   const isSpinning = useCallback(() => {
     return engineRef.current?.isSpinning ?? false;
   }, []);
@@ -63,5 +67,5 @@ export function useWheel({ segments, onStop, onTick, direction = 1 }: UseWheelOp
     if (engineRef.current) engineRef.current.direction = dir;
   }, []);
 
-  return { canvasRef, spin, isSpinning, setDirection };
+  return { canvasRef, spin, instantResolve, isSpinning, setDirection };
 }
