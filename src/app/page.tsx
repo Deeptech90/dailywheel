@@ -1,315 +1,266 @@
 import { useState } from 'react';
-import { GeneratorApp } from '../components/GeneratorApp/GeneratorApp';
-import { AdSlot } from '../components/AdSlot/AdSlot';
-import { Link } from '../components/Link/Link';
+import GeneratorApp from '../components/GeneratorApp/GeneratorApp';
 
-/* ── Accordion FAQ ──────────────────────────────────────── */
+const pageStyles: React.CSSProperties = {
+  minHeight: '100vh',
+  fontFamily: 'var(--font-body)',
+  color: 'var(--text)',
+};
+
+const seoSectionStyles: React.CSSProperties = {
+  maxWidth: '1024px',
+  margin: '0 auto',
+  padding: '4rem 1.5rem',
+  borderTop: '1px solid var(--border)',
+};
+
 const FAQS = [
   {
-    q: 'Is the generator 100% free to use?',
-    a: 'Yes, UniqueBusinessName.com is completely free. You can generate names, enter custom daily choices, spin as many times as you want — no account required.',
+    q: 'How does the business name generator work?',
+    a: 'We curated a database of highly brandable names across various industries. When you select a category (like Tech or Bakery), the wheel randomly selects a set of these names and uses our physics engine to pick a winner.'
   },
   {
-    q: 'Can I use it for things other than business names?',
-    a: 'Absolutely! Switch to "Daily Choices" to enter your own custom options for anything — what to eat, which movie to watch, team decisions, and more. Or try Spirit Animal mode just for fun!',
+    q: 'Can I use this for my own custom choices?',
+    a: 'Yes! Switch to the "Daily Choices" mode to type in your own options (up to 20). It\'s perfect for deciding where to eat, what to watch, or settling friendly debates.'
   },
   {
-    q: 'Do I own the rights to the generated names?',
-    a: 'The names are generated programmatically and we make no intellectual property claims on them. However, always verify trademark registries (USPTO, EUIPO) before registering any business name.',
+    q: 'Is my spin history saved?',
+    a: 'Your history is saved entirely in your local browser. We do not store your spin results or custom choices on any servers, ensuring total privacy.'
   },
   {
-    q: 'How does the anti-gravity physics engine work?',
-    a: 'We use the HTML5 Canvas API with custom physics formulas simulating angular torque, speed-dependent kinetic friction, and directional acceleration. The result is organic, realistic wheel motion — not a simple random timer.',
-  },
-  {
-    q: 'Can I edit the wheel segments manually?',
-    a: 'Yes! In Business Name or Daily Choices mode, click "Edit Segments" below the wheel to add, remove, or rename any option directly.',
-  },
-  {
-    q: 'Does it work on mobile?',
-    a: 'UniqueBusinessName.com is a mobile-first Progressive Web App (PWA). You can swipe the wheel, tap the hub to spin, and even install it on your home screen for offline use.',
-  },
+    q: 'Can I use the app offline?',
+    a: 'Absolutely. Once you load the site once, it installs a Service Worker that allows you to use the core wheel functionality even without an internet connection.'
+  }
 ];
 
-function FaqItem({ q, a }: { q: string; a: string }) {
-  const [open, setOpen] = useState(false);
+function FAQAccordion() {
+  const [openIndex, setOpenIndex] = useState<number>(0);
+
   return (
-    <div style={{
-      borderBottom: '1px solid rgba(255,255,255,0.06)',
-    }}>
-      <button
-        onClick={() => setOpen(o => !o)}
-        style={{
-          width: '100%',
-          textAlign: 'left',
-          background: 'none',
-          border: 'none',
-          color: open ? 'var(--glow)' : '#fff',
-          fontFamily: 'var(--font-display)',
-          fontSize: '1rem',
-          fontWeight: 700,
-          padding: '1.1rem 0',
-          cursor: 'pointer',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          gap: '1rem',
-          transition: 'color 0.2s ease',
-        }}
-        aria-expanded={open}
-      >
-        {q}
-        <span style={{
-          flexShrink: 0,
-          fontSize: '1.25rem',
-          color: 'var(--glow)',
-          transition: 'transform 0.3s ease',
-          transform: open ? 'rotate(45deg)' : 'none',
-          display: 'inline-block',
-        }}>+</span>
-      </button>
-      {open && (
-        <p style={{
-          color: 'var(--text-muted)',
-          fontSize: '0.9rem',
-          lineHeight: 1.7,
-          paddingBottom: '1.1rem',
-          margin: 0,
-        }}>
-          {a}
-        </p>
-      )}
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: '2rem' }}>
+      {FAQS.map((faq, i) => {
+        const isOpen = openIndex === i;
+        return (
+          <div 
+            key={i} 
+            style={{ 
+              background: 'var(--surface)', 
+              border: '1px solid var(--border)', 
+              borderRadius: 'var(--radius-md)', 
+              overflow: 'hidden',
+              boxShadow: isOpen ? 'var(--shadow-sm)' : 'none',
+              transition: 'all 0.2s ease',
+            }}
+          >
+            <button
+              onClick={() => setOpenIndex(isOpen ? -1 : i)}
+              style={{
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                padding: '1.25rem 1.5rem',
+                background: 'transparent',
+                border: 'none',
+                color: 'var(--text)',
+                fontFamily: 'var(--font-display)',
+                fontSize: '1.05rem',
+                fontWeight: 600,
+                cursor: 'pointer',
+                textAlign: 'left',
+              }}
+            >
+              {faq.q}
+              <span style={{ 
+                transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                color: isOpen ? 'var(--primary)' : 'var(--text-dim)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '24px',
+                height: '24px',
+              }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M19 9l-7 7-7-7" />
+                </svg>
+              </span>
+            </button>
+            <div style={{
+              maxHeight: isOpen ? '200px' : '0',
+              opacity: isOpen ? 1 : 0,
+              overflow: 'hidden',
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+              background: 'var(--surface-2)',
+            }}>
+              <p style={{ 
+                margin: 0, 
+                padding: '0 1.5rem 1.25rem', 
+                color: 'var(--text-muted)', 
+                lineHeight: 1.6,
+                fontSize: '0.95rem'
+              }}>
+                {faq.a}
+              </p>
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 }
 
 export default function Home() {
   return (
-    <>
-      {/* Top Ad */}
-      <AdSlot type="banner" adSlot="9876543210" />
-
-      {/* Main App */}
+    <div style={pageStyles}>
       <GeneratorApp />
 
-      {/* ── Content Section ── */}
-      <div style={{
-        maxWidth: '820px',
-        margin: '0 auto',
-        padding: '3rem 1.5rem 1rem',
-        position: 'relative',
-        zIndex: 10,
-      }}>
-        {/* Divider */}
-        <div style={{
-          height: '1px',
-          background: 'linear-gradient(90deg, transparent, rgba(168,85,247,0.4), transparent)',
-          marginBottom: '3rem',
-        }} />
-
-        {/* Section headline */}
-        <h2 style={{
-          fontFamily: 'var(--font-display)',
-          fontSize: 'clamp(1.75rem, 4vw, 2.5rem)',
-          fontWeight: 900,
-          color: '#fff',
-          marginBottom: '1rem',
-          letterSpacing: '-0.02em',
-          lineHeight: 1.1,
-        }}>
-          Three Wheels. <span style={{
-            background: 'linear-gradient(135deg, var(--glow), var(--cyan))',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text',
-          }}>Infinite Decisions.</span>
-        </h2>
-        <p style={{ color: 'var(--text-muted)', lineHeight: 1.75, marginBottom: '2.5rem', fontSize: '1.05rem' }}>
-          Finding the right name for your startup — or even just deciding what to eat — can feel overwhelming.
-          Our physics-driven Anti-Gravity Wheel makes decisions fast, scientific, and surprisingly fun.
-        </p>
-
-        {/* Feature cards */}
+      {/* SEO Content Section */}
+      <section style={seoSectionStyles}>
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-          gap: '1rem',
-          marginBottom: '3rem',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gap: '3rem',
+          alignItems: 'start',
         }}>
-          {[
-            { icon: '🏢', title: 'Business Name Generator', desc: 'Pick an industry, load 10 premium brandable names, spin the wheel. Perfect for startups, freelancers, and side projects.' },
-            { icon: '📋', title: 'Daily Choices Decider', desc: 'Enter your own options — what to eat, which workout to do, or which movie to watch. Say goodbye to analysis paralysis forever.' },
-            { icon: '🐾', title: 'Spirit Animal Reveal', desc: 'A fun, personality-based wheel that reveals which animal represents your energy today — complete with unique character traits.' },
-          ].map(card => (
-            <div key={card.title} style={{
-              background: 'rgba(13,13,34,0.7)',
-              border: '1px solid rgba(168,85,247,0.18)',
-              borderRadius: '20px',
-              padding: '1.5rem',
-              backdropFilter: 'blur(12px)',
-              transition: 'border-color 0.25s ease, transform 0.25s ease',
+          {/* Left Col: Features Content */}
+          <div>
+            <h2 style={{ 
+              fontFamily: 'var(--font-display)', 
+              fontSize: '1.75rem', 
+              fontWeight: 800,
+              marginBottom: '1rem',
+              letterSpacing: '-0.02em',
+              color: 'var(--text)'
             }}>
-              <div style={{ fontSize: '2rem', marginBottom: '0.75rem' }}>{card.icon}</div>
-              <h3 style={{ fontFamily: 'var(--font-display)', color: '#fff', fontSize: '1rem', fontWeight: 700, marginBottom: '0.5rem' }}>{card.title}</h3>
-              <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem', lineHeight: 1.6, margin: 0 }}>{card.desc}</p>
-            </div>
-          ))}
-        </div>
+              The Ultimate Random Name Generator & Decision Wheel
+            </h2>
+            <p style={{ color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: '1.5rem', fontSize: '1.05rem' }}>
+              Whether you need to brainstorm a catchy name for your new startup, figure out what's for dinner, 
+              or just settle a debate with friends, our physics-driven spinner wheel is the perfect tool.
+            </p>
+            <ul style={{ 
+              listStyle: 'none', 
+              padding: 0, 
+              display: 'flex', 
+              flexDirection: 'column', 
+              gap: '0.75rem',
+              color: 'var(--text-muted)'
+            }}>
+              <li style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
+                <span style={{ color: 'var(--success)' }}>✓</span>
+                <span><strong>100% Free & No Signup:</strong> Generate unlimited ideas without creating an account.</span>
+              </li>
+              <li style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
+                <span style={{ color: 'var(--success)' }}>✓</span>
+                <span><strong>Physics Engine:</strong> Real momentum, friction, and bounce physics for authentic spins.</span>
+              </li>
+              <li style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
+                <span style={{ color: 'var(--success)' }}>✓</span>
+                <span><strong>Domain Checking:</strong> Found the perfect brand name? Check domain availability instantly.</span>
+              </li>
+            </ul>
+          </div>
 
-        {/* Middle Ad */}
-        <AdSlot type="box" adSlot="8765432109" />
-
-        {/* Verification steps */}
-        <h3 style={{
-          fontFamily: 'var(--font-display)',
-          color: '#fff',
-          fontSize: '1.35rem',
-          fontWeight: 800,
-          marginTop: '2.5rem',
-          marginBottom: '0.75rem',
-        }}>
-          After You Spin: 4 Verification Steps
-        </h3>
-        <p style={{ color: 'var(--text-muted)', lineHeight: 1.7, marginBottom: '1.25rem', fontSize: '0.95rem' }}>
-          Once you land on a business name, run through these checks before committing:
-        </p>
-        <ol style={{ paddingLeft: '1.5rem', color: 'var(--text-muted)', display: 'flex', flexDirection: 'column', gap: '0.65rem', lineHeight: 1.65, fontSize: '0.93rem', marginBottom: '3rem' }}>
-          <li>Search domain availability (.com, .io, .co) — use <a href="https://www.namecheap.com" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--glow)' }}>Namecheap</a> or GoDaddy.</li>
-          <li>Check trademark databases — <a href="https://tmsearch.uspto.gov" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--glow)' }}>USPTO</a> (US), <a href="https://euipo.europa.eu" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--glow)' }}>EUIPO</a> (EU).</li>
-          <li>Verify social media handles on Instagram, X (Twitter), LinkedIn, and TikTok.</li>
-          <li>Google the name to identify potential conflicts with existing brands.</li>
-        </ol>
-
-        {/* FAQ */}
-        <div style={{
-          background: 'rgba(13,13,34,0.65)',
-          border: '1px solid rgba(168,85,247,0.15)',
-          borderRadius: '20px',
-          padding: '2rem',
-          backdropFilter: 'blur(12px)',
-          marginBottom: '3rem',
-        }}>
-          <h2 style={{
-            fontFamily: 'var(--font-display)',
-            color: '#fff',
-            fontSize: '1.5rem',
-            fontWeight: 900,
-            marginBottom: '1.5rem',
-            letterSpacing: '-0.01em',
-          }}>
-            Frequently Asked Questions
-          </h2>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {FAQS.map(faq => <FaqItem key={faq.q} q={faq.q} a={faq.a} />)}
+          {/* Right Col: FAQ */}
+          <div>
+            <h2 style={{ 
+              fontFamily: 'var(--font-display)', 
+              fontSize: '1.75rem', 
+              fontWeight: 800,
+              letterSpacing: '-0.02em',
+              color: 'var(--text)'
+            }}>
+              Frequently Asked Questions
+            </h2>
+            <FAQAccordion />
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Bottom Ad */}
-      <AdSlot type="banner" adSlot="7654321098" />
-
-      {/* ── Footer ── */}
+      {/* Footer */}
       <footer style={{
-        padding: '3rem 1.5rem 2rem',
-        borderTop: '1px solid rgba(255,255,255,0.05)',
-        background: 'rgba(5,5,16,0.95)',
-        position: 'relative',
-        zIndex: 10,
-        fontFamily: 'var(--font-body)',
+        background: 'var(--surface)',
+        borderTop: '1px solid var(--border)',
+        padding: '3rem 1.5rem',
+        marginTop: '2rem',
       }}>
         <div style={{
-          maxWidth: '900px',
+          maxWidth: '1024px',
           margin: '0 auto',
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
           gap: '2rem',
-          marginBottom: '2rem',
         }}>
-          {/* Brand */}
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '0.75rem' }}>
-              <div style={{ width: '30px', height: '30px', borderRadius: '8px', background: 'linear-gradient(135deg, var(--accent), var(--cyan))', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1rem' }}>🌀</div>
-              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '0.95rem', color: '#fff' }}>UniqueBusinessName</span>
+            <div style={{ 
+              fontFamily: 'var(--font-display)', 
+              fontWeight: 800, 
+              fontSize: '1.25rem', 
+              color: 'var(--text)',
+              marginBottom: '1rem',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem'
+            }}>
+              <span style={{ color: 'var(--primary)' }}>●</span> UniqueBusinessName
             </div>
-            <p style={{ color: 'var(--text-dim)', fontSize: '0.8rem', lineHeight: 1.6 }}>
-              The physics-driven wheel for all your decisions. Built with ❤️ using React.
+            <p style={{ color: 'var(--text-dim)', fontSize: '0.9rem', lineHeight: 1.5, maxWidth: '280px' }}>
+              The most advanced, physics-driven decision wheel on the web. Spin, decide, and conquer.
             </p>
           </div>
-
-          {/* Tools */}
+          
           <div>
-            <h4 style={{ color: 'var(--text-muted)', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '0.75rem' }}>Tools</h4>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
-              {['/', '/'].map((href, i) => (
-                <Link key={i} href={href} style={{ color: 'var(--text-dim)', textDecoration: 'none', fontSize: '0.85rem', transition: 'color 0.2s' }}>
-                  {i === 0 ? '🏢 Business Name Generator' : '📋 Daily Decision Wheel'}
-                </Link>
-              ))}
+            <h4 style={{ color: 'var(--text)', fontWeight: 600, marginBottom: '1rem', fontSize: '0.95rem' }}>App</h4>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              <a href="#" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '0.9rem' }}>Business Mode</a>
+              <a href="#" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '0.9rem' }}>Daily Choices</a>
+              <a href="#" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '0.9rem' }}>Spirit Animals</a>
             </div>
           </div>
 
-          {/* Company */}
           <div>
-            <h4 style={{ color: 'var(--text-muted)', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '0.75rem' }}>Company</h4>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
-              {[
-                { href: '/about',   label: 'About Us' },
-                { href: '/contact', label: 'Contact' },
-              ].map(l => (
-                <Link key={l.href} href={l.href} style={{ color: 'var(--text-dim)', textDecoration: 'none', fontSize: '0.85rem' }}>{l.label}</Link>
-              ))}
-            </div>
-          </div>
-
-          {/* Legal */}
-          <div>
-            <h4 style={{ color: 'var(--text-muted)', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '0.75rem' }}>Legal</h4>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
-              {[
-                { href: '/privacy', label: 'Privacy Policy' },
-                { href: '/terms',   label: 'Terms of Service' },
-                { href: '/cookies', label: 'Cookie Policy' },
-              ].map(l => (
-                <Link key={l.href} href={l.href} style={{ color: 'var(--text-dim)', textDecoration: 'none', fontSize: '0.85rem' }}>{l.label}</Link>
-              ))}
+            <h4 style={{ color: 'var(--text)', fontWeight: 600, marginBottom: '1rem', fontSize: '0.95rem' }}>Company</h4>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              <a href="/about" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '0.9rem' }}>About Us</a>
+              <a href="/contact" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '0.9rem' }}>Contact</a>
+              <a href="/privacy" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '0.9rem' }}>Privacy Policy</a>
             </div>
           </div>
         </div>
-
-        <div style={{
-          borderTop: '1px solid rgba(255,255,255,0.04)',
-          paddingTop: '1.5rem',
+        <div style={{ 
+          maxWidth: '1024px', 
+          margin: '3rem auto 0', 
+          paddingTop: '2rem', 
+          borderTop: '1px solid var(--border)',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
           flexWrap: 'wrap',
-          gap: '0.75rem',
+          gap: '1rem'
         }}>
-          <p style={{ color: 'var(--text-dim)', fontSize: '0.8rem' }}>
-            © 2026 UniqueBusinessName.com — All rights reserved. GDPR &amp; CCPA Compliant.
+          <p style={{ color: 'var(--text-dim)', fontSize: '0.85rem', margin: 0 }}>
+            © {new Date().getFullYear()} UniqueBusinessName.com. All rights reserved.
           </p>
-          <button
+          <button 
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             style={{
-              background: 'rgba(168,85,247,0.12)',
-              border: '1px solid rgba(168,85,247,0.3)',
-              color: 'var(--glow)',
-              borderRadius: '50%',
-              width: '36px',
-              height: '36px',
+              background: 'var(--surface-2)',
+              border: '1px solid var(--border)',
+              color: 'var(--text-muted)',
+              padding: '0.5rem 1rem',
+              borderRadius: '999px',
+              fontSize: '0.85rem',
               cursor: 'pointer',
-              fontSize: '1rem',
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center',
-              transition: 'all 0.2s ease',
+              gap: '0.5rem'
             }}
-            aria-label="Back to top"
           >
-            ↑
+            Back to top ↑
           </button>
         </div>
       </footer>
-    </>
+    </div>
   );
 }

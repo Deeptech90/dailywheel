@@ -51,8 +51,8 @@ export function WheelModeSelector({
           >
             <span className={styles.cardIcon} aria-hidden="true">{icon}</span>
             <div className={styles.cardContent}>
-              <div className={styles.cardTitle}>{title}</div>
-              <div className={styles.cardDesc}>{desc}</div>
+              <span className={styles.cardTitle}>{title}</span>
+              <span className={styles.cardDesc}>{desc}</span>
             </div>
           </button>
         );

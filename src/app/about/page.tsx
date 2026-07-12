@@ -65,12 +65,11 @@ export default function AboutUs() {
             display: 'inline-flex',
             alignItems: 'center',
             gap: '0.5rem',
-            color: 'var(--glow)',
+            color: 'var(--primary)',
             textDecoration: 'none',
             fontSize: '0.875rem',
             fontWeight: 600,
             marginBottom: '3rem',
-            opacity: 0.85,
             transition: 'opacity 0.2s',
           }}
         >
@@ -83,14 +82,14 @@ export default function AboutUs() {
             display: 'inline-flex',
             alignItems: 'center',
             gap: '0.5rem',
-            background: 'rgba(124,58,237,0.15)',
-            border: '1px solid rgba(168,85,247,0.3)',
+            background: 'var(--surface-2)',
+            border: '1px solid var(--border)',
             borderRadius: '999px',
             padding: '0.4rem 1rem',
             fontSize: '0.8rem',
-            fontWeight: 700,
-            color: 'var(--glow)',
-            letterSpacing: '0.05em',
+            fontWeight: 600,
+            color: 'var(--primary)',
+            letterSpacing: '0.02em',
             marginBottom: '1.25rem',
           }}>
             🌀 About Us
@@ -98,53 +97,50 @@ export default function AboutUs() {
           <h1 style={{
             fontFamily: 'var(--font-display)',
             fontSize: 'clamp(2rem, 5vw, 3.25rem)',
-            fontWeight: 900,
-            lineHeight: 1.05,
+            fontWeight: 800,
+            lineHeight: 1.1,
             letterSpacing: '-0.03em',
-            background: 'linear-gradient(135deg, #fff 0%, #e2d9f3 30%, var(--glow) 65%, var(--cyan) 100%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text',
+            color: 'var(--text)',
             marginBottom: '1.25rem',
           }}>
             Decisions Made Beautifully
           </h1>
-          <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem', lineHeight: 1.75, maxWidth: '600px' }}>
+          <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem', lineHeight: 1.6, maxWidth: '600px' }}>
             UniqueBusinessName.com was built to solve a universal problem: decision fatigue. 
-            Whether you're naming a startup or just picking lunch, our physics-driven Anti-Gravity Wheel turns 
-            any list of options into a kinetic, satisfying experience.
+            Whether you're naming a startup or just picking lunch, our physics-driven wheel turns 
+            any list of options into a satisfying experience.
           </p>
         </div>
 
         {/* Mission */}
         <div style={{
-          background: 'rgba(13,13,34,0.75)',
-          border: '1px solid rgba(168,85,247,0.2)',
-          borderRadius: '24px',
+          background: 'var(--surface)',
+          border: '1px solid var(--border)',
+          borderRadius: 'var(--radius-lg)',
           padding: '2rem',
-          backdropFilter: 'blur(16px)',
+          boxShadow: 'var(--shadow-sm)',
           marginBottom: '3rem',
           position: 'relative',
           overflow: 'hidden',
         }}>
           <div style={{
             position: 'absolute', top: 0, left: 0, right: 0,
-            height: '3px',
-            background: 'linear-gradient(90deg, var(--accent), var(--glow), var(--cyan))',
+            height: '4px',
+            background: 'linear-gradient(90deg, var(--primary), var(--secondary))',
           }} />
-          <h2 style={{ fontFamily: 'var(--font-display)', color: '#fff', fontSize: '1.35rem', fontWeight: 800, marginBottom: '0.75rem' }}>
+          <h2 style={{ fontFamily: 'var(--font-display)', color: 'var(--text)', fontSize: '1.35rem', fontWeight: 700, marginBottom: '0.75rem' }}>
             Our Mission
           </h2>
-          <p style={{ color: 'var(--text-muted)', lineHeight: 1.75 }}>
+          <p style={{ color: 'var(--text-muted)', lineHeight: 1.6 }}>
             We believe great decisions shouldn't be stressful. By combining a physics simulation engine with curated data, 
             we created a tool that feels alive — one that makes the mundane act of choosing into something joyful. 
-            From Fortune 500 team meetings to solo dinner-time dilemmas, the Anti-Gravity Wheel is your objective, 
+            From Fortune 500 team meetings to solo dinner-time dilemmas, the Wheel is your objective, 
             impartial, and entertaining co-pilot.
           </p>
         </div>
 
         {/* Features grid */}
-        <h2 style={{ fontFamily: 'var(--font-display)', color: '#fff', fontSize: '1.75rem', fontWeight: 900, marginBottom: '1.5rem', letterSpacing: '-0.02em' }}>
+        <h2 style={{ fontFamily: 'var(--font-display)', color: 'var(--text)', fontSize: '1.5rem', fontWeight: 800, marginBottom: '1.5rem', letterSpacing: '-0.02em' }}>
           What Makes Us Different
         </h2>
         <div style={{
@@ -155,22 +151,22 @@ export default function AboutUs() {
         }}>
           {FEATURES.map(f => (
             <div key={f.title} style={{
-              background: 'rgba(13,13,34,0.65)',
-              border: '1px solid rgba(168,85,247,0.15)',
-              borderRadius: '18px',
+              background: 'var(--surface)',
+              border: '1px solid var(--border)',
+              borderRadius: 'var(--radius-md)',
               padding: '1.5rem',
-              backdropFilter: 'blur(12px)',
-              transition: 'border-color 0.25s, transform 0.25s',
+              boxShadow: 'var(--shadow-sm)',
+              transition: 'border-color 0.25s, box-shadow 0.25s',
             }}>
-              <div style={{ fontSize: '1.75rem', marginBottom: '0.625rem' }}>{f.icon}</div>
-              <h3 style={{ fontFamily: 'var(--font-display)', color: '#fff', fontSize: '0.975rem', fontWeight: 700, marginBottom: '0.5rem' }}>{f.title}</h3>
-              <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', lineHeight: 1.65, margin: 0 }}>{f.desc}</p>
+              <div style={{ fontSize: '1.75rem', marginBottom: '0.75rem' }}>{f.icon}</div>
+              <h3 style={{ fontFamily: 'var(--font-display)', color: 'var(--text)', fontSize: '0.975rem', fontWeight: 600, marginBottom: '0.5rem' }}>{f.title}</h3>
+              <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', lineHeight: 1.5, margin: 0 }}>{f.desc}</p>
             </div>
           ))}
         </div>
 
         {/* How it works */}
-        <h2 style={{ fontFamily: 'var(--font-display)', color: '#fff', fontSize: '1.75rem', fontWeight: 900, marginBottom: '1.5rem', letterSpacing: '-0.02em' }}>
+        <h2 style={{ fontFamily: 'var(--font-display)', color: 'var(--text)', fontSize: '1.5rem', fontWeight: 800, marginBottom: '1.5rem', letterSpacing: '-0.02em' }}>
           How It Works
         </h2>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '3.5rem' }}>
@@ -179,31 +175,32 @@ export default function AboutUs() {
               display: 'flex',
               gap: '1.25rem',
               alignItems: 'flex-start',
-              background: 'rgba(13,13,34,0.5)',
-              border: '1px solid rgba(255,255,255,0.06)',
-              borderRadius: '16px',
+              background: 'var(--surface)',
+              border: '1px solid var(--border)',
+              borderRadius: 'var(--radius-md)',
               padding: '1.25rem',
+              boxShadow: 'var(--shadow-sm)',
             }}>
               <div style={{
                 flexShrink: 0,
-                width: '44px',
-                height: '44px',
-                borderRadius: '12px',
-                background: 'linear-gradient(135deg, var(--accent), var(--accent-light))',
+                width: '40px',
+                height: '40px',
+                borderRadius: '50%',
+                background: 'var(--surface-2)',
+                border: '1px solid var(--border)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 fontFamily: 'var(--font-display)',
-                fontWeight: 900,
-                fontSize: '0.8rem',
-                color: '#fff',
-                boxShadow: '0 0 16px rgba(124,58,237,0.35)',
+                fontWeight: 600,
+                fontSize: '0.85rem',
+                color: 'var(--primary)',
               }}>
                 {s.step}
               </div>
               <div>
-                <h3 style={{ fontFamily: 'var(--font-display)', color: '#fff', fontSize: '1rem', fontWeight: 700, marginBottom: '0.25rem' }}>{s.title}</h3>
-                <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem', margin: 0, lineHeight: 1.6 }}>{s.desc}</p>
+                <h3 style={{ fontFamily: 'var(--font-display)', color: 'var(--text)', fontSize: '1rem', fontWeight: 600, marginBottom: '0.25rem' }}>{s.title}</h3>
+                <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem', margin: 0, lineHeight: 1.5 }}>{s.desc}</p>
               </div>
             </div>
           ))}
@@ -213,20 +210,13 @@ export default function AboutUs() {
         <div style={{ textAlign: 'center' }}>
           <Link
             href="/"
+            className="btn-glow"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
               gap: '0.5rem',
-              background: 'linear-gradient(135deg, var(--accent), var(--accent-light))',
-              color: '#fff',
               textDecoration: 'none',
-              padding: '0.875rem 2rem',
-              borderRadius: '999px',
-              fontFamily: 'var(--font-display)',
-              fontWeight: 700,
-              fontSize: '1rem',
-              boxShadow: '0 0 24px rgba(124,58,237,0.4)',
-              transition: 'transform 0.2s, box-shadow 0.2s',
+              padding: '0.875rem 2.5rem',
             }}
           >
             🌀 Try the Wheel Now

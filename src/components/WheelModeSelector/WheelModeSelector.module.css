@@ -1,17 +1,15 @@
 /* ============================================================
-   WheelModeSelector — Premium Pill Tabs
+   WheelModeSelector — Linear/Stripe Segmented Control
    ============================================================ */
 
 .container {
   display: flex;
-  gap: 8px;
+  gap: 4px;
   padding: 4px;
-  background: rgba(5, 5, 16, 0.8);
-  border: 1px solid rgba(168, 85, 247, 0.15);
-  border-radius: var(--radius-xl);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
   width: 100%;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
 }
 
 .card {
@@ -20,80 +18,53 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  min-height: 52px;
-  padding: 0.6rem 0.875rem;
+  min-height: 48px;
+  padding: 0.5rem 0.75rem;
   background: transparent;
-  border: 1.5px solid transparent;
-  border-radius: var(--radius-lg);
+  border: 1px solid transparent;
+  border-radius: calc(var(--radius-lg) - 4px);
   cursor: pointer;
-  transition: all var(--duration-base) var(--ease-smooth);
+  transition: all var(--duration-fast) var(--ease-smooth);
   user-select: none;
   position: relative;
   overflow: hidden;
   text-align: left;
 }
 
-.card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: rgba(168, 85, 247, 0.08);
-  opacity: 0;
-  transition: opacity var(--duration-base) ease;
-  border-radius: inherit;
-}
-
-.card:hover::before {
-  opacity: 1;
-}
-
 .card:hover:not([aria-disabled='true']) {
-  border-color: rgba(168, 85, 247, 0.3);
-  transform: translateY(-1px);
+  background: var(--border-subtle);
 }
 
 .card:active:not([aria-disabled='true']) {
-  transform: translateY(0) scale(0.98);
+  transform: scale(0.98);
 }
 
 /* ── Active State ─────────────────────────────────────────── */
 .cardActive {
-  background: linear-gradient(135deg, rgba(124, 58, 237, 0.25) 0%, rgba(168, 85, 247, 0.15) 100%);
-  border-color: rgba(168, 85, 247, 0.5);
-  box-shadow:
-    0 0 20px rgba(124, 58, 237, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  background: var(--surface);
+  border-color: var(--border);
+  box-shadow: var(--shadow-sm);
 }
 
-.cardActive::before { opacity: 0; }
-
 .cardActive:hover:not([aria-disabled='true']) {
-  transform: none;
-  border-color: rgba(168, 85, 247, 0.7);
+  background: var(--surface);
 }
 
 .card[aria-disabled='true'] {
   pointer-events: none;
-  opacity: 0.45;
+  opacity: 0.5;
 }
 
 /* ── Card Icon ────────────────────────────────────────────── */
 .cardIcon {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   line-height: 1;
   flex-shrink: 0;
-  transition: transform var(--duration-base) var(--ease-bounce);
+  transition: transform var(--duration-fast) var(--ease-bounce);
 }
 
 .cardActive .cardIcon {
-  animation: iconBounce 0.4s var(--ease-bounce);
-}
-
-@keyframes iconBounce {
-  0%   { transform: scale(1); }
-  40%  { transform: scale(1.3) rotate(-10deg); }
-  70%  { transform: scale(0.95) rotate(5deg); }
-  100% { transform: scale(1) rotate(0deg); }
+  transform: scale(1.1);
 }
 
 /* ── Card Text ────────────────────────────────────────────── */
@@ -105,22 +76,19 @@
 
 .cardTitle {
   font-family: var(--font-display);
-  font-size: 0.875rem;
-  font-weight: 700;
-  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text);
   line-height: 1.2;
   white-space: nowrap;
 }
 
 .cardActive .cardTitle {
-  background: linear-gradient(90deg, #e879f9, var(--glow));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--primary);
 }
 
 .cardDesc {
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   color: var(--text-dim);
   line-height: 1.3;
   margin-top: 1px;
@@ -136,9 +104,9 @@
 /* ── Responsive ───────────────────────────────────────────── */
 @media (max-width: 500px) {
   .cardDesc { display: none; }
-  .card { padding: 0.6rem 0.5rem; }
+  .card { padding: 0.5rem; justify-content: center; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .cardActive .cardIcon { animation: none; }
+  .cardActive .cardIcon { transform: none; }
 }

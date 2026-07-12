@@ -15,13 +15,13 @@ export default function NotFound() {
       position: 'relative',
       zIndex: 10,
     }}>
-      <div style={{ fontSize: '5rem', marginBottom: '1rem', animation: 'float 3s ease-in-out infinite' }}>🌀</div>
+      <div style={{ fontSize: '4rem', marginBottom: '1rem', animation: 'float 3s ease-in-out infinite' }}>🌀</div>
       <p style={{
-        fontFamily: 'var(--font-display)',
-        fontSize: '5rem',
+        fontFamily: 'var(--font-accent)',
+        fontSize: '6rem',
         fontWeight: 900,
         letterSpacing: '-0.04em',
-        background: 'linear-gradient(135deg, var(--glow), var(--cyan))',
+        background: 'linear-gradient(135deg, var(--primary), var(--secondary))',
         WebkitBackgroundClip: 'text',
         WebkitTextFillColor: 'transparent',
         backgroundClip: 'text',
@@ -34,30 +34,24 @@ export default function NotFound() {
         fontFamily: 'var(--font-display)',
         fontSize: 'clamp(1.5rem, 4vw, 2.25rem)',
         fontWeight: 800,
-        color: '#fff',
+        color: 'var(--text)',
         marginBottom: '0.875rem',
         letterSpacing: '-0.02em',
       }}>
         Page Not Found
       </h1>
-      <p style={{ color: 'var(--text-muted)', maxWidth: '380px', lineHeight: 1.7, marginBottom: '2rem', fontSize: '1rem' }}>
+      <p style={{ color: 'var(--text-muted)', maxWidth: '380px', lineHeight: 1.6, marginBottom: '2.5rem', fontSize: '1rem' }}>
         The wheel spun off into the cosmos and couldn't find that page. Let's get you back to spinning!
       </p>
       <Link
         href="/"
+        className="btn-glow"
         style={{
           display: 'inline-flex',
           alignItems: 'center',
           gap: '0.5rem',
-          background: 'linear-gradient(135deg, var(--accent), var(--accent-light))',
-          color: '#fff',
           textDecoration: 'none',
           padding: '0.875rem 2rem',
-          borderRadius: '999px',
-          fontFamily: 'var(--font-display)',
-          fontWeight: 700,
-          fontSize: '1rem',
-          boxShadow: '0 0 24px rgba(124,58,237,0.4)',
         }}
       >
         🌀 Back to the Wheel

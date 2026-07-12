@@ -18,6 +18,7 @@ import { InfoPanel } from '../InfoPanel/InfoPanel';
 // Hooks & utils
 import { usePhysics } from '../../hooks/usePhysics';
 import { useSound } from '../../hooks/useSound';
+import { useTheme } from '../../hooks/useTheme';
 import { AppState, AppAction, Segment, WheelMode } from '../../types';
 import {
   saveSegments, saveHistory, saveSoundEnabled,
@@ -118,6 +119,7 @@ export function GeneratorApp() {
   const [isHydrated, setIsHydrated] = useState(false);
   const [businessCategory, setBusinessCategory] = useState<BusinessCategory>('restaurant');
   const [showInfo, setShowInfo] = useState(false);
+  const { theme, toggleTheme } = useTheme();
 
   const typewriterText = useTypewriter(TYPEWRITER_PHRASES);
 
@@ -245,6 +247,15 @@ export function GeneratorApp() {
           </nav>
 
           <button
+            className={styles.iconBtn}
+            onClick={toggleTheme}
+            aria-label="Toggle theme"
+            title="Toggle theme"
+          >
+            {theme === 'dark' ? <Icon name="sun" size={20} /> : <Icon name="moon" size={20} />}
+          </button>
+
+          <button
             className={`${styles.iconBtn} ${!state.soundEnabled ? styles.iconBtnActive : ''}`}
             onClick={() => dispatch({ type: 'TOGGLE_SOUND' })}
             aria-label={state.soundEnabled ? 'Mute sound' : 'Enable sound'}
@@ -281,7 +292,7 @@ export function GeneratorApp() {
 
         {/* Hero */}
         <section className={styles.heroSection} aria-label="Hero">
-          <h1 className={styles.heroTitle}>Spin. Decide. Dominate.</h1>
+          <h1 className={styles.heroTitle}>Spin. Decide. Done.</h1>
           <p className={styles.heroSubtitle}>
             <span className={styles.heroSubtitleStatic}>The physics-driven wheel for </span>
             <span className={styles.typewriterText}>{typewriterText}</span>
