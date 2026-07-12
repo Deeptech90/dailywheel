@@ -1,4 +1,4 @@
-'use client';
+import { Link } from '../../components/Link/Link';
 
 export default function OfflinePage() {
   return (
@@ -8,50 +8,49 @@ export default function OfflinePage() {
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      background: 'radial-gradient(circle at center, #1e1b4b 0%, #09090b 100%)',
-      color: '#fff',
-      fontFamily: 'var(--font-body), system-ui, sans-serif',
+      fontFamily: 'var(--font-body)',
+      color: 'var(--text)',
       textAlign: 'center',
-      padding: '2rem'
+      padding: '2rem',
+      position: 'relative',
+      zIndex: 10,
     }}>
+      <div style={{ fontSize: '5rem', marginBottom: '1.5rem' }}>📡</div>
       <h1 style={{
-        fontSize: '6rem',
+        fontFamily: 'var(--font-display)',
+        fontSize: 'clamp(2rem, 5vw, 3rem)',
         fontWeight: 900,
-        margin: 0,
-        background: 'linear-gradient(135deg, #64748b 0%, #334155 100%)',
+        letterSpacing: '-0.02em',
+        background: 'linear-gradient(135deg, #fff, var(--glow))',
         WebkitBackgroundClip: 'text',
         WebkitTextFillColor: 'transparent',
-        letterSpacing: '-0.05em'
-      }}>Offline</h1>
-      <h2 style={{ fontSize: '2rem', marginTop: '1rem', fontWeight: 700 }}>Connection Lost</h2>
-      <p style={{ color: '#94a3b8', maxWidth: '450px', marginTop: '0.5rem', lineHeight: '1.6' }}>
-        You are currently offline. Please check your internet connection and try reloading the page.
+        backgroundClip: 'text',
+        marginBottom: '1rem',
+      }}>
+        You're Offline
+      </h1>
+      <p style={{ color: 'var(--text-muted)', maxWidth: '400px', lineHeight: 1.7, marginBottom: '2rem', fontSize: '1.05rem' }}>
+        It looks like you lost your internet connection. Don't worry — once you're back online, the wheel will spin again!
       </p>
-      <button 
-        onClick={() => window.location.reload()}
+      <Link
+        href="/"
         style={{
-          marginTop: '2rem',
-          background: 'linear-gradient(135deg, #475569 0%, #1e293b 100%)',
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '0.5rem',
+          background: 'linear-gradient(135deg, var(--accent), var(--accent-light))',
           color: '#fff',
-          border: 'none',
-          padding: '0.75rem 2rem',
-          borderRadius: '9999px',
-          fontWeight: 600,
-          cursor: 'pointer',
-          boxShadow: '0 4px 20px rgba(71, 85, 105, 0.4)',
-          transition: 'transform 0.2s, box-shadow 0.2s',
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.transform = 'scale(1.05)';
-          e.currentTarget.style.boxShadow = '0 6px 25px rgba(71, 85, 105, 0.6)';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.transform = 'scale(1)';
-          e.currentTarget.style.boxShadow = '0 4px 20px rgba(71, 85, 105, 0.4)';
+          textDecoration: 'none',
+          padding: '0.875rem 2rem',
+          borderRadius: '999px',
+          fontFamily: 'var(--font-display)',
+          fontWeight: 700,
+          fontSize: '1rem',
+          boxShadow: '0 0 24px rgba(124,58,237,0.4)',
         }}
       >
-        Retry Connection
-      </button>
+        🔄 Try Again
+      </Link>
     </div>
   );
 }

@@ -8,46 +8,59 @@ export default function NotFound() {
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      background: 'radial-gradient(circle at center, #1e1b4b 0%, #09090b 100%)',
-      color: '#fff',
-      fontFamily: 'var(--font-body), system-ui, sans-serif',
+      fontFamily: 'var(--font-body)',
+      color: 'var(--text)',
       textAlign: 'center',
-      padding: '2rem'
+      padding: '2rem',
+      position: 'relative',
+      zIndex: 10,
     }}>
-      <h1 style={{
-        fontSize: '6rem',
+      <div style={{ fontSize: '5rem', marginBottom: '1rem', animation: 'float 3s ease-in-out infinite' }}>🌀</div>
+      <p style={{
+        fontFamily: 'var(--font-display)',
+        fontSize: '5rem',
         fontWeight: 900,
-        margin: 0,
-        background: 'linear-gradient(135deg, #a855f7 0%, #06b6d4 100%)',
+        letterSpacing: '-0.04em',
+        background: 'linear-gradient(135deg, var(--glow), var(--cyan))',
         WebkitBackgroundClip: 'text',
         WebkitTextFillColor: 'transparent',
-        letterSpacing: '-0.05em'
-      }}>404</h1>
-      <h2 style={{ fontSize: '2rem', marginTop: '1rem', fontWeight: 700 }}>Lost in Gravity?</h2>
-      <p style={{ color: '#94a3b8', maxWidth: '450px', marginTop: '0.5rem', lineHeight: '1.6' }}>
-        The page you are looking for has been pulled into a black hole or never existed. Let's get you back on track.
+        backgroundClip: 'text',
+        lineHeight: 1,
+        marginBottom: '0.5rem',
+      }}>
+        404
       </p>
-      <Link href="/" style={{
-        marginTop: '2rem',
-        background: 'linear-gradient(135deg, #8b5cf6 0%, #d946ef 100%)',
+      <h1 style={{
+        fontFamily: 'var(--font-display)',
+        fontSize: 'clamp(1.5rem, 4vw, 2.25rem)',
+        fontWeight: 800,
         color: '#fff',
-        padding: '0.75rem 2rem',
-        borderRadius: '9999px',
-        fontWeight: 600,
-        textDecoration: 'none',
-        boxShadow: '0 4px 20px rgba(139, 92, 246, 0.4)',
-        transition: 'transform 0.2s, box-shadow 0.2s',
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.transform = 'scale(1.05)';
-        e.currentTarget.style.boxShadow = '0 6px 25px rgba(139, 92, 246, 0.6)';
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.transform = 'scale(1)';
-        e.currentTarget.style.boxShadow = '0 4px 20px rgba(139, 92, 246, 0.4)';
-      }}
+        marginBottom: '0.875rem',
+        letterSpacing: '-0.02em',
+      }}>
+        Page Not Found
+      </h1>
+      <p style={{ color: 'var(--text-muted)', maxWidth: '380px', lineHeight: 1.7, marginBottom: '2rem', fontSize: '1rem' }}>
+        The wheel spun off into the cosmos and couldn't find that page. Let's get you back to spinning!
+      </p>
+      <Link
+        href="/"
+        style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '0.5rem',
+          background: 'linear-gradient(135deg, var(--accent), var(--accent-light))',
+          color: '#fff',
+          textDecoration: 'none',
+          padding: '0.875rem 2rem',
+          borderRadius: '999px',
+          fontFamily: 'var(--font-display)',
+          fontWeight: 700,
+          fontSize: '1rem',
+          boxShadow: '0 0 24px rgba(124,58,237,0.4)',
+        }}
       >
-        Go Back Home
+        🌀 Back to the Wheel
       </Link>
     </div>
   );

@@ -8,3 +8,17 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <App />
   </React.StrictMode>
 );
+
+// Register Service Worker for PWA support
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker
+      .register('/sw.js', { scope: '/' })
+      .then((reg) => {
+        console.log('[SW] Registered:', reg.scope);
+      })
+      .catch((err) => {
+        console.error('[SW] Registration failed:', err);
+      });
+  });
+}

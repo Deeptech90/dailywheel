@@ -1,5 +1,3 @@
-'use client';
-
 import { useEffect, useRef, useState } from 'react';
 import confetti from 'canvas-confetti';
 import { Segment, WheelMode } from '../../types';
@@ -14,70 +12,66 @@ interface ResultModalProps {
 
 function fireConfetti(color: string) {
   confetti({
-    particleCount: 60,
+    particleCount: 70,
     angle: 60,
-    spread: 70,
+    spread: 75,
     origin: { x: 0, y: 0.65 },
-    colors: [color, '#a855f7', '#f59e0b', '#ffffff'],
-    ticks: 200,
-    gravity: 0.8,
+    colors: [color, '#a855f7', '#f59e0b', '#ffffff', '#06b6d4'],
+    ticks: 220,
+    gravity: 0.75,
     scalar: 1.1,
     shapes: ['square', 'circle'],
   });
   confetti({
-    particleCount: 60,
+    particleCount: 70,
     angle: 120,
-    spread: 70,
+    spread: 75,
     origin: { x: 1, y: 0.65 },
-    colors: [color, '#7c3aed', '#fbbf24', '#ffffff'],
-    ticks: 200,
-    gravity: 0.8,
+    colors: [color, '#7c3aed', '#fbbf24', '#ffffff', '#67e8f9'],
+    ticks: 220,
+    gravity: 0.75,
     scalar: 1.1,
     shapes: ['square', 'circle'],
   });
   setTimeout(() => {
     confetti({
-      particleCount: 40,
+      particleCount: 45,
       spread: 100,
-      origin: { x: 0.5, y: 0.4 },
+      origin: { x: 0.5, y: 0.35 },
       colors: [color, '#a855f7', '#f59e0b'],
-      ticks: 150,
-      gravity: 1.2,
+      ticks: 160,
+      gravity: 1.1,
     });
-  }, 300);
+  }, 350);
 }
 
-/** Mode-specific heading text */
 function getModeTitle(mode: WheelMode): string {
   switch (mode) {
-    case 'business': return 'Your Business Name Is';
-    case 'daily':    return "Today's Choice Is";
-    case 'animal':   return 'You Are The';
-    default:         return "Today's Suggestion";
+    case 'business': return '✨ Your Business Name Is';
+    case 'daily':    return "🎯 Today's Choice Is";
+    case 'animal':   return '🐾 Your Spirit Animal Is';
+    default:         return '🌀 The Wheel Has Spoken';
   }
 }
 
-/** Mode-specific subtitle */
 function getModeSubtitle(mode: WheelMode): string {
   switch (mode) {
-    case 'business': return '🎯 A brandable name, ready to register!';
-    case 'daily':    return '✨ The wheel has spoken — go do it!';
-    case 'animal':   return '🐾 Your spirit animal has been revealed!';
-    default:         return 'The wheel has spoken! 🌀';
+    case 'business': return 'A brandable name — ready to register!';
+    case 'daily':    return 'The universe has decided. Time to act!';
+    case 'animal':   return 'Your spirit animal has been revealed!';
+    default:         return 'The wheel has spoken!';
   }
 }
 
-/** Mode-specific CTA text */
 function getCloseBtnText(mode: WheelMode): string {
   switch (mode) {
     case 'business': return 'Use This Name 🚀';
-    case 'daily':    return "Let's do it! ✨";
-    case 'animal':   return 'Awesome! 🎉';
-    default:         return "Awesome, let's go! 🚀";
+    case 'daily':    return "Let's Do It! ✨";
+    case 'animal':   return 'Embrace It! 🎉';
+    default:         return "Awesome, Let's Go! 🚀";
   }
 }
 
-/** Mode-specific badge emoji */
 function getBadgeEmoji(mode: WheelMode, segment: Segment | null): string {
   if (mode === 'animal' && segment?.icon) return segment.icon;
   switch (mode) {
@@ -117,7 +111,6 @@ export function ResultModal({ segment, mode, onClose }: ResultModalProps) {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      // Fallback: select and copy via execCommand
       const el = document.createElement('textarea');
       el.value = segment.label;
       document.body.appendChild(el);
@@ -129,11 +122,34 @@ export function ResultModal({ segment, mode, onClose }: ResultModalProps) {
     }
   };
 
+  const handleShare = async () => {
+    if (!segment) return;
+    const shareText = mode === 'business'
+      ? `I just found a great business name: "${segment.label}" 🚀 Try the Anti-Gravity Wheel at uniquebusinessname.com`
+      : mode === 'animal'
+      ? `My spirit animal is ${segment.icon} ${segment.label}! Discover yours at uniquebusinessname.com`
+      : `I spun the Anti-Gravity Wheel and got: "${segment.label}" ✨ uniquebusinessname.com`;
+
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: 'Anti-Gravity Wheel Result', text: shareText, url: 'https://uniquebusinessname.com' });
+      } else {
+        // Fallback: Twitter/X share
+        const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
+        window.open(twitterUrl, '_blank', 'noopener,noreferrer');
+      }
+    } catch (err) {
+      // User cancelled share
+    }
+  };
+
   if (!segment) return null;
 
   const displayLabel = mode === 'animal' && segment.icon
     ? `${segment.icon} ${segment.label}`
     : segment.label;
+
+  const domainUrl = `https://www.godaddy.com/domainsearch/find?checkAvail=1&tld=com&domainToCheck=${encodeURIComponent(segment.label.toLowerCase().replace(/\s+/g, ''))}`;
 
   return (
     <div
@@ -146,7 +162,7 @@ export function ResultModal({ segment, mode, onClose }: ResultModalProps) {
       aria-labelledby="result-title"
     >
       <div className={styles.card}>
-        {/* Animated emoji orbit ring */}
+        {/* Orbiting emoji ring */}
         <div className={styles.ring}>
           {['🎉', '✨', '🌟', '🎊', '💫', '⭐', '🎯', '🏆'].map((emoji, i) => (
             <span
@@ -169,7 +185,6 @@ export function ResultModal({ segment, mode, onClose }: ResultModalProps) {
           <p className={styles.resultText}>{displayLabel}</p>
         </div>
 
-        {/* Animal personality trait */}
         {mode === 'animal' && segment.trait && (
           <p className={styles.traitText}>{segment.trait}</p>
         )}
@@ -177,45 +192,72 @@ export function ResultModal({ segment, mode, onClose }: ResultModalProps) {
         <p className={styles.subtitle}>{getModeSubtitle(mode)}</p>
 
         <div className={styles.actions}>
-          {/* Copy button for business mode */}
-          {mode === 'business' && (
-            <button
-              id="result-copy-btn"
-              className={styles.copyBtn}
-              onClick={handleCopy}
-              aria-label={copied ? 'Name copied!' : 'Copy name to clipboard'}
-            >
-              {copied ? '✅ Copied!' : '📋 Copy Name'}
-            </button>
-          )}
-
+          {/* Primary CTA */}
           <button
             id="result-close-btn"
             className={styles.closeBtn}
             onClick={onClose}
             style={{
               background: `linear-gradient(135deg, ${segment.color || '#a855f7'}, ${adjustColorOpacity(segment.color || '#a855f7', 0.75)})`,
-              color: getContrastTextColor(segment.color || '#a855f7')
+              color: getContrastTextColor(segment.color || '#a855f7'),
             }}
           >
             {getCloseBtnText(mode)}
           </button>
+
+          {/* Copy + Share row */}
+          <div className={styles.secondaryRow}>
+            {(mode === 'business' || mode === 'daily') && (
+              <button
+                id="result-copy-btn"
+                className={styles.copyBtn}
+                onClick={handleCopy}
+                aria-label={copied ? 'Copied!' : 'Copy to clipboard'}
+              >
+                {copied ? '✅ Copied!' : '📋 Copy'}
+              </button>
+            )}
+            <button
+              id="result-share-btn"
+              className={styles.shareBtn}
+              onClick={handleShare}
+              aria-label="Share result"
+            >
+              🔗 Share
+            </button>
+          </div>
+
+          {/* Domain check (business mode only) */}
+          {mode === 'business' && (
+            <a
+              id="result-domain-btn"
+              className={styles.domainBtn}
+              href={domainUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Check domain availability"
+            >
+              🌐 Check Domain Availability
+            </a>
+          )}
+
+          {/* Re-spin */}
           <button
             id="result-respin-btn"
             className={styles.respinBtn}
             onClick={onClose}
           >
-            🔄 Spin again
+            🔄 Spin Again
           </button>
         </div>
 
-        {/* ARIA live region for screen readers */}
+        {/* Accessible live region */}
         <div className="sr-only" aria-live="assertive" role="status">
           Winner: {segment.label}
           {mode === 'animal' && segment.trait ? `. ${segment.trait}` : ''}
         </div>
 
-        {/* Shimmer overlay */}
+        {/* Shimmer effect */}
         <div className={styles.shimmer} aria-hidden />
       </div>
     </div>

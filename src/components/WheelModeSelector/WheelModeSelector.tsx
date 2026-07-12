@@ -1,5 +1,3 @@
-'use client';
-
 import styles from './WheelModeSelector.module.css';
 
 export type WheelMode = 'business' | 'daily' | 'animal';
@@ -15,19 +13,19 @@ const MODES: { mode: WheelMode; icon: string; title: string; desc: string }[] = 
     mode: 'business',
     icon: '🏢',
     title: 'Business Name',
-    desc: 'Pick a category & spin for brandable names',
+    desc: 'Brandable names for your venture',
   },
   {
     mode: 'daily',
     icon: '📋',
     title: 'Daily Choices',
-    desc: 'Enter your options & let the wheel decide',
+    desc: 'Spin to pick from your options',
   },
   {
     mode: 'animal',
     icon: '🐾',
     title: 'Spirit Animal',
-    desc: 'Discover which animal represents you',
+    desc: 'Discover your inner animal',
   },
 ];
 
@@ -47,13 +45,12 @@ export function WheelModeSelector({
             role="radio"
             aria-checked={isActive}
             aria-disabled={disabled}
+            id={`mode-${mode}-btn`}
             className={`${styles.card} ${isActive ? styles.cardActive : ''}`}
             onClick={() => !disabled && onModeChange(mode)}
           >
-            <span className={styles.cardIcon} aria-hidden="true">
-              {icon}
-            </span>
-            <div>
+            <span className={styles.cardIcon} aria-hidden="true">{icon}</span>
+            <div className={styles.cardContent}>
               <div className={styles.cardTitle}>{title}</div>
               <div className={styles.cardDesc}>{desc}</div>
             </div>
