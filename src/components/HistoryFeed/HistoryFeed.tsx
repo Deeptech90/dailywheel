@@ -45,7 +45,22 @@ export function HistoryFeed({ history, onClose }: HistoryFeedProps) {
 
         {recent.length === 0 ? (
           <div className={styles.empty}>
-            <p>No spins yet — give it a whirl! 🌀</p>
+            <div style={{ fontSize: '4rem', marginBottom: '1rem', animation: 'bounce 2s infinite' }}>
+              ✨
+            </div>
+            <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', marginBottom: '0.5rem', color: 'var(--text)' }}>
+              Let's create your first business name
+            </h3>
+            <p style={{ color: 'var(--text-muted)', marginBottom: '1.5rem', fontSize: '0.95rem' }}>
+              Your generated names will appear here.
+            </p>
+            <button 
+              className="btn-glow" 
+              onClick={onClose} 
+              style={{ padding: '0 2rem', borderRadius: 'var(--radius-md)' }}
+            >
+              Start Generating
+            </button>
           </div>
         ) : (
           <div className={styles.list}>

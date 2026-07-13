@@ -299,7 +299,7 @@
   border-radius: var(--radius-md);
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 1.125rem;
   /* 56px touch target — meets WCAG 2.5.5 */
   height: 56px;
   min-height: 56px;

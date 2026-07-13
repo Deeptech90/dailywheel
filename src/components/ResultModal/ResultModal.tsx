@@ -64,7 +64,22 @@ function deriveBrandData(name: string) {
     `hsl(${hue3}, 50%, 60%)`,
   ];
 
-  return { memorability, pronunciation, trademarkRisk, personality, slogan, tagline, fontPair, colors };
+  const industries = [
+    'Technology & Software', 'Creative Agency', 'Health & Wellness',
+    'E-commerce & Retail', 'Consulting & Finance', 'Food & Beverage',
+  ];
+  const industry = industries[name.charCodeAt(1) % industries.length];
+
+  const meanings = [
+    'A blend of forward-thinking and robust foundations.',
+    'Evokes a sense of trust, reliability, and growth.',
+    'Suggests speed, innovation, and breaking boundaries.',
+    'Implies warmth, approachability, and community.',
+    'Represents premium quality and unparalleled service.',
+  ];
+  const meaning = meanings[name.charCodeAt(2) % meanings.length];
+
+  return { memorability, pronunciation, trademarkRisk, personality, slogan, tagline, fontPair, colors, industry, meaning };
 }
 
 // ── TLD Domains ─────────────────────────────────────────────
@@ -219,6 +234,14 @@ export function ResultModal({ segment, mode, category = 'general', onClose, onSp
           {activeTab === 'overview' && (
             <div>
               <div className={styles.brandRow}>
+                <span className={styles.brandKey}>Meaning</span>
+                <span className={styles.brandVal} style={{ maxWidth: '240px', lineHeight: 1.4 }}>{brand.meaning}</span>
+              </div>
+              <div className={styles.brandRow}>
+                <span className={styles.brandKey}>Suggested Industry</span>
+                <span className={styles.brandVal}>{brand.industry}</span>
+              </div>
+              <div className={styles.brandRow}>
                 <span className={styles.brandKey}>Brand Personality</span>
                 <span className={styles.brandVal}>{brand.personality}</span>
               </div>
@@ -235,14 +258,6 @@ export function ResultModal({ segment, mode, category = 'general', onClose, onSp
                 <span className={styles.brandVal}>
                   <span className={`${styles.meterBadge} ${brand.pronunciation === 'Easy' ? styles.meterHigh : brand.pronunciation === 'Moderate' ? styles.meterMed : styles.meterLow}`}>
                     {brand.pronunciation}
-                  </span>
-                </span>
-              </div>
-              <div className={styles.brandRow}>
-                <span className={styles.brandKey}>Trademark Risk</span>
-                <span className={styles.brandVal}>
-                  <span className={`${styles.meterBadge} ${brand.trademarkRisk === 'Low' ? styles.meterHigh : brand.trademarkRisk === 'Medium' ? styles.meterMed : styles.meterLow}`}>
-                    {brand.trademarkRisk}
                   </span>
                 </span>
               </div>
@@ -351,11 +366,16 @@ export function ResultModal({ segment, mode, category = 'general', onClose, onSp
         {/* Footer CTAs */}
         <div className={styles.footer}>
           <button className={styles.spinAgainBtn} onClick={onSpinAgain}>
-            🎡 Spin Again
+            🎡 Generate Again
           </button>
-          <button className={styles.dismissBtn} onClick={onClose}>
-            Close
-          </button>
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <button className={styles.dismissBtn} onClick={onSpinAgain} style={{ flex: 1, height: '48px', minHeight: '48px', border: '1px solid var(--primary)', color: 'var(--primary)' }}>
+              ✨ Generate Similar
+            </button>
+            <button className={styles.dismissBtn} onClick={onClose} style={{ flex: 1 }}>
+              Close
+            </button>
+          </div>
         </div>
       </div>
     </div>

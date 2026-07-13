@@ -45,7 +45,7 @@
   --radius-md:    16px;
   --radius-lg:    24px;
   --radius-xl:    32px;
-  --radius-full:  9999px;
+  --radius-full:  16px; /* User requested all buttons 16px radius */
 
   /* Transitions */
   --ease-spring:  cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -113,6 +113,14 @@ html {
   /* Prevent horizontal scroll on all browsers */
   overflow-x: hidden;
 }
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+}
+
+h1 { font-size: 2rem; /* 32px */ }
+h2 { font-size: 1.25rem; /* 20px */ }
+body { font-size: 1rem; /* 16px */ }
 
 body {
   background: var(--bg);
@@ -207,14 +215,15 @@ input, textarea, select {
   background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
   color: #fff;
   border: none;
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-md);
   cursor: pointer;
   font-family: var(--font-display);
+  font-size: 1.125rem; /* 18px */
   font-weight: 600;
   transition: all var(--duration-base) var(--ease-smooth);
   box-shadow: 0 4px 12px var(--glow);
   /* Minimum touch target */
-  min-height: 48px;
+  min-height: 56px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
