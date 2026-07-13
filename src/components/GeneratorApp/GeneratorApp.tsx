@@ -34,6 +34,7 @@ import {
 } from '../../utils/storage';
 import { recolorSegments, DEFAULT_SEGMENTS } from '../../utils/colors';
 import { logEvent } from '../../utils/analytics';
+import { useSubscription } from '../../hooks/useSubscription';
 
 // Data
 import { BUSINESS_CATEGORIES, BusinessCategory, getRandomSubset } from '../../data/businessNames';
@@ -106,6 +107,7 @@ function reducer(state: AppState, action: AppAction): AppState {
 /* ── Component ───────────────────────────────────────────── */
 export function GeneratorApp() {
   const [state, dispatch] = useReducer(reducer, clientInitialState);
+  const { hasReachedGenerationLimit, showAds } = useSubscription();
   const [isHydrated, setIsHydrated] = useState(false);
   const [businessCategory, setBusinessCategory] = useState<BusinessCategory>('restaurant');
   const [showInfo, setShowInfo] = useState(false);
@@ -208,10 +210,14 @@ export function GeneratorApp() {
   }, []);
 
   const handleSpinStart = useCallback(() => {
+    if (state.wheelMode === 'business' && hasReachedGenerationLimit()) {
+      window.location.href = '/pricing';
+      return;
+    }
     logEvent('spin_started', { mode: state.wheelMode });
     dispatch({ type: 'SPIN_START' });
     activateAntiGravity();
-  }, [activateAntiGravity, state.wheelMode]);
+  }, [activateAntiGravity, state.wheelMode, hasReachedGenerationLimit]);
 
   const handleSpinEnd = useCallback((winner: Segment) => {
     logEvent('spin_completed', { mode: state.wheelMode, winnerLabel: winner.label });
@@ -392,6 +398,15 @@ export function GeneratorApp() {
             physicsCanvasRef={physicsCanvasRef}
             spinRef={wheelSpinTriggerRef}
           />
+          {showAds() && (
+            <div className={styles.adPlaceholder} onClick={() => window.location.href = '/pricing'}>
+              <div className={styles.adTag}>ADVERTISEMENT</div>
+              <div className={styles.adContent}>
+                <h3>Tired of Ads?</h3>
+                <p>Upgrade to Pro for an ad-free experience, unlimited generation, and PDF exports.</p>
+              </div>
+            </div>
+          )}
           <FloatingElements isSpinning={state.isSpinning} centerRef={wheelSectionRef} />
         </div>
 

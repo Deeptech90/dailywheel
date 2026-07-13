@@ -1,0 +1,243 @@
+.container {
+  min-height: 100dvh;
+  background: var(--bg);
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.backBtn {
+  color: var(--text);
+  margin-right: 1rem;
+}
+
+.logo {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.logo span {
+  color: var(--glow);
+}
+
+.main {
+  flex: 1;
+  padding: 3rem 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.hero {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #fff 0%, #a8a8a8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero p {
+  color: var(--text-muted);
+  font-size: 1.2rem;
+  max-width: 600px;
+  margin: 0 auto 2rem;
+}
+
+.toggleGroup {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--surface);
+  padding: 0.5rem 1.5rem;
+  border-radius: 99px;
+  border: 1px solid var(--border);
+}
+
+.toggleBtn {
+  width: 48px;
+  height: 26px;
+  background: var(--surface-2);
+  border-radius: 13px;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s;
+}
+
+.toggleBtn[aria-pressed="true"] {
+  background: var(--primary);
+}
+
+.toggleKnob {
+  width: 20px;
+  height: 20px;
+  background: #fff;
+  border-radius: 50%;
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  transition: transform 0.3s;
+}
+
+.toggled {
+  transform: translateX(22px);
+}
+
+.saveBadge {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10B981;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-left: 0.5rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  align-items: start;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem 2rem;
+  position: relative;
+  transition: transform 0.3s, border-color 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  border-color: var(--border-hover);
+}
+
+.popular {
+  border-color: var(--primary);
+  box-shadow: 0 0 30px rgba(168, 85, 247, 0.1);
+}
+
+.popularBadge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, var(--accent), var(--glow));
+  color: #fff;
+  padding: 0.25rem 1rem;
+  border-radius: 99px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.card h2 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.price {
+  font-size: 3rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.price span {
+  font-size: 1rem;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.desc {
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+  font-size: 0.95rem;
+}
+
+.btnPrimary, .btnOutline {
+  width: 100%;
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 2rem;
+  transition: all 0.2s;
+}
+
+.btnPrimary {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+}
+
+.btnPrimary:hover:not(:disabled) {
+  background: var(--primary-hover);
+}
+
+.btnOutline {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.btnOutline:hover:not(:disabled) {
+  background: var(--surface-2);
+}
+
+.btnPrimary:disabled, .btnOutline:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.features li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.95rem;
+}
+
+.features li svg {
+  color: var(--glow);
+}
+
+.muted {
+  color: var(--text-muted);
+}
+.muted svg {
+  color: var(--text-muted) !important;
+}
+
+@media (max-width: 768px) {
+  .hero h1 { font-size: 2.5rem; }
+  .grid { grid-template-columns: 1fr; }
+  .main { padding: 2rem 1rem; }
+}

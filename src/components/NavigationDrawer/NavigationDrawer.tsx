@@ -4,12 +4,13 @@ import { Icon } from '../Icon/Icon';
 import styles from './NavigationDrawer.module.css';
 
 const NAV_LINKS = [
-  { href: '/',        label: 'Name Generator',  emoji: '🌀' },
-  { href: '/about',   label: 'About Us',         emoji: '💡' },
-  { href: '/contact', label: 'Contact Us',       emoji: '✉️'  },
-  { href: '/privacy', label: 'Privacy Policy',   emoji: '🔒' },
-  { href: '/terms',   label: 'Terms of Service', emoji: '📜' },
-  { href: '/cookies', label: 'Cookie Policy',    emoji: '🍪' },
+  { href: '/',          label: 'Name Generator',  emoji: '🌀' },
+  { href: '/dashboard', label: 'My Brands',       emoji: '🎨' },
+  { href: '/about',     label: 'About Us',         emoji: '💡' },
+  { href: '/contact',   label: 'Contact Us',       emoji: '✉️'  },
+  { href: '/privacy',   label: 'Privacy Policy',   emoji: '🔒' },
+  { href: '/terms',     label: 'Terms of Service', emoji: '📜' },
+  { href: '/cookies',   label: 'Cookie Policy',    emoji: '🍪' },
 ];
 
 export function NavigationDrawer() {

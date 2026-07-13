@@ -1,17 +1,13 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useCloudSync } from './useCloudSync';
 import { useAuth } from '../context/AuthContext';
+import { BrandKit } from '../types';
+import { generateBrandKit } from './useBrandEngine';
 
 const STORAGE_KEY = 'ubn_favorites';
 
-export interface FavoriteEntry {
-  name: string;
-  category: string;
-  savedAt: number;
-}
-
 export function useFavorites() {
-  const [favorites, setFavorites] = useState<FavoriteEntry[]>([]);
+  const [favorites, setFavorites] = useState<BrandKit[]>([]);
   const { syncToCloud, fetchFromCloud } = useCloudSync();
   const { user, isGuest, loading } = useAuth();
 
@@ -29,11 +25,14 @@ export function useFavorites() {
       fetchFromCloud('favorites').then(cloudFavs => {
         if (cloudFavs && Array.isArray(cloudFavs)) {
           setFavorites(prev => {
-            // Merge logic: combine local and cloud, removing duplicates by name
-            const map = new Map<string, FavoriteEntry>();
-            cloudFavs.forEach(f => map.set(f.name, f));
+            const map = new Map<string, BrandKit>();
+            cloudFavs.forEach((f: any) => {
+              // Backward compatibility check
+              if (f.intelligence) map.set(f.name, f as BrandKit);
+              else map.set(f.name, generateBrandKit(f.name, f.category || 'general'));
+            });
             prev.forEach(f => map.set(f.name, f));
-            const merged = Array.from(map.values()).sort((a, b) => b.savedAt - a.savedAt);
+            const merged = Array.from(map.values()).sort((a, b) => b.createdAt - a.createdAt);
             
             try { localStorage.setItem(STORAGE_KEY, JSON.stringify(merged)); } catch { /* ignore */ }
             return merged;
@@ -43,16 +42,17 @@ export function useFavorites() {
     }
   }, [user, isGuest, loading, fetchFromCloud]);
 
-  const save = useCallback((updated: FavoriteEntry[]) => {
+  const save = useCallback((updated: BrandKit[]) => {
     setFavorites(updated);
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(updated)); } catch { /* ignore */ }
     syncToCloud('favorites', updated);
   }, [syncToCloud]);
 
-  const addFavorite = useCallback((name: string, category = 'general') => {
+  const addFavorite = useCallback((name: string, category = 'general', kit?: BrandKit) => {
     setFavorites(prev => {
       if (prev.some(f => f.name === name)) return prev;
-      const updated = [{ name, category, savedAt: Date.now() }, ...prev];
+      const newKit = kit || generateBrandKit(name, category);
+      const updated = [newKit, ...prev];
       try { localStorage.setItem(STORAGE_KEY, JSON.stringify(updated)); } catch { /* ignore */ }
       syncToCloud('favorites', updated);
       return updated;

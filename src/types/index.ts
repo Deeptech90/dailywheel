@@ -9,6 +9,111 @@ export interface Segment {
 
 export type WheelMode = 'business' | 'daily' | 'animal';
 
+// ── SAAS INTERFACES ────────────────────────────────────────
+
+export type PlanType = 'free' | 'pro' | 'business';
+
+export interface SubscriptionData {
+  plan: PlanType;
+  status: 'active' | 'canceled' | 'past_due' | 'trialing';
+  currentPeriodEnd: number;
+  cancelAtPeriodEnd: boolean;
+  stripeCustomerId?: string;
+  stripeSubscriptionId?: string;
+}
+
+export interface UserStats {
+  generationsToday: number;
+  lastGenerationDate: number; // YYYY-MM-DD string or timestamp
+  referralsCount: number;
+  referralCode: string;
+}
+
+export interface UserProfile {
+  uid: string;
+  email: string;
+  displayName: string;
+  photoURL: string;
+  subscription: SubscriptionData;
+  stats: UserStats;
+  isAdmin: boolean;
+}
+
+// ── BRAND KIT INTERFACES ────────────────────────────────────
+
+export interface BrandIntelligence {
+  meaning: string;
+  whyItWorks: string;
+  personality: string;
+  targetAudience: string;
+  brandVoice: string;
+  industry: string;
+  memorabilityScore: number;
+  pronunciationScore: number;
+  uniquenessScore: number;
+}
+
+export interface BrandStory {
+  shortDescription: string; // 50-word
+  longDescription: string;  // 100-word
+  aboutUs: string;
+  elevatorPitch: string;
+  mission: string;
+  vision: string;
+  coreValues: string[];
+}
+
+export interface BrandIdentity {
+  primaryColor: string;
+  secondaryColor: string;
+  accentColor: string;
+  gradient: [string, string];
+  traits: string[];
+}
+
+export interface BrandTypography {
+  headingFont: string;
+  bodyFont: string;
+}
+
+export interface DomainSuggestion {
+  tld: string;
+  domain: string;
+  available: boolean;
+  alternative?: string;
+}
+
+export interface SocialHandle {
+  platform: 'Instagram' | 'Facebook' | 'LinkedIn' | 'X' | 'YouTube' | 'TikTok';
+  handle: string;
+  available: boolean;
+}
+
+export interface LogoConcept {
+  id: string;
+  iconIdea: string;
+  style: string;
+  colors: string[];
+  typography: string;
+}
+
+export interface BrandKit {
+  name: string;
+  category: string;
+  intelligence: BrandIntelligence;
+  taglines: string[];
+  story: BrandStory;
+  identity: BrandIdentity;
+  typography: BrandTypography;
+  domains: DomainSuggestion[];
+  socials: SocialHandle[];
+  logos: LogoConcept[];
+  createdAt: number;
+  lastModified: number;
+}
+
+// ── EXISTING INTERFACES ────────────────────────────────────
+
 export interface Particle {
   x: number;
   y: number;

@@ -1,50 +1,99 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import { User, signInAnonymously, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { auth, hasFirebase } from '../lib/firebase';
+import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { auth, db } from '../lib/firebase';
+import { 
+  onAuthStateChanged, 
+  signInWithPopup, 
+  GoogleAuthProvider,
+  signOut,
+  signInAnonymously,
+  User as FirebaseUser 
+} from 'firebase/auth';
+import { doc, getDoc, setDoc, onSnapshot, serverTimestamp } from 'firebase/firestore';
+import { UserProfile } from '../types';
 
 interface AuthContextType {
-  user: User | null;
+  user: UserProfile | null;
+  firebaseUser: FirebaseUser | null;
+  isGuest: boolean;
   loading: boolean;
   signInWithGoogle: () => Promise<void>;
-  signInGuest: () => Promise<void>;
   logout: () => Promise<void>;
-  isGuest: boolean;
 }
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
+  firebaseUser: null,
+  isGuest: true,
   loading: false,
   signInWithGoogle: async () => {},
-  signInGuest: async () => {},
   logout: async () => {},
-  isGuest: true,
 });
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
+export function AuthProvider({ children }: { children: ReactNode }) {
+  const [firebaseUser, setFirebaseUser] = useState<FirebaseUser | null>(null);
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!hasFirebase || !auth) {
+    if (!auth || !db) {
       setLoading(false);
       return;
     }
-
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      setUser(currentUser);
-      setLoading(false);
+    const unsubscribeAuth = onAuthStateChanged(auth, async (currentUser) => {
+      setFirebaseUser(currentUser);
       
-      // Auto sign-in anonymously if no user is present
-      if (!currentUser && auth) {
+      if (!currentUser || !db) {
+        setUserProfile(null);
+        // Auto sign-in anonymously if no user is present
         try {
-          await signInAnonymously(auth);
+          if (auth) await signInAnonymously(auth);
         } catch (e) {
           console.error("Failed anonymous sign-in", e);
+          setLoading(false);
         }
+        return;
       }
+
+      const userRef = doc(db, 'users', currentUser.uid);
+      
+      const unsubscribeDoc = onSnapshot(userRef, async (docSnap) => {
+        if (docSnap.exists()) {
+          setUserProfile(docSnap.data() as UserProfile);
+        } else {
+          const newUser: UserProfile = {
+            uid: currentUser.uid,
+            email: currentUser.email || '',
+            displayName: currentUser.displayName || 'User',
+            photoURL: currentUser.photoURL || '',
+            isAdmin: false,
+            subscription: {
+              plan: 'free',
+              status: 'active',
+              currentPeriodEnd: 0,
+              cancelAtPeriodEnd: false
+            },
+            stats: {
+              generationsToday: 0,
+              lastGenerationDate: Date.now(),
+              referralsCount: 0,
+              referralCode: Math.random().toString(36).substring(2, 8).toUpperCase()
+            }
+          };
+          
+          await setDoc(userRef, {
+            ...newUser,
+            createdAt: serverTimestamp(),
+            lastLogin: serverTimestamp()
+          });
+          setUserProfile(newUser);
+        }
+        setLoading(false);
+      });
+
+      return () => unsubscribeDoc();
     });
 
-    return () => unsubscribe();
+    return () => unsubscribeAuth();
   }, []);
 
   const signInWithGoogle = async () => {
@@ -53,20 +102,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     await signInWithPopup(auth, provider);
   };
 
-  const signInGuest = async () => {
-    if (!auth) return;
-    await signInAnonymously(auth);
-  };
-
   const logout = async () => {
     if (!auth) return;
     await signOut(auth);
   };
 
-  const isGuest = user ? user.isAnonymous : true;
+  const value = {
+    user: userProfile,
+    firebaseUser,
+    isGuest: firebaseUser ? firebaseUser.isAnonymous : true,
+    loading,
+    signInWithGoogle,
+    logout
+  };
 
   return (
-    <AuthContext.Provider value={{ user, loading, signInWithGoogle, signInGuest, logout, isGuest }}>
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   );

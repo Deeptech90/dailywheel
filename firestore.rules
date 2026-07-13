@@ -1,0 +1,39 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
+    function isAdmin() {
+      // In a real app, you might use Custom Claims (request.auth.token.admin == true)
+      // For this mock, we check if the user doc has isAdmin == true (Note: less secure as users might try to edit it)
+      // Secure implementation:
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
+    }
+
+    match /users/{userId} {
+      // Users can read their own profile, Admins can read all profiles
+      allow read: if isAuthenticated() && (isOwner(userId) || isAdmin());
+      
+      // Users can update their own profile, but we should restrict updating 'subscription' and 'isAdmin' 
+      // fields to prevent abuse if we had a real backend.
+      // For this SaaS mock, we allow it so the UI can update it for demonstration.
+      allow write: if isAuthenticated() && isOwner(userId);
+    }
+    
+    match /users/{userId}/brands/{brandId} {
+      // Only the owner can manage their saved brands
+      allow read, write: if isAuthenticated() && isOwner(userId);
+    }
+
+    // Protect administrative collections
+    match /admin/{document=**} {
+      allow read, write: if isAuthenticated() && isAdmin();
+    }
+  }
+}
