@@ -37,7 +37,7 @@
   /* Typography */
   --font-display: 'Inter', system-ui, -apple-system, sans-serif;
   --font-body:    'Inter', system-ui, -apple-system, sans-serif;
-  --font-accent:  'Outfit', sans-serif; /* Only for numbers or specific strong branding */
+  --font-accent:  'Outfit', sans-serif;
 
   /* Radius */
   --radius-xs:    6px;
@@ -50,8 +50,19 @@
   /* Transitions */
   --ease-spring:  cubic-bezier(0.34, 1.56, 0.64, 1);
   --ease-smooth:  cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out:     cubic-bezier(0.0, 0, 0.2, 1);
   --duration-fast: 150ms;
   --duration-base: 250ms;
+  --duration-slow: 400ms;
+
+  /* Safe areas */
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-top:    env(safe-area-inset-top, 0px);
+  --safe-left:   env(safe-area-inset-left, 0px);
+  --safe-right:  env(safe-area-inset-right, 0px);
+
+  /* Bottom nav height — used for padding throughout */
+  --bottom-nav-h: 60px;
 }
 
 [data-theme="dark"] {
@@ -62,11 +73,11 @@
   --surface-2:    #27272a;
   --surface-3:    #3f3f46;
   
-  --primary:      #3B82F6; /* Lighter Deep Blue */
+  --primary:      #3B82F6;
   --primary-light:#60A5FA;
-  --secondary:    #A855F7; /* Purple */
-  --accent:       #F97316; /* Orange */
-  --success:      #22C55E; /* Green */
+  --secondary:    #A855F7;
+  --accent:       #F97316;
+  --success:      #22C55E;
   --glow:         rgba(59, 130, 246, 0.4);
 
   --text:         #FAFAFA;
@@ -96,7 +107,11 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   scroll-behavior: smooth;
+  /* Prevent iOS font size inflation on rotation */
+  -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  /* Prevent horizontal scroll on all browsers */
+  overflow-x: hidden;
 }
 
 body {
@@ -106,14 +121,24 @@ body {
   min-height: 100dvh;
   overflow-x: hidden;
   position: relative;
+  /* Prevent page-level bounce/overscroll on iOS Safari */
   overscroll-behavior: none;
   transition: background 0.3s ease, color 0.3s ease;
+  /* Smooth momentum scrolling on iOS */
+  -webkit-overflow-scrolling: touch;
 }
 
 /* ── Mobile interaction resets ───────────────────────────── */
-a, button, [role="button"] {
+a, button, [role="button"], label {
+  /* Remove iOS blue tap flash on all browsers */
   -webkit-tap-highlight-color: transparent;
+  /* Prevents double-tap zoom, while keeping scroll on scroll containers */
   touch-action: manipulation;
+}
+
+/* Prevent long-press context menu on interactive elements */
+button, a, img {
+  -webkit-touch-callout: none;
 }
 
 canvas {
@@ -122,10 +147,30 @@ canvas {
   user-select: none;
 }
 
+/* Prevent zoom on input focus — iOS Safari requires font-size >= 16px */
 input, textarea, select {
   touch-action: auto;
-  font-size: max(16px, 1em);
+  font-size: max(16px, 1em); /* Never below 16px so iOS won't zoom */
   font-family: var(--font-body);
+  /* Better touch handling for text inputs */
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+/* Remove scroll margin on mobile to avoid content hidden behind header */
+:target {
+  scroll-margin-top: 80px;
+}
+
+/* ── Focus styles — visible on keyboard, hidden on touch ─── */
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+  border-radius: 4px;
 }
 
 /* ── Utility classes ─────────────────────────────────────── */
@@ -168,6 +213,11 @@ input, textarea, select {
   font-weight: 600;
   transition: all var(--duration-base) var(--ease-smooth);
   box-shadow: 0 4px 12px var(--glow);
+  /* Minimum touch target */
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .btn-glow:hover {
@@ -176,7 +226,8 @@ input, textarea, select {
 }
 
 .btn-glow:active {
-  transform: translateY(0) scale(0.98);
+  transform: translateY(0) scale(0.97);
+  box-shadow: 0 2px 8px var(--glow);
 }
 
 /* Animations */

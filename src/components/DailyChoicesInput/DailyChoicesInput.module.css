@@ -41,20 +41,33 @@
 .presetBtn {
   border: 1px solid var(--border);
   background: transparent;
-  color: var(--glow);
-  border-radius: var(--radius-sm);
-  padding: 0.4rem 0.75rem;
+  color: var(--primary);
+  border-radius: var(--radius-md);
+  padding: 0 0.875rem;
   font-size: 0.8rem;
   font-family: var(--font-body);
-  min-height: 36px;
+  font-weight: 500;
+  /* 44px: minimum WCAG touch target */
+  min-height: 44px;
+  height: 44px;
   cursor: pointer;
-  transition: border-color 0.2s ease, background 0.2s ease;
+  transition: background 150ms ease, border-color 150ms ease;
   white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .presetBtn:hover {
-  border-color: var(--glow);
-  background: rgba(168, 85, 247, 0.08);
+  border-color: var(--primary);
+  background: rgba(29, 78, 216, 0.06);
+}
+
+.presetBtn:active {
+  transform: scale(0.95);
+  transition-duration: 80ms;
 }
 
 .presetBtn:disabled {
@@ -72,15 +85,20 @@
 .chip {
   background: var(--surface-2);
   color: var(--text);
-  padding: 0.25rem 0.75rem;
+  padding: 0.3rem 0.875rem;
   border-radius: 999px;
   font-size: 0.8rem;
   font-family: var(--font-body);
   line-height: 1.4;
+  /* 32px minimum for chips */
+  min-height: 32px;
   max-width: 200px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--border);
 }
 
 /* ---- Counter ---- */
@@ -97,26 +115,37 @@
 /* ---- Load button ---- */
 .loadBtn {
   width: 100%;
-  min-height: 48px;
-  padding: 0.75rem 1.5rem;
-  background: linear-gradient(135deg, var(--accent), var(--glow));
+  /* 56px: primary action touch target */
+  min-height: 56px;
+  height: 56px;
+  padding: 0 1.5rem;
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
   color: #fff;
   border: none;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   font-family: var(--font-display);
-  font-weight: 600;
+  font-weight: 700;
   font-size: 1rem;
   cursor: pointer;
-  transition: opacity 0.2s ease, transform 0.15s ease;
+  transition: transform 150ms ease, box-shadow 150ms ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 2px 8px rgba(29, 78, 216, 0.25);
 }
 
 .loadBtn:hover:not(:disabled) {
-  opacity: 0.92;
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(29, 78, 216, 0.35);
 }
 
 .loadBtn:active:not(:disabled) {
-  transform: translateY(0);
+  transform: scale(0.97);
+  box-shadow: 0 1px 4px rgba(29, 78, 216, 0.2);
+  transition-duration: 80ms;
 }
 
 .loadBtn:disabled {

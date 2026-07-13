@@ -8,8 +8,11 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  min-height: calc(100dvh - 60px); /* subtract header */
-  padding: 2rem 1.25rem 6rem; /* 6rem bottom = space above bottom nav */
+  /* Fit inside one mobile screen:
+     - subtract header (60px) and bottom nav (60px + safe area)
+     - use dvh (dynamic viewport height) for iOS Safari toolbar awareness */
+  min-height: calc(100dvh - 60px - var(--bottom-nav-h, 60px) - var(--safe-bottom, 0px));
+  padding: 1.5rem 1.25rem 2rem;
   position: relative;
   overflow: hidden;
   animation: heroIn 0.7s var(--ease-smooth) both;
@@ -53,12 +56,13 @@
 /* ── Headline ─────────────────────────────────────────────── */
 .headline {
   font-family: var(--font-display);
-  font-size: clamp(2.1rem, 6.5vw, 3.75rem);
+  /* Smaller minimum for iPhone SE (375px): 1.85rem = 29.6px */
+  font-size: clamp(1.85rem, 6vw, 3.75rem);
   font-weight: 800;
   line-height: 1.1;
   letter-spacing: -0.03em;
   color: var(--text);
-  margin-bottom: 1.125rem;
+  margin-bottom: 0.875rem;
   max-width: 640px;
   animation: heroIn 0.7s 0.15s var(--ease-smooth) both;
 }
@@ -72,11 +76,11 @@
 
 /* ── Subheading ───────────────────────────────────────────── */
 .subheading {
-  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  font-size: clamp(0.9rem, 2.5vw, 1.15rem);
   color: var(--text-muted);
-  max-width: 440px;
-  line-height: 1.6;
-  margin-bottom: 1.75rem;
+  max-width: 420px;
+  line-height: 1.55;
+  margin-bottom: 1.25rem;
   animation: heroIn 0.7s 0.2s var(--ease-smooth) both;
 }
 
@@ -85,8 +89,8 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 8px;
-  margin-bottom: 2rem;
+  gap: 6px;
+  margin-bottom: 1.5rem;
   animation: heroIn 0.7s 0.25s var(--ease-smooth) both;
 }
 
@@ -97,8 +101,8 @@
   background: var(--surface-2);
   border: 1px solid var(--border);
   border-radius: 999px;
-  padding: 5px 12px;
-  font-size: 0.8rem;
+  padding: 4px 11px;
+  font-size: 0.77rem;
   font-weight: 500;
   color: var(--text-muted);
   white-space: nowrap;
@@ -113,7 +117,7 @@
 /* ── CTA Buttons ──────────────────────────────────────────── */
 .ctaRow {
   display: flex;
-  gap: 12px;
+  gap: 10px;
   flex-wrap: wrap;
   justify-content: center;
   animation: heroIn 0.7s 0.3s var(--ease-smooth) both;
@@ -126,25 +130,31 @@
   background: var(--primary);
   color: #fff;
   border: none;
-  border-radius: 16px;
-  padding: 0 28px;
+  border-radius: var(--radius-md);
+  padding: 0 24px;
+  /* 56px touch target for primary CTA */
   height: 56px;
+  min-height: 56px;
   font-family: var(--font-display);
-  font-size: 1.05rem;
+  font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.18s ease;
-  box-shadow: 0 4px 14px rgba(29, 78, 216, 0.3);
+  transition: transform 150ms var(--ease-smooth), box-shadow 150ms var(--ease-smooth);
+  box-shadow: 0 4px 16px rgba(29, 78, 216, 0.3);
   text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 .ctaPrimary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(29, 78, 216, 0.4);
+  box-shadow: 0 8px 24px rgba(29, 78, 216, 0.4);
 }
 
 .ctaPrimary:active {
   transform: scale(0.97);
+  box-shadow: 0 2px 8px rgba(29, 78, 216, 0.2);
+  transition-duration: 80ms;
 }
 
 .ctaSecondary {
@@ -154,16 +164,19 @@
   background: var(--surface);
   color: var(--text);
   border: 1.5px solid var(--border);
-  border-radius: 16px;
-  padding: 0 24px;
+  border-radius: var(--radius-md);
+  padding: 0 20px;
   height: 56px;
+  min-height: 56px;
   font-family: var(--font-display);
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.18s ease;
+  transition: background 150ms ease, border-color 150ms ease;
   box-shadow: var(--shadow-sm);
   text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 .ctaSecondary:hover {
@@ -171,10 +184,16 @@
   border-color: var(--text-dim);
 }
 
-/* ── Scroll hint ──────────────────────────────────────────── */
+.ctaSecondary:active {
+  transform: scale(0.97);
+  transition-duration: 80ms;
+}
+
+/* ── Scroll hint ─────────────────────────────────────────── */
 .scrollHint {
   position: absolute;
-  bottom: 5.5rem; /* above bottom nav */
+  /* Position relative to hero bottom, well clear of bottom nav */
+  bottom: 1.25rem;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -182,12 +201,14 @@
   align-items: center;
   gap: 4px;
   color: var(--text-dim);
-  font-size: 0.75rem;
-  animation: bounce 2s ease-in-out infinite;
+  font-size: 0.72rem;
+  animation: bounce 2.5s ease-in-out infinite;
+  /* Hide if hero doesn't have enough room */
+  opacity: 0.8;
 }
 
 .scrollChevron {
-  font-size: 1rem;
+  font-size: 0.9rem;
 }
 
 @keyframes bounce {
@@ -198,9 +219,19 @@
 @media (min-width: 768px) {
   .hero {
     min-height: calc(80vh - 60px);
-    padding-bottom: 3rem;
+    padding: 3rem 1.5rem;
   }
   .scrollHint { bottom: 2rem; }
+}
+
+/* Extra small: iPhone SE, Galaxy A-series (320–360px) */
+@media (max-width: 380px) {
+  .hero { padding: 1rem 1rem 1.5rem; }
+  .headline { font-size: 1.65rem; margin-bottom: 0.625rem; }
+  .subheading { font-size: 0.875rem; margin-bottom: 1rem; }
+  .benefits { margin-bottom: 1.125rem; }
+  .ctaPrimary, .ctaSecondary { height: 52px; font-size: 0.9rem; }
+  .scrollHint { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {

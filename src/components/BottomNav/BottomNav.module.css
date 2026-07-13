@@ -10,9 +10,18 @@
   z-index: 200;
   background: var(--surface);
   border-top: 1px solid var(--border);
+  /* Use padding-bottom for safe area on iPhone X+ and Samsung */
   padding-bottom: env(safe-area-inset-bottom, 0px);
-  box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+  box-shadow: 0 -2px 16px rgba(0,0,0,0.06);
+  /* Smooth glass blur like the header */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(var(--surface-rgb, 255,255,255), 0.88);
   /* Only show on mobile */
+}
+
+[data-theme="dark"] .nav {
+  background: rgba(24, 24, 27, 0.88);
 }
 
 @media (min-width: 768px) {
@@ -26,59 +35,107 @@
   align-items: center;
   justify-content: center;
   gap: 3px;
-  padding: 10px 4px;
+  padding: 8px 4px;
+  /* 60px height: comfortable thumb tap zone */
   min-height: 60px;
   background: transparent;
   border: none;
   cursor: pointer;
   position: relative;
-  transition: background 0.15s ease;
+  /* GPU-composited: background is handled via pseudo-element to avoid repaints */
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
+  /* Immediate press feedback */
+  transition: opacity 100ms ease;
 }
 
-.tab:active {
-  background: var(--surface-2);
+/* Press feedback via background flash */
+.tab::before {
+  content: '';
+  position: absolute;
+  inset: 6px 3px;
+  border-radius: var(--radius-md);
+  background: transparent;
+  transition: background 100ms ease;
+}
+
+.tab:active::before {
+  background: var(--surface-3);
 }
 
 .tabIcon {
-  font-size: 1.3rem;
+  font-size: 1.25rem;
   line-height: 1;
-  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  z-index: 1;
+  transition: transform 200ms var(--ease-spring);
 }
 
+/* Spring bounce on active tab icon */
 .tabActive .tabIcon {
-  transform: scale(1.15) translateY(-1px);
+  transform: scale(1.18) translateY(-2px);
 }
 
 .tabLabel {
   font-family: var(--font-body);
-  font-size: 0.65rem;
+  font-size: 0.625rem;
   font-weight: 500;
   color: var(--text-dim);
   letter-spacing: 0.01em;
-  transition: color 0.15s ease;
+  transition: color 150ms ease;
+  position: relative;
+  z-index: 1;
+  /* Prevent text reflow from changing size */
+  min-width: 36px;
+  text-align: center;
 }
 
 .tabActive .tabLabel {
   color: var(--primary);
-  font-weight: 600;
+  font-weight: 700;
+}
+
+/* Active indicator dot above icon */
+.tabActive::after {
+  content: '';
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--primary);
+  animation: dotIn 250ms var(--ease-spring) both;
+}
+
+@keyframes dotIn {
+  from { opacity: 0; transform: translateX(-50%) scale(0); }
+  to   { opacity: 1; transform: translateX(-50%) scale(1); }
 }
 
 .badge {
   position: absolute;
-  top: 6px;
-  right: calc(50% - 16px);
+  top: 7px;
+  right: calc(50% - 18px);
   background: var(--accent);
   color: #fff;
-  font-size: 0.6rem;
-  font-weight: 700;
-  min-width: 16px;
-  height: 16px;
+  font-size: 0.58rem;
+  font-weight: 800;
+  min-width: 17px;
+  height: 17px;
   border-radius: 999px;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0 4px;
+  /* Border cutout to look separate from icon */
   border: 2px solid var(--surface);
+  z-index: 2;
+  animation: scaleBounceIn 250ms var(--ease-spring) both;
+}
+
+@keyframes scaleBounceIn {
+  from { opacity: 0; transform: scale(0.5); }
+  to   { opacity: 1; transform: scale(1); }
 }

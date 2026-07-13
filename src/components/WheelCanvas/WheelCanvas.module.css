@@ -6,10 +6,14 @@
   transition: transform 0.3s ease;
   user-select: none;
   touch-action: none;
+  /* Promote to GPU layer to avoid composite cost on spin */
+  will-change: transform;
+  /* Smooth on Samsung Internet and older Chrome */
+  transform: translateZ(0);
 }
 
 .wrapper.spinning {
-  filter: drop-shadow(0 0 32px rgba(168, 85, 247, 0.7));
+  filter: drop-shadow(0 0 28px rgba(59, 130, 246, 0.65));
 }
 
 .wheelCanvas {
