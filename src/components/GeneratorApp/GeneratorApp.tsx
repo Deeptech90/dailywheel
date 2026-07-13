@@ -1,4 +1,4 @@
-import { useReducer, useCallback, useEffect, useRef, useState } from 'react';
+import { useReducer, useCallback, useEffect, useRef, useState, lazy, Suspense } from 'react';
 import { Link } from '../Link/Link';
 
 // Components
@@ -10,13 +10,15 @@ import { NavigationDrawer } from '../NavigationDrawer/NavigationDrawer';
 import { Icon } from '../Icon/Icon';
 import { WheelModeSelector } from '../WheelModeSelector/WheelModeSelector';
 import { DailyChoicesInput } from '../DailyChoicesInput/DailyChoicesInput';
-import { ResultModal } from '../ResultModal/ResultModal';
-import { EditPanel } from '../EditPanel/EditPanel';
-import { HistoryFeed } from '../HistoryFeed/HistoryFeed';
-import { InfoPanel } from '../InfoPanel/InfoPanel';
 import { LandingHero } from '../LandingHero/LandingHero';
 import { CategoryGrid } from '../CategoryGrid/CategoryGrid';
 import { BottomNav, BottomNavTab } from '../BottomNav/BottomNav';
+
+// Lazy-loaded Components
+const ResultModal = lazy(() => import('../ResultModal/ResultModal').then(module => ({ default: module.ResultModal })));
+const EditPanel = lazy(() => import('../EditPanel/EditPanel').then(module => ({ default: module.EditPanel })));
+const HistoryFeed = lazy(() => import('../HistoryFeed/HistoryFeed').then(module => ({ default: module.HistoryFeed })));
+const InfoPanel = lazy(() => import('../InfoPanel/InfoPanel').then(module => ({ default: module.InfoPanel })));
 
 // Hooks & utils
 import { usePhysics } from '../../hooks/usePhysics';
@@ -419,32 +421,34 @@ export function GeneratorApp() {
       />
 
       {/* ── Overlays ─────────────────────────────────────── */}
-      {state.showResult && (
-        <ResultModal
-          segment={state.currentResult}
-          mode={state.wheelMode}
-          category={state.wheelMode === 'business' ? selectedCategoryLabel : undefined}
-          onClose={() => dispatch({ type: 'CLOSE_RESULT' })}
-          onSpinAgain={handleSpinAgain}
-        />
-      )}
+      <Suspense fallback={null}>
+        {state.showResult && (
+          <ResultModal
+            segment={state.currentResult}
+            mode={state.wheelMode}
+            category={state.wheelMode === 'business' ? selectedCategoryLabel : undefined}
+            onClose={() => dispatch({ type: 'CLOSE_RESULT' })}
+            onSpinAgain={handleSpinAgain}
+          />
+        )}
 
-      {state.showEdit && (
-        <EditPanel
-          segments={state.segments}
-          onSave={handleSaveSegments}
-          onClose={() => dispatch({ type: 'TOGGLE_EDIT' })}
-        />
-      )}
+        {state.showEdit && (
+          <EditPanel
+            segments={state.segments}
+            onSave={handleSaveSegments}
+            onClose={() => dispatch({ type: 'TOGGLE_EDIT' })}
+          />
+        )}
 
-      {state.showHistory && (
-        <HistoryFeed
-          history={state.history}
-          onClose={() => dispatch({ type: 'TOGGLE_HISTORY' })}
-        />
-      )}
+        {state.showHistory && (
+          <HistoryFeed
+            history={state.history}
+            onClose={() => dispatch({ type: 'TOGGLE_HISTORY' })}
+          />
+        )}
 
-      {showInfo && <InfoPanel onClose={() => setShowInfo(false)} />}
+        {showInfo && <InfoPanel onClose={() => setShowInfo(false)} />}
+      </Suspense>
     </div>
   );
 }

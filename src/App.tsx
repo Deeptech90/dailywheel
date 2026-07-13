@@ -1,14 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense, lazy } from 'react';
 import Home from './app/page';
-import AboutUs from './app/about/page';
-import Contact from './app/contact/page';
-import Privacy from './app/privacy/page';
-import Terms from './app/terms/page';
-import Cookies from './app/cookies/page';
-import OfflinePage from './app/offline/page';
-import NotFound from './app/not-found';
 import { CookieConsent } from './components/CookieConsent/CookieConsent';
 import { TrackingScripts } from './components/TrackingScripts/TrackingScripts';
+
+const AboutUs = lazy(() => import('./app/about/page'));
+const Contact = lazy(() => import('./app/contact/page'));
+const Privacy = lazy(() => import('./app/privacy/page'));
+const Terms = lazy(() => import('./app/terms/page'));
+const Cookies = lazy(() => import('./app/cookies/page'));
+const OfflinePage = lazy(() => import('./app/offline/page'));
+const NotFound = lazy(() => import('./app/not-found'));
 
 export function App() {
   const [currentPath, setCurrentPath] = useState('/');
@@ -51,7 +52,9 @@ export function App() {
   return (
     <>
       <div id="app-root-container">
-        {renderContent()}
+        <Suspense fallback={<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100dvh', color: 'var(--text-muted)' }}>Loading...</div>}>
+          {renderContent()}
+        </Suspense>
       </div>
       <CookieConsent />
       <TrackingScripts />
