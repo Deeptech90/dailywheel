@@ -11,6 +11,9 @@ const Cookies = lazy(() => import('./app/cookies/page'));
 const OfflinePage = lazy(() => import('./app/offline/page'));
 const NotFound = lazy(() => import('./app/not-found'));
 
+import { InstallPrompt } from './components/InstallPrompt/InstallPrompt';
+import { UpdatePrompt } from './components/UpdatePrompt/UpdatePrompt';
+
 export function App() {
   const [currentPath, setCurrentPath] = useState('/');
 
@@ -56,6 +59,8 @@ export function App() {
           {renderContent()}
         </Suspense>
       </div>
+      <InstallPrompt />
+      <UpdatePrompt />
       <CookieConsent />
       <TrackingScripts />
     </>
