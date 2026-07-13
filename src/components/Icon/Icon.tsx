@@ -1,6 +1,6 @@
 import React from 'react';
 
-type IconName = 'edit' | 'history' | 'volume-on' | 'volume-off' | 'info' | 'close' | 'spin' | 'menu' | 'chevron-down' | 'help' | 'direction' | 'sun' | 'moon';
+type IconName = 'edit' | 'history' | 'volume-on' | 'volume-off' | 'info' | 'close' | 'spin' | 'menu' | 'chevron-down' | 'help' | 'direction' | 'sun' | 'moon' | 'user' | 'google' | 'arrow-left' | 'download' | 'code';
 
 interface IconProps extends React.SVGProps<SVGSVGElement> {
   name: IconName;
@@ -116,6 +116,51 @@ export function Icon({ name, size = 20, className, ...props }: IconProps) {
             strokeLinejoin="round"
             strokeWidth={2}
             d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+          />
+        );
+      case 'user':
+        return (
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+          />
+        );
+      case 'google':
+        return (
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M21 12.222c0-.756-.067-1.489-.178-2.222H12v4.444h5.089a4.267 4.267 0 01-1.844 2.822v2.333h2.956c1.733-1.6 2.8-3.956 2.8-6.378z"
+          />
+        );
+      case 'arrow-left':
+        return (
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M10 19l-7-7m0 0l7-7m-7 7h18"
+          />
+        );
+      case 'download':
+        return (
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+          />
+        );
+      case 'code':
+        return (
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
           />
         );
       case 'help':

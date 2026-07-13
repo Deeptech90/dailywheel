@@ -59,4 +59,6 @@ export type AppAction =
   | { type: 'TOGGLE_EDIT' }
   | { type: 'TOGGLE_HISTORY' }
   | { type: 'SET_MODE'; mode: WheelMode }
-  | { type: 'HYDRATE_STATE'; segments: Segment[]; history: SpinResult[]; soundEnabled: boolean };
+  | { type: 'HYDRATE_STATE'; segments: Segment[]; history: SpinResult[]; soundEnabled: boolean }
+  | { type: 'HYDRATE'; payload: { segments: Segment[]; history: SpinResult[]; soundEnabled: boolean; wheelMode: WheelMode } }
+  | { type: 'SET_HISTORY'; payload: SpinResult[] };

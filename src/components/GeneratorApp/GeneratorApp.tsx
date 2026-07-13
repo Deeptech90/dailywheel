@@ -23,6 +23,8 @@ const InfoPanel = lazy(() => import('../InfoPanel/InfoPanel').then(module => ({ 
 // Hooks & utils
 import { usePhysics } from '../../hooks/usePhysics';
 import { useSound } from '../../hooks/useSound';
+import { useCloudSync } from '../../hooks/useCloudSync';
+import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../hooks/useTheme';
 import { useFavorites } from '../../hooks/useFavorites';
 import { AppState, AppAction, Segment, WheelMode } from '../../types';
@@ -76,6 +78,10 @@ function reducer(state: AppState, action: AppAction): AppState {
   switch (action.type) {
     case 'HYDRATE_STATE':
       return { ...state, segments: action.segments, history: action.history, soundEnabled: action.soundEnabled };
+    case 'HYDRATE':
+      return { ...state, ...action.payload };
+    case 'SET_HISTORY':
+      return { ...state, history: action.payload };
     case 'SPIN_START':
       return { ...state, isSpinning: true, showResult: false, showEdit: false, showHistory: false };
     case 'SPIN_END':
@@ -121,16 +127,44 @@ export function GeneratorApp() {
   const wheelSpinTriggerRef = useRef<(() => void) | null>(null);
 
   // Hydrate from localStorage
+  const { syncToCloud, fetchFromCloud } = useCloudSync();
+  const { user, isGuest, loading: authLoading } = useAuth();
+
   useEffect(() => {
-    const segments = loadSegments();
-    const history  = loadHistory();
-    const soundEnabled = loadSoundEnabled();
-    dispatch({ type: 'HYDRATE_STATE', segments, history, soundEnabled });
+    // 1. Initial local load
+    const loadedSegments = loadSegments();
+    const loadedHistory = loadHistory();
+    const loadedSound = loadSoundEnabled();
+    const modeStr = localStorage.getItem('ubn_wheel_mode') as 'business' | 'daily' | 'animal' | null;
+    
+    dispatch({ type: 'HYDRATE', payload: {
+      segments: loadedSegments,
+      history: loadedHistory,
+      soundEnabled: loadedSound,
+      wheelMode: modeStr || 'business'
+    }});
     setIsHydrated(true);
   }, []);
 
+  useEffect(() => {
+    // 2. Cloud merge for history
+    if (!authLoading && user && !isGuest) {
+      fetchFromCloud('history').then(cloudHistory => {
+        if (cloudHistory && Array.isArray(cloudHistory)) {
+          dispatch({ type: 'SET_HISTORY', payload: cloudHistory });
+        }
+      });
+    }
+  }, [user, isGuest, authLoading, fetchFromCloud]);
+
+  // Sync to local and cloud on changes
   useEffect(() => { if (isHydrated) saveSegments(state.segments); }, [state.segments, isHydrated]);
-  useEffect(() => { if (isHydrated) saveHistory(state.history); }, [state.history, isHydrated]);
+  useEffect(() => { 
+    if (isHydrated) {
+      saveHistory(state.history); 
+      syncToCloud('history', state.history);
+    }
+  }, [state.history, isHydrated, syncToCloud]);
   useEffect(() => { if (isHydrated) saveSoundEnabled(state.soundEnabled); }, [state.soundEnabled, isHydrated]);
 
   // Space bar shortcut to spin

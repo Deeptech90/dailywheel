@@ -1,4 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
+import { useCloudSync } from './useCloudSync';
+import { useAuth } from '../context/AuthContext';
 
 const STORAGE_KEY = 'ubn_favorites';
 
@@ -10,35 +12,61 @@ export interface FavoriteEntry {
 
 export function useFavorites() {
   const [favorites, setFavorites] = useState<FavoriteEntry[]>([]);
+  const { syncToCloud, fetchFromCloud } = useCloudSync();
+  const { user, isGuest, loading } = useAuth();
 
   useEffect(() => {
+    // 1. Load from local storage initially
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) setFavorites(JSON.parse(raw));
     } catch { /* ignore */ }
   }, []);
 
+  useEffect(() => {
+    // 2. Once logged in, attempt to fetch from cloud and merge
+    if (!loading && user && !isGuest) {
+      fetchFromCloud('favorites').then(cloudFavs => {
+        if (cloudFavs && Array.isArray(cloudFavs)) {
+          setFavorites(prev => {
+            // Merge logic: combine local and cloud, removing duplicates by name
+            const map = new Map<string, FavoriteEntry>();
+            cloudFavs.forEach(f => map.set(f.name, f));
+            prev.forEach(f => map.set(f.name, f));
+            const merged = Array.from(map.values()).sort((a, b) => b.savedAt - a.savedAt);
+            
+            try { localStorage.setItem(STORAGE_KEY, JSON.stringify(merged)); } catch { /* ignore */ }
+            return merged;
+          });
+        }
+      });
+    }
+  }, [user, isGuest, loading, fetchFromCloud]);
+
   const save = useCallback((updated: FavoriteEntry[]) => {
     setFavorites(updated);
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(updated)); } catch { /* ignore */ }
-  }, []);
+    syncToCloud('favorites', updated);
+  }, [syncToCloud]);
 
   const addFavorite = useCallback((name: string, category = 'general') => {
     setFavorites(prev => {
       if (prev.some(f => f.name === name)) return prev;
       const updated = [{ name, category, savedAt: Date.now() }, ...prev];
       try { localStorage.setItem(STORAGE_KEY, JSON.stringify(updated)); } catch { /* ignore */ }
+      syncToCloud('favorites', updated);
       return updated;
     });
-  }, []);
+  }, [syncToCloud]);
 
   const removeFavorite = useCallback((name: string) => {
     setFavorites(prev => {
       const updated = prev.filter(f => f.name !== name);
       try { localStorage.setItem(STORAGE_KEY, JSON.stringify(updated)); } catch { /* ignore */ }
+      syncToCloud('favorites', updated);
       return updated;
     });
-  }, []);
+  }, [syncToCloud]);
 
   const isFavorite = useCallback((name: string) => {
     return favorites.some(f => f.name === name);

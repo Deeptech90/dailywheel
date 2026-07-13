@@ -9,6 +9,7 @@ const Privacy = lazy(() => import('./app/privacy/page'));
 const Terms = lazy(() => import('./app/terms/page'));
 const Cookies = lazy(() => import('./app/cookies/page'));
 const OfflinePage = lazy(() => import('./app/offline/page'));
+const ProfilePage = lazy(() => import('./app/profile/page'));
 const NotFound = lazy(() => import('./app/not-found'));
 
 import { InstallPrompt } from './components/InstallPrompt/InstallPrompt';
@@ -47,6 +48,8 @@ export function App() {
         return <Cookies />;
       case '/offline':
         return <OfflinePage />;
+      case '/profile':
+        return <ProfilePage />;
       default:
         return <NotFound />;
     }
