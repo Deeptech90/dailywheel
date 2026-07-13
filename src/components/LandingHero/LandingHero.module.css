@@ -1,0 +1,210 @@
+/* ============================================================
+   LandingHero — Full-viewport hero, fits one mobile screen
+   ============================================================ */
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: calc(100dvh - 60px); /* subtract header */
+  padding: 2rem 1.25rem 6rem; /* 6rem bottom = space above bottom nav */
+  position: relative;
+  overflow: hidden;
+  animation: heroIn 0.7s var(--ease-smooth) both;
+}
+
+@keyframes heroIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Badge ───────────────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  animation: heroIn 0.7s 0.1s var(--ease-smooth) both;
+}
+
+.badgeDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--success);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(0.8); }
+}
+
+/* ── Headline ─────────────────────────────────────────────── */
+.headline {
+  font-family: var(--font-display);
+  font-size: clamp(2.1rem, 6.5vw, 3.75rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  margin-bottom: 1.125rem;
+  max-width: 640px;
+  animation: heroIn 0.7s 0.15s var(--ease-smooth) both;
+}
+
+.headlineAccent {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Subheading ───────────────────────────────────────────── */
+.subheading {
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  color: var(--text-muted);
+  max-width: 440px;
+  line-height: 1.6;
+  margin-bottom: 1.75rem;
+  animation: heroIn 0.7s 0.2s var(--ease-smooth) both;
+}
+
+/* ── Benefit pills ────────────────────────────────────────── */
+.benefits {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 2rem;
+  animation: heroIn 0.7s 0.25s var(--ease-smooth) both;
+}
+
+.benefit {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 5px 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.benefitCheck {
+  color: var(--success);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+/* ── CTA Buttons ──────────────────────────────────────────── */
+.ctaRow {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  animation: heroIn 0.7s 0.3s var(--ease-smooth) both;
+}
+
+.ctaPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 16px;
+  padding: 0 28px;
+  height: 56px;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  box-shadow: 0 4px 14px rgba(29, 78, 216, 0.3);
+  text-decoration: none;
+}
+
+.ctaPrimary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(29, 78, 216, 0.4);
+}
+
+.ctaPrimary:active {
+  transform: scale(0.97);
+}
+
+.ctaSecondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface);
+  color: var(--text);
+  border: 1.5px solid var(--border);
+  border-radius: 16px;
+  padding: 0 24px;
+  height: 56px;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  box-shadow: var(--shadow-sm);
+  text-decoration: none;
+}
+
+.ctaSecondary:hover {
+  background: var(--surface-2);
+  border-color: var(--text-dim);
+}
+
+/* ── Scroll hint ──────────────────────────────────────────── */
+.scrollHint {
+  position: absolute;
+  bottom: 5.5rem; /* above bottom nav */
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: var(--text-dim);
+  font-size: 0.75rem;
+  animation: bounce 2s ease-in-out infinite;
+}
+
+.scrollChevron {
+  font-size: 1rem;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(6px); }
+}
+
+@media (min-width: 768px) {
+  .hero {
+    min-height: calc(80vh - 60px);
+    padding-bottom: 3rem;
+  }
+  .scrollHint { bottom: 2rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero, .badge, .headline, .subheading, .benefits, .ctaRow {
+    animation: none;
+  }
+}

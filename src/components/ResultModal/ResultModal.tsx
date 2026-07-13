@@ -1,264 +1,362 @@
-import { useEffect, useRef, useState } from 'react';
-import confetti from 'canvas-confetti';
+import { useState, useEffect } from 'react';
 import { Segment, WheelMode } from '../../types';
-import { adjustColorOpacity, getContrastTextColor } from '../../utils/colors';
+import { useFavorites } from '../../hooks/useFavorites';
 import styles from './ResultModal.module.css';
 
 interface ResultModalProps {
   segment: Segment | null;
   mode: WheelMode;
+  category?: string;
   onClose: () => void;
+  onSpinAgain?: () => void;
 }
 
-function fireConfetti(color: string) {
-  confetti({
-    particleCount: 70,
-    angle: 60,
-    spread: 75,
-    origin: { x: 0, y: 0.65 },
-    colors: [color, '#a855f7', '#f59e0b', '#ffffff', '#06b6d4'],
-    ticks: 220,
-    gravity: 0.75,
-    scalar: 1.1,
-    shapes: ['square', 'circle'],
-  });
-  confetti({
-    particleCount: 70,
-    angle: 120,
-    spread: 75,
-    origin: { x: 1, y: 0.65 },
-    colors: [color, '#7c3aed', '#fbbf24', '#ffffff', '#67e8f9'],
-    ticks: 220,
-    gravity: 0.75,
-    scalar: 1.1,
-    shapes: ['square', 'circle'],
-  });
-  setTimeout(() => {
-    confetti({
-      particleCount: 45,
-      spread: 100,
-      origin: { x: 0.5, y: 0.35 },
-      colors: [color, '#a855f7', '#f59e0b'],
-      ticks: 160,
-      gravity: 1.1,
-    });
-  }, 350);
+type TabId = 'overview' | 'branding' | 'domain' | 'share';
+
+// ── Derived brand data from a name (deterministic, no API needed) ──────────
+function deriveBrandData(name: string) {
+  const len = name.length;
+  const hasVowelEnd = /[aeiou]$/i.test(name);
+  const syllables = name.replace(/[^aeiouy]/gi, '').length || 1;
+
+  const memorability = syllables <= 2 ? 'High' : syllables <= 3 ? 'Medium' : 'Low';
+  const pronunciation = syllables <= 2 ? 'Easy' : syllables <= 4 ? 'Moderate' : 'Challenging';
+  const trademarkRisk = len <= 7 ? 'Low' : len <= 12 ? 'Medium' : 'High';
+
+  const personalities = [
+    'Bold & Confident', 'Creative & Playful', 'Professional & Trustworthy',
+    'Modern & Innovative', 'Friendly & Approachable', 'Premium & Luxurious',
+  ];
+  const personality = personalities[name.charCodeAt(0) % personalities.length];
+
+  const slogans = [
+    `${name} — Where Excellence Meets Innovation.`,
+    `Discover the ${name} Difference.`,
+    `${name}: Built for the Bold.`,
+    `Your Future Starts with ${name}.`,
+    `${name} — Redefining What's Possible.`,
+  ];
+  const slogan = slogans[name.charCodeAt(1) % slogans.length];
+
+  const taglines = [
+    'Think Differently. Grow Boldly.',
+    'Innovation at Every Step.',
+    'Your Vision, Our Mission.',
+    'Excellence, Simplified.',
+    'Where Ideas Become Reality.',
+  ];
+  const tagline = taglines[name.charCodeAt(0) % taglines.length];
+
+  const fontPairs = [
+    'Outfit + Inter', 'Playfair + Lato', 'Montserrat + Open Sans',
+    'Raleway + Nunito', 'Poppins + Source Sans',
+  ];
+  const fontPair = fontPairs[name.charCodeAt(2) % fontPairs.length];
+
+  // Deterministic color palette from name
+  const hue1 = (name.charCodeAt(0) * 37) % 360;
+  const hue2 = (hue1 + 40) % 360;
+  const hue3 = (hue1 + 200) % 360;
+
+  const colors = [
+    `hsl(${hue1}, 65%, 55%)`,
+    `hsl(${hue2}, 60%, 45%)`,
+    `hsl(${hue3}, 50%, 60%)`,
+  ];
+
+  return { memorability, pronunciation, trademarkRisk, personality, slogan, tagline, fontPair, colors };
 }
 
-function getModeTitle(mode: WheelMode): string {
-  switch (mode) {
-    case 'business': return '✨ Your Business Name Is';
-    case 'daily':    return "🎯 Today's Choice Is";
-    case 'animal':   return '🐾 Your Spirit Animal Is';
-    default:         return '🌀 The Wheel Has Spoken';
-  }
+// ── TLD Domains ─────────────────────────────────────────────
+const TLDS = ['.com', '.net', '.org', '.co', '.io', '.ai', '.in'];
+
+function buildDomainUrl(name: string, tld: string) {
+  const slug = name.toLowerCase().replace(/[^a-z0-9]/g, '');
+  return `https://www.godaddy.com/domainsearch/find?domainToCheck=${slug}${tld.replace('.', '')}`;
 }
 
-function getModeSubtitle(mode: WheelMode): string {
-  switch (mode) {
-    case 'business': return 'A brandable name — ready to register!';
-    case 'daily':    return 'The universe has decided. Time to act!';
-    case 'animal':   return 'Your spirit animal has been revealed!';
-    default:         return 'The wheel has spoken!';
-  }
-}
-
-function getCloseBtnText(mode: WheelMode): string {
-  switch (mode) {
-    case 'business': return 'Use This Name 🚀';
-    case 'daily':    return "Let's Do It! ✨";
-    case 'animal':   return 'Embrace It! 🎉';
-    default:         return "Awesome, Let's Go! 🚀";
-  }
-}
-
-function getBadgeEmoji(mode: WheelMode, segment: Segment | null): string {
-  if (mode === 'animal' && segment?.icon) return segment.icon;
-  switch (mode) {
-    case 'business': return '🏢';
-    case 'daily':    return '📋';
-    case 'animal':   return '🐾';
-    default:         return '🎯';
-  }
-}
-
-export function ResultModal({ segment, mode, onClose }: ResultModalProps) {
-  const overlayRef = useRef<HTMLDivElement>(null);
+export function ResultModal({ segment, mode, category = 'general', onClose, onSpinAgain }: ResultModalProps) {
+  const [activeTab, setActiveTab] = useState<TabId>('overview');
   const [copied, setCopied] = useState(false);
+  const { isFavorite, addFavorite, removeFavorite } = useFavorites();
 
-  useEffect(() => {
-    if (segment) {
-      document.body.style.overflow = 'hidden';
-      fireConfetti(segment.color);
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => { document.body.style.overflow = ''; };
-  }, [segment]);
+  const name = segment?.label ?? '';
+  const brand = deriveBrandData(name);
+  const favorited = isFavorite(name);
 
+  // Reset tab when a new result appears
+  useEffect(() => { setActiveTab('overview'); }, [name]);
+
+  // Haptic feedback on mount
   useEffect(() => {
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && segment) onClose();
-    };
-    window.addEventListener('keydown', handleKey);
-    return () => window.removeEventListener('keydown', handleKey);
-  }, [segment, onClose]);
+    if ('vibrate' in navigator) navigator.vibrate([30, 20, 60]);
+  }, []);
 
   const handleCopy = async () => {
-    if (!segment) return;
     try {
-      await navigator.clipboard.writeText(segment.label);
+      await navigator.clipboard.writeText(name);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      const el = document.createElement('textarea');
-      el.value = segment.label;
-      document.body.appendChild(el);
-      el.select();
-      document.execCommand('copy');
-      document.body.removeChild(el);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      /* fallback — nothing */
     }
   };
 
-  const handleShare = async () => {
-    if (!segment) return;
-    const shareText = mode === 'business'
-      ? `I just found a great business name: "${segment.label}" 🚀 Try the Anti-Gravity Wheel at uniquebusinessname.com`
-      : mode === 'animal'
-      ? `My spirit animal is ${segment.icon} ${segment.label}! Discover yours at uniquebusinessname.com`
-      : `I spun the Anti-Gravity Wheel and got: "${segment.label}" ✨ uniquebusinessname.com`;
+  const handleFav = () => {
+    if (favorited) removeFavorite(name);
+    else addFavorite(name, category);
+  };
 
-    try {
-      if (navigator.share) {
-        await navigator.share({ title: 'Anti-Gravity Wheel Result', text: shareText, url: 'https://uniquebusinessname.com' });
-      } else {
-        // Fallback: Twitter/X share
-        const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
-        window.open(twitterUrl, '_blank', 'noopener,noreferrer');
-      }
-    } catch (err) {
-      // User cancelled share
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: 'My Business Name', text: `Check out my new business name: "${name}" — generated at UniqueBusinessName.com`, url: window.location.href });
+      } catch { /* user cancelled */ }
+    } else {
+      handleCopy();
     }
   };
 
   if (!segment) return null;
 
-  const displayLabel = mode === 'animal' && segment.icon
-    ? `${segment.icon} ${segment.label}`
-    : segment.label;
+  const TABS: { id: TabId; label: string }[] = [
+    { id: 'overview', label: '✨ Overview' },
+    { id: 'branding', label: '🎨 Branding' },
+    { id: 'domain',   label: '🌐 Domain' },
+    { id: 'share',    label: '📤 Share' },
+  ];
 
-  const domainUrl = `https://www.godaddy.com/domainsearch/find?checkAvail=1&tld=com&domainToCheck=${encodeURIComponent(segment.label.toLowerCase().replace(/\s+/g, ''))}`;
+  const SHARE_LINKS = [
+    {
+      label: 'WhatsApp', icon: '💬',
+      url: `https://wa.me/?text=${encodeURIComponent(`I just generated "${name}" as my business name! 🎯 Try it: ${window.location.href}`)}`,
+    },
+    {
+      label: 'X (Twitter)', icon: '𝕏',
+      url: `https://twitter.com/intent/tweet?text=${encodeURIComponent(`Just spun the wheel and got "${name}" as my business name! 🚀 Generate yours free 👇`)}&url=${encodeURIComponent(window.location.href)}`,
+    },
+    {
+      label: 'Facebook', icon: '📘',
+      url: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`,
+    },
+    {
+      label: 'LinkedIn', icon: '💼',
+      url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`,
+    },
+    {
+      label: 'Email', icon: '📧',
+      url: `mailto:?subject=${encodeURIComponent(`Business Name Idea: ${name}`)}&body=${encodeURIComponent(`I used UniqueBusinessName.com and generated "${name}" for my business. Try it yourself: ${window.location.href}`)}`,
+    },
+    {
+      label: 'Copy Link', icon: '🔗',
+      url: '',
+    },
+  ];
 
   return (
-    <div
-      ref={overlayRef}
-      id="result-modal-overlay"
-      className={styles.overlay}
-      onClick={e => e.target === overlayRef.current && onClose()}
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="result-title"
-    >
-      <div className={styles.card}>
-        {/* Orbiting emoji ring */}
-        <div className={styles.ring}>
-          {['🎉', '✨', '🌟', '🎊', '💫', '⭐', '🎯', '🏆'].map((emoji, i) => (
-            <span
-              key={i}
-              className={styles.ringEmoji}
-              style={{ '--i': i, '--total': 8 } as React.CSSProperties}
-            >
-              {emoji}
+    <div className={styles.overlay} role="dialog" aria-modal="true" aria-label="Business name result" onClick={e => e.target === e.currentTarget && onClose()}>
+      <div className={styles.sheet}>
+        {/* Drag handle (mobile) */}
+        <div className={styles.handle} aria-hidden="true" />
+
+        {/* Winner Section */}
+        <div className={styles.winnerSection}>
+          <span className={styles.confettiEmoji} aria-hidden="true">🎉</span>
+          <p className={styles.winnerLabel}>
+            {mode === 'animal' ? 'Your Spirit Animal' : 'Your Business Name'}
+          </p>
+          <h2 className={styles.winnerName}>{name}</h2>
+          {mode === 'animal' && segment.trait && (
+            <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginTop: '0.5rem', lineHeight: 1.5 }}>
+              {segment.trait}
+            </p>
+          )}
+          {category !== 'general' && (
+            <span className={styles.categoryChip}>
+              {category}
             </span>
+          )}
+        </div>
+
+        {/* Quick action row */}
+        <div className={styles.quickActions}>
+          <button className={styles.actionBtn} onClick={handleCopy} aria-label="Copy name">
+            <span className={styles.actionIcon}>{copied ? '✅' : '📋'}</span>
+            <span className={styles.actionLabel}>{copied ? 'Copied!' : 'Copy'}</span>
+          </button>
+          <button className={`${styles.actionBtn} ${styles.actionBtnFav} ${favorited ? styles.favorited : ''}`} onClick={handleFav} aria-label={favorited ? 'Remove from saved' : 'Save name'}>
+            <span className={styles.actionIcon}>{favorited ? '❤️' : '🤍'}</span>
+            <span className={styles.actionLabel}>{favorited ? 'Saved' : 'Save'}</span>
+          </button>
+          <button className={styles.actionBtn} onClick={handleShare} aria-label="Share name">
+            <span className={styles.actionIcon}>📤</span>
+            <span className={styles.actionLabel}>Share</span>
+          </button>
+          <button className={styles.actionBtn} onClick={onSpinAgain} aria-label="Generate again">
+            <span className={styles.actionIcon}>🔄</span>
+            <span className={styles.actionLabel}>Again</span>
+          </button>
+        </div>
+
+        {/* Tabs */}
+        <div className={styles.tabs} role="tablist">
+          {TABS.map(t => (
+            <button
+              key={t.id}
+              role="tab"
+              aria-selected={activeTab === t.id}
+              className={`${styles.tab} ${activeTab === t.id ? styles.tabActive : ''}`}
+              onClick={() => setActiveTab(t.id)}
+            >
+              {t.label}
+            </button>
           ))}
         </div>
 
-        <div className={styles.badge} style={{ backgroundColor: segment.color }}>
-          {getBadgeEmoji(mode, segment)}
-        </div>
-
-        <h2 id="result-title" className={styles.title}>{getModeTitle(mode)}</h2>
-
-        <div className={styles.resultBox} style={{ borderColor: segment.color }}>
-          <p className={styles.resultText}>{displayLabel}</p>
-        </div>
-
-        {mode === 'animal' && segment.trait && (
-          <p className={styles.traitText}>{segment.trait}</p>
-        )}
-
-        <p className={styles.subtitle}>{getModeSubtitle(mode)}</p>
-
-        <div className={styles.actions}>
-          {/* Primary CTA */}
-          <button
-            id="result-close-btn"
-            className={styles.closeBtn}
-            onClick={onClose}
-            style={{
-              background: `linear-gradient(135deg, ${segment.color || '#a855f7'}, ${adjustColorOpacity(segment.color || '#a855f7', 0.75)})`,
-              color: getContrastTextColor(segment.color || '#a855f7'),
-            }}
-          >
-            {getCloseBtnText(mode)}
-          </button>
-
-          {/* Copy + Share row */}
-          <div className={styles.secondaryRow}>
-            {(mode === 'business' || mode === 'daily') && (
-              <button
-                id="result-copy-btn"
-                className={styles.copyBtn}
-                onClick={handleCopy}
-                aria-label={copied ? 'Copied!' : 'Copy to clipboard'}
-              >
-                {copied ? '✅ Copied!' : '📋 Copy'}
-              </button>
-            )}
-            <button
-              id="result-share-btn"
-              className={styles.shareBtn}
-              onClick={handleShare}
-              aria-label="Share result"
-            >
-              🔗 Share
-            </button>
-          </div>
-
-          {/* Domain check (business mode only) */}
-          {mode === 'business' && (
-            <a
-              id="result-domain-btn"
-              className={styles.domainBtn}
-              href={domainUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Check domain availability"
-            >
-              🌐 Check Domain Availability
-            </a>
+        {/* Tab Content */}
+        <div className={styles.tabContent} role="tabpanel" key={activeTab}>
+          {/* ── OVERVIEW TAB ── */}
+          {activeTab === 'overview' && (
+            <div>
+              <div className={styles.brandRow}>
+                <span className={styles.brandKey}>Brand Personality</span>
+                <span className={styles.brandVal}>{brand.personality}</span>
+              </div>
+              <div className={styles.brandRow}>
+                <span className={styles.brandKey}>Memorability</span>
+                <span className={styles.brandVal}>
+                  <span className={`${styles.meterBadge} ${brand.memorability === 'High' ? styles.meterHigh : brand.memorability === 'Medium' ? styles.meterMed : styles.meterLow}`}>
+                    {brand.memorability === 'High' ? '🟢' : brand.memorability === 'Medium' ? '🟡' : '🔴'} {brand.memorability}
+                  </span>
+                </span>
+              </div>
+              <div className={styles.brandRow}>
+                <span className={styles.brandKey}>Pronunciation</span>
+                <span className={styles.brandVal}>
+                  <span className={`${styles.meterBadge} ${brand.pronunciation === 'Easy' ? styles.meterHigh : brand.pronunciation === 'Moderate' ? styles.meterMed : styles.meterLow}`}>
+                    {brand.pronunciation}
+                  </span>
+                </span>
+              </div>
+              <div className={styles.brandRow}>
+                <span className={styles.brandKey}>Trademark Risk</span>
+                <span className={styles.brandVal}>
+                  <span className={`${styles.meterBadge} ${brand.trademarkRisk === 'Low' ? styles.meterHigh : brand.trademarkRisk === 'Medium' ? styles.meterMed : styles.meterLow}`}>
+                    {brand.trademarkRisk}
+                  </span>
+                </span>
+              </div>
+              <div className={styles.brandRow}>
+                <span className={styles.brandKey}>Suggested Slogan</span>
+                <span className={styles.brandVal} style={{ maxWidth: '240px', fontStyle: 'italic', fontWeight: 400, color: 'var(--text-muted)' }}>"{brand.slogan}"</span>
+              </div>
+            </div>
           )}
 
-          {/* Re-spin */}
-          <button
-            id="result-respin-btn"
-            className={styles.respinBtn}
-            onClick={onClose}
-          >
-            🔄 Spin Again
+          {/* ── BRANDING TAB ── */}
+          {activeTab === 'branding' && (
+            <div>
+              <div className={styles.brandRow}>
+                <span className={styles.brandKey}>Brand Colors</span>
+                <div className={styles.swatchRow}>
+                  {brand.colors.map((c, i) => (
+                    <div
+                      key={i}
+                      className={styles.swatch}
+                      style={{ background: c }}
+                      title={c}
+                      onClick={() => navigator.clipboard.writeText(c).catch(() => {})}
+                      role="button"
+                      aria-label={`Copy color ${c}`}
+                      tabIndex={0}
+                    />
+                  ))}
+                </div>
+              </div>
+              <div className={styles.brandRow}>
+                <span className={styles.brandKey}>Font Pair</span>
+                <span className={styles.brandVal}>{brand.fontPair}</span>
+              </div>
+              <div className={styles.brandRow}>
+                <span className={styles.brandKey}>Suggested Tagline</span>
+                <span className={styles.brandVal} style={{ fontStyle: 'italic', fontWeight: 400, color: 'var(--text-muted)', textAlign: 'right' }}>"{brand.tagline}"</span>
+              </div>
+              <div className={styles.brandRow}>
+                <span className={styles.brandKey}>Social Handle</span>
+                <span className={styles.brandVal}>@{name.toLowerCase().replace(/[^a-z0-9]/g, '')}</span>
+              </div>
+              <div className={styles.brandRow}>
+                <span className={styles.brandKey}>Hashtag</span>
+                <span className={styles.brandVal}>#{name.replace(/[^a-zA-Z0-9]/g, '')}</span>
+              </div>
+            </div>
+          )}
+
+          {/* ── DOMAIN TAB ── */}
+          {activeTab === 'domain' && (
+            <div className={styles.domainGrid}>
+              <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '0.75rem', lineHeight: 1.5 }}>
+                Check domain availability for <strong>{name}</strong>:
+              </p>
+              {TLDS.map(tld => {
+                const slug = name.toLowerCase().replace(/[^a-z0-9]/g, '');
+                return (
+                  <div key={tld} className={styles.domainRow}>
+                    <span className={styles.domainName}>{slug}{tld}</span>
+                    <a
+                      href={buildDomainUrl(name, tld)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`${styles.domainCheckBtn} ${styles.btnCheck}`}
+                      aria-label={`Check ${slug}${tld} on GoDaddy`}
+                    >
+                      🔍 Check
+                    </a>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          {/* ── SHARE TAB ── */}
+          {activeTab === 'share' && (
+            <div className={styles.shareGrid}>
+              {SHARE_LINKS.map(link => (
+                link.url ? (
+                  <a
+                    key={link.label}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.shareBtn}
+                  >
+                    <span className={styles.shareBtnIcon}>{link.icon}</span>
+                    {link.label}
+                  </a>
+                ) : (
+                  <button
+                    key={link.label}
+                    className={styles.shareBtn}
+                    onClick={handleCopy}
+                  >
+                    <span className={styles.shareBtnIcon}>{link.icon}</span>
+                    {copied ? 'Copied!' : link.label}
+                  </button>
+                )
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Footer CTAs */}
+        <div className={styles.footer}>
+          <button className={styles.spinAgainBtn} onClick={onSpinAgain}>
+            🎡 Spin Again
+          </button>
+          <button className={styles.dismissBtn} onClick={onClose}>
+            Close
           </button>
         </div>
-
-        {/* Accessible live region */}
-        <div className="sr-only" aria-live="assertive" role="status">
-          Winner: {segment.label}
-          {mode === 'animal' && segment.trait ? `. ${segment.trait}` : ''}
-        </div>
-
-        {/* Shimmer effect */}
-        <div className={styles.shimmer} aria-hidden />
       </div>
     </div>
   );

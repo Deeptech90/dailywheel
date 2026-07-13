@@ -1,7 +1,7 @@
 import { useReducer, useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from '../Link/Link';
 
-// Static components
+// Components
 import { WheelCanvas } from '../WheelCanvas/WheelCanvas';
 import { AntiGravityField } from '../AntiGravityField/AntiGravityField';
 import { FloatingElements } from '../FloatingElements/FloatingElements';
@@ -14,15 +14,19 @@ import { ResultModal } from '../ResultModal/ResultModal';
 import { EditPanel } from '../EditPanel/EditPanel';
 import { HistoryFeed } from '../HistoryFeed/HistoryFeed';
 import { InfoPanel } from '../InfoPanel/InfoPanel';
+import { LandingHero } from '../LandingHero/LandingHero';
+import { CategoryGrid } from '../CategoryGrid/CategoryGrid';
+import { BottomNav, BottomNavTab } from '../BottomNav/BottomNav';
 
 // Hooks & utils
 import { usePhysics } from '../../hooks/usePhysics';
 import { useSound } from '../../hooks/useSound';
 import { useTheme } from '../../hooks/useTheme';
+import { useFavorites } from '../../hooks/useFavorites';
 import { AppState, AppAction, Segment, WheelMode } from '../../types';
 import {
   saveSegments, saveHistory, saveSoundEnabled,
-  loadSegments, loadHistory, loadSoundEnabled
+  loadSegments, loadHistory, loadSoundEnabled,
 } from '../../utils/storage';
 import { recolorSegments, DEFAULT_SEGMENTS } from '../../utils/colors';
 import { logEvent } from '../../utils/analytics';
@@ -33,45 +37,23 @@ import { ANIMALS } from '../../data/animalData';
 
 import styles from './GeneratorApp.module.css';
 
-/* ── Typewriter strings for the hero subtitle ─────────────── */
-const TYPEWRITER_PHRASES = [
-  'business names',
-  'lunch options',
-  'team decisions',
-  'your spirit animal',
-  'weekend plans',
-  'startup ideas',
-  'daily choices',
+/* ── Loading messages ────────────────────────────────────── */
+const LOADING_MSGS = [
+  'Finding Creative Ideas…',
+  'Checking Availability…',
+  'Generating Brand Identity…',
+  'Consulting AI…',
+  'Almost Ready…',
 ];
 
-function useTypewriter(phrases: string[], speed = 80, pause = 2200) {
-  const [phraseIdx, setPhraseIdx] = useState(0);
-  const [charIdx, setCharIdx] = useState(0);
-  const [deleting, setDeleting] = useState(false);
-  const [text, setText] = useState('');
-
+function useLoadingMessage(isSpinning: boolean) {
+  const [msgIdx, setMsgIdx] = useState(0);
   useEffect(() => {
-    const current = phrases[phraseIdx];
-    let timeout: ReturnType<typeof setTimeout>;
-
-    if (!deleting && charIdx <= current.length) {
-      setText(current.slice(0, charIdx));
-      timeout = setTimeout(() => setCharIdx(i => i + 1), speed);
-    } else if (!deleting && charIdx > current.length) {
-      timeout = setTimeout(() => setDeleting(true), pause);
-    } else if (deleting && charIdx >= 0) {
-      setText(current.slice(0, charIdx));
-      timeout = setTimeout(() => setCharIdx(i => i - 1), speed / 2);
-    } else {
-      setDeleting(false);
-      setPhraseIdx(i => (i + 1) % phrases.length);
-      timeout = setTimeout(() => setCharIdx(0), 100);
-    }
-
-    return () => clearTimeout(timeout);
-  }, [charIdx, deleting, phraseIdx, phrases, speed, pause]);
-
-  return text;
+    if (!isSpinning) { setMsgIdx(0); return; }
+    const id = setInterval(() => setMsgIdx(i => (i + 1) % LOADING_MSGS.length), 800);
+    return () => clearInterval(id);
+  }, [isSpinning]);
+  return LOADING_MSGS[msgIdx];
 }
 
 /* ── State ───────────────────────────────────────────────── */
@@ -119,18 +101,21 @@ export function GeneratorApp() {
   const [isHydrated, setIsHydrated] = useState(false);
   const [businessCategory, setBusinessCategory] = useState<BusinessCategory>('restaurant');
   const [showInfo, setShowInfo] = useState(false);
-  const { theme, toggleTheme } = useTheme();
+  const [activeTab, setActiveTab] = useState<BottomNavTab>('home');
+  const [namesLoaded, setNamesLoaded] = useState(false);
 
-  const typewriterText = useTypewriter(TYPEWRITER_PHRASES);
+  const { theme, toggleTheme } = useTheme();
+  const { favorites } = useFavorites();
+  const loadingMsg = useLoadingMessage(state.isSpinning);
 
   const { physicsCanvasRef, burst, activateAntiGravity, deactivateAntiGravity } = usePhysics({
-    gravity: 0.3,
-    damping: 0.75,
-    airResistance: 0.98,
+    gravity: 0.3, damping: 0.75, airResistance: 0.98,
   });
   const { playTick, playWin } = useSound(state.soundEnabled);
 
   const wheelSectionRef = useRef<HTMLDivElement>(null);
+  const generatorRef = useRef<HTMLElement>(null);
+  const categoriesRef = useRef<HTMLElement>(null);
   const wheelSpinTriggerRef = useRef<(() => void) | null>(null);
 
   // Hydrate from localStorage
@@ -161,18 +146,28 @@ export function GeneratorApp() {
     return () => window.removeEventListener('keydown', handleKey);
   }, [state.isSpinning]);
 
+  /* ── Navigation helpers ─────────────────────────────────── */
+  const scrollToGenerator = () => {
+    generatorRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setActiveTab('generator');
+  };
+
+  const scrollToCategories = () => {
+    categoriesRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setActiveTab('generator');
+  };
+
+  /* ── Mode / spin handlers ───────────────────────────────── */
   const handleModeChange = useCallback((mode: WheelMode) => {
     logEvent('mode_changed', { mode });
     dispatch({ type: 'SET_MODE', mode });
+    setNamesLoaded(false);
     if (mode === 'animal') {
       const animalSegments: Segment[] = ANIMALS.map((a, idx) => ({
-        id: `anim-${idx}`,
-        label: a.name,
-        color: a.color,
-        icon: a.icon,
-        trait: a.trait,
+        id: `anim-${idx}`, label: a.name, color: a.color, icon: a.icon, trait: a.trait,
       }));
       dispatch({ type: 'SET_SEGMENTS', segments: animalSegments });
+      setNamesLoaded(true);
     }
   }, []);
 
@@ -191,67 +186,76 @@ export function GeneratorApp() {
     }
     playWin();
     deactivateAntiGravity();
+    // Haptic feedback
+    if ('vibrate' in navigator) navigator.vibrate([40, 30, 80]);
     setTimeout(() => dispatch({ type: 'SPIN_END', result: winner }), 600);
   }, [burst, playWin, deactivateAntiGravity, state.wheelMode]);
 
   const handleTick = useCallback(() => { playTick(); }, [playTick]);
+
   const handleSaveSegments = useCallback((segments: Segment[]) => {
     dispatch({ type: 'SET_SEGMENTS', segments });
   }, []);
 
-  const handleLoadBusinessNames = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleCategorySelect = (cat: BusinessCategory) => {
+    setBusinessCategory(cat);
+    setNamesLoaded(false);
+  };
+
+  const handleLoadBusinessNames = (e?: React.FormEvent) => {
+    e?.preventDefault();
     if (state.isSpinning) return;
     logEvent('category_selected', { category: businessCategory });
     const catData = BUSINESS_CATEGORIES.find(c => c.id === businessCategory);
     if (!catData) return;
     const subset = getRandomSubset(catData.names, 10);
     const newSegments: Segment[] = subset.map((name, idx) => ({
-      id: `bus-${Date.now()}-${idx}`,
-      label: name,
-      color: '',
+      id: `bus-${Date.now()}-${idx}`, label: name, color: '',
     }));
     dispatch({ type: 'SET_SEGMENTS', segments: recolorSegments(newSegments) });
+    setNamesLoaded(true);
+    // Auto-scroll to wheel on mobile
+    setTimeout(() => wheelSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 200);
   };
 
   const handleLoadDailyChoices = useCallback((entries: string[]) => {
     if (state.isSpinning || entries.length < 2) return;
     const newSegments: Segment[] = entries.map((entry, idx) => ({
-      id: `daily-${Date.now()}-${idx}`,
-      label: entry,
-      color: '',
+      id: `daily-${Date.now()}-${idx}`, label: entry, color: '',
     }));
     dispatch({ type: 'SET_SEGMENTS', segments: recolorSegments(newSegments) });
+    setNamesLoaded(true);
   }, [state.isSpinning]);
+
+  const handleSpinAgain = useCallback(() => {
+    dispatch({ type: 'CLOSE_RESULT' });
+    setTimeout(() => wheelSpinTriggerRef.current?.(), 300);
+  }, []);
+
+  const selectedCategoryLabel = BUSINESS_CATEGORIES.find(c => c.id === businessCategory)?.label ?? businessCategory;
 
   /* ── Render ─────────────────────────────────────────────── */
   return (
     <div className={styles.app}>
       <AntiGravityField isSpinning={state.isSpinning} />
 
-      {/* ── Header ── */}
+      {/* ── Header ─────────────────────────────────────────── */}
       <header className={styles.header}>
         <Link href="/" className={styles.logo}>
-          <div className={styles.logoIconWrap} role="img" aria-label="Anti-gravity wheel logo">🌀</div>
+          <div className={styles.logoIconWrap} role="img" aria-label="Logo">🌀</div>
           <span className={styles.logoText}>
             UniqueBusinessName<span className={styles.logoDot}>.</span>com
           </span>
         </Link>
 
         <div className={styles.headerActions}>
-          {/* Desktop nav */}
           <nav className={styles.desktopNav} aria-label="Main navigation">
             <Link href="/"        className={styles.desktopNavLink}>Generator</Link>
             <Link href="/about"   className={styles.desktopNavLink}>About</Link>
             <Link href="/contact" className={styles.desktopNavLink}>Contact</Link>
           </nav>
 
-          <button
-            className={styles.iconBtn}
-            onClick={toggleTheme}
-            aria-label="Toggle theme"
-            title="Toggle theme"
-          >
+          <button className={styles.iconBtn} onClick={toggleTheme} aria-label="Toggle theme">
             {theme === 'dark' ? <Icon name="sun" size={20} /> : <Icon name="moon" size={20} />}
           </button>
 
@@ -259,49 +263,25 @@ export function GeneratorApp() {
             className={`${styles.iconBtn} ${!state.soundEnabled ? styles.iconBtnActive : ''}`}
             onClick={() => dispatch({ type: 'TOGGLE_SOUND' })}
             aria-label={state.soundEnabled ? 'Mute sound' : 'Enable sound'}
-            title={state.soundEnabled ? 'Sound on' : 'Sound off'}
           >
             <Icon name={state.soundEnabled ? 'volume-on' : 'volume-off'} size={20} />
-          </button>
-
-          <button
-            className={styles.iconBtn}
-            onClick={() => dispatch({ type: 'TOGGLE_DIRECTION' })}
-            aria-label={state.spinDirection === 1 ? 'Switch to counterclockwise' : 'Switch to clockwise'}
-            title={state.spinDirection === 1 ? '↻ Clockwise' : '↺ Counter-CW'}
-            disabled={state.isSpinning}
-          >
-            <Icon name="direction" size={20} />
-          </button>
-
-          <button
-            className={styles.iconBtn}
-            onClick={() => setShowInfo(true)}
-            aria-label="How it works"
-            title="How it works"
-          >
-            <Icon name="info" size={20} />
           </button>
 
           <NavigationDrawer />
         </div>
       </header>
 
-      {/* ── Main ── */}
-      <main className={styles.main}>
+      {/* ── Landing Hero (full-viewport intro screen) ─────── */}
+      <LandingHero
+        onStartGenerating={scrollToGenerator}
+        onExploreCategories={scrollToCategories}
+      />
 
-        {/* Hero */}
-        <section className={styles.heroSection} aria-label="Hero">
-          <h1 className={styles.heroTitle}>Spin. Decide. Done.</h1>
-          <p className={styles.heroSubtitle}>
-            <span className={styles.heroSubtitleStatic}>The physics-driven wheel for </span>
-            <span className={styles.typewriterText}>{typewriterText}</span>
-            <span className={styles.typewriterCursor} aria-hidden="true" />
-          </p>
-        </section>
+      {/* ── Generator Section ────────────────────────────── */}
+      <main className={styles.main} ref={generatorRef} id="generator">
 
         {/* Mode Selector */}
-        <section className={styles.modeSelectorWrap}>
+        <section className={styles.modeSelectorWrap} aria-label="Choose mode">
           <WheelModeSelector
             activeMode={state.wheelMode}
             onModeChange={handleModeChange}
@@ -309,74 +289,58 @@ export function GeneratorApp() {
           />
         </section>
 
-        {/* Dynamic Mode Input Panel */}
-        <section className={styles.generatorSection}>
-
-          {/* BUSINESS MODE */}
-          {state.wheelMode === 'business' && (
-            <div className={styles.modePanel}>
-              <h2 className={styles.formTitle}>Business Name Generator</h2>
-              <p className={styles.formSubtitle}>Choose your industry — the wheel loads 10 premium brandable names.</p>
-              <form onSubmit={handleLoadBusinessNames} className={styles.inputGroup}>
-                <div className={styles.selectWrapper}>
-                  <select
-                    className={styles.selectField}
-                    value={businessCategory}
-                    onChange={e => setBusinessCategory(e.target.value as BusinessCategory)}
-                    disabled={state.isSpinning}
-                    aria-label="Business Category"
-                    id="business-category-select"
-                  >
-                    {BUSINESS_CATEGORIES.map(cat => (
-                      <option key={cat.id} value={cat.id}>
-                        {cat.icon} {cat.label}
-                      </option>
-                    ))}
-                  </select>
-                  <div className={styles.selectIcon}>
-                    <Icon name="chevron-down" size={16} />
-                  </div>
-                </div>
-                <button
-                  type="submit"
-                  className={styles.submitBtn}
-                  disabled={state.isSpinning}
-                  id="load-names-btn"
-                >
-                  <Icon name="spin" size={18} /> Load Names &amp; Spin
-                </button>
-              </form>
-            </div>
-          )}
-
-          {/* DAILY CHOICES MODE */}
-          {state.wheelMode === 'daily' && (
-            <div className={styles.modePanel}>
-              <h2 className={styles.formTitle}>Daily Choices</h2>
-              <p className={styles.formSubtitle}>Enter your options — let the wheel decide for you.</p>
-              <DailyChoicesInput
-                onLoadWheel={handleLoadDailyChoices}
-                disabled={state.isSpinning}
-              />
-            </div>
-          )}
-
-          {/* ANIMAL MODE */}
-          {state.wheelMode === 'animal' && (
-            <div className={styles.modePanel}>
-              <h2 className={styles.formTitle}>Spirit Animal Wheel</h2>
-              <p className={styles.formSubtitle}>Discover which animal represents your personality today!</p>
+        {/* Category Grid (business mode only) */}
+        {state.wheelMode === 'business' && (
+          <section className={styles.generatorSection} ref={categoriesRef} aria-label="Business categories">
+            <CategoryGrid
+              categories={BUSINESS_CATEGORIES}
+              selected={businessCategory}
+              onSelect={handleCategorySelect}
+              disabled={state.isSpinning}
+            />
+            <div style={{ marginTop: '1.25rem' }}>
               <button
                 className={styles.submitBtn}
-                onClick={() => wheelSpinTriggerRef.current?.()}
+                onClick={handleLoadBusinessNames}
                 disabled={state.isSpinning}
-                id="spin-animal-btn"
+                id="load-names-btn"
               >
-                <Icon name="spin" size={18} /> Reveal My Spirit Animal
+                {state.isSpinning
+                  ? <><span className={styles.spinnerIcon}>🌀</span> {loadingMsg}</>
+                  : <><Icon name="spin" size={18} /> Load Names & Spin</>
+                }
               </button>
             </div>
-          )}
-        </section>
+          </section>
+        )}
+
+        {/* Daily Choices */}
+        {state.wheelMode === 'daily' && (
+          <section className={styles.generatorSection} aria-label="Daily choices input">
+            <h2 className={styles.formTitle}>Daily Choices</h2>
+            <p className={styles.formSubtitle}>Enter your options — let the wheel decide for you.</p>
+            <DailyChoicesInput onLoadWheel={handleLoadDailyChoices} disabled={state.isSpinning} />
+          </section>
+        )}
+
+        {/* Animal Mode */}
+        {state.wheelMode === 'animal' && (
+          <section className={styles.generatorSection} aria-label="Spirit animal">
+            <h2 className={styles.formTitle}>🐾 Spirit Animal Wheel</h2>
+            <p className={styles.formSubtitle}>Discover which animal represents your personality today!</p>
+            <button
+              className={styles.submitBtn}
+              onClick={() => wheelSpinTriggerRef.current?.()}
+              disabled={state.isSpinning}
+              id="spin-animal-btn"
+            >
+              {state.isSpinning
+                ? <><span className={styles.spinnerIcon}>🌀</span> {loadingMsg}</>
+                : <><Icon name="spin" size={18} /> Reveal My Spirit Animal</>
+              }
+            </button>
+          </section>
+        )}
 
         <QuestionPrompt isSpinning={state.isSpinning} />
 
@@ -392,18 +356,17 @@ export function GeneratorApp() {
             physicsCanvasRef={physicsCanvasRef}
             spinRef={wheelSpinTriggerRef}
           />
-          <FloatingElements
-            isSpinning={state.isSpinning}
-            centerRef={wheelSectionRef}
-          />
+          <FloatingElements isSpinning={state.isSpinning} centerRef={wheelSectionRef} />
         </div>
 
         {/* Controls */}
         <div className={styles.controls}>
           <p className={styles.hint} aria-live="polite">
             {state.isSpinning
-              ? '🌀 The universe is deciding…'
-              : '👆 Tap the hub, swipe the wheel, or press Space to spin!'}
+              ? `🌀 ${loadingMsg}`
+              : namesLoaded
+                ? '👆 Tap the hub, swipe, or press Space to spin!'
+                : '👆 Select a category above, then load names to spin!'}
           </p>
 
           <div className={styles.secondaryBtns}>
@@ -418,7 +381,15 @@ export function GeneratorApp() {
                 <Icon name="edit" size={15} /> Edit Segments
               </button>
             )}
-
+            <button
+              className={styles.secondaryBtn}
+              onClick={() => dispatch({ type: 'TOGGLE_DIRECTION' })}
+              disabled={state.isSpinning}
+              aria-label="Toggle spin direction"
+            >
+              <Icon name="direction" size={15} />
+              {state.spinDirection === 1 ? '↻ CW' : '↺ CCW'}
+            </button>
             <button
               className={styles.secondaryBtn}
               onClick={() => dispatch({ type: 'TOGGLE_HISTORY' })}
@@ -434,12 +405,27 @@ export function GeneratorApp() {
         </div>
       </main>
 
-      {/* ── Overlays ── */}
+      {/* ── Bottom Navigation (mobile only) ──────────────── */}
+      <BottomNav
+        activeTab={activeTab}
+        onTabChange={tab => {
+          setActiveTab(tab);
+          if (tab === 'home') window.scrollTo({ top: 0, behavior: 'smooth' });
+          if (tab === 'generator') scrollToGenerator();
+          if (tab === 'saved') dispatch({ type: 'TOGGLE_HISTORY' });
+          if (tab === 'menu') setShowInfo(true);
+        }}
+        savedCount={favorites.length}
+      />
+
+      {/* ── Overlays ─────────────────────────────────────── */}
       {state.showResult && (
         <ResultModal
           segment={state.currentResult}
           mode={state.wheelMode}
+          category={state.wheelMode === 'business' ? selectedCategoryLabel : undefined}
           onClose={() => dispatch({ type: 'CLOSE_RESULT' })}
+          onSpinAgain={handleSpinAgain}
         />
       )}
 

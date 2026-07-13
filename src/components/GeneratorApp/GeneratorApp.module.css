@@ -143,10 +143,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: 2rem 1rem 4rem;
+  padding: 2rem 1rem 8rem; /* 8rem = space for bottom nav + content */
   gap: 2rem;
   width: 100%;
-  max-width: 1024px; /* Slightly tighter width for focus */
+  max-width: 1024px;
   margin: 0 auto;
   position: relative;
   z-index: 5;
@@ -278,6 +278,16 @@
   transform: translateY(-50%);
   pointer-events: none;
   color: var(--text-dim);
+}
+
+/* ── Spinner icon for loading state ─────────────────────── */
+.spinnerIcon {
+  display: inline-block;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 /* ── Primary Submit Button ───────────────────────────────── */
