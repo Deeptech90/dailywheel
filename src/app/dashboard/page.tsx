@@ -6,6 +6,7 @@ import { loadHistory } from '../../utils/storage';
 import { Link } from '../../components/Link/Link';
 import { Icon } from '../../components/Icon/Icon';
 import { exportJSON, exportCSV, exportPDF } from '../../utils/exportUtils';
+import { UpgradeModal } from '../../components/UpgradeModal/UpgradeModal';
 import styles from './Dashboard.module.css';
 
 export default function DashboardPage() {
@@ -14,6 +15,7 @@ export default function DashboardPage() {
   const { favorites, removeFavorite } = useFavorites();
   const history = loadHistory();
   const [activeTab, setActiveTab] = useState<'brands' | 'activity' | 'subscription' | 'referrals'>('brands');
+  const [upgradeReason, setUpgradeReason] = useState<'generation_limit' | 'brand_kit_limit' | 'export_pdf' | 'export_json' | 'saved_brands_limit' | null>(null);
 
   const stats = useMemo(() => {
     return {
@@ -106,9 +108,15 @@ export default function DashboardPage() {
                       <p className={styles.brandDesc}>{kit.intelligence?.meaning || 'Legacy favorite'}</p>
                       
                       <div className={styles.brandActions}>
-                        <button className={styles.actionBtn} onClick={() => exportPDF(kit)}>📄 PDF</button>
+                        <button className={styles.actionBtn} onClick={() => {
+                          if (isPro) exportPDF(kit);
+                          else setUpgradeReason('export_pdf');
+                        }}>📄 PDF {!isPro && '🔒'}</button>
                         <button className={styles.actionBtn} onClick={() => exportCSV(kit)}>📊 CSV</button>
-                        <button className={styles.actionBtn} onClick={() => exportJSON(kit)}>💾 JSON</button>
+                        <button className={styles.actionBtn} onClick={() => {
+                          if (isPro) exportJSON(kit);
+                          else setUpgradeReason('export_json');
+                        }}>💾 JSON {!isPro && '🔒'}</button>
                         <button className={styles.actionBtn} style={{color: '#ef4444', borderColor: 'rgba(239, 68, 68, 0.2)'}} onClick={() => removeFavorite(kit.name)}>
                            🗑️
                         </button>
@@ -181,6 +189,13 @@ export default function DashboardPage() {
           )}
         </div>
       </main>
+      
+      {upgradeReason && (
+        <UpgradeModal 
+          reason={upgradeReason} 
+          onClose={() => setUpgradeReason(null)} 
+        />
+      )}
     </div>
   );
 }

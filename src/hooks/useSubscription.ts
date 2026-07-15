@@ -4,6 +4,7 @@ import { PlanType } from '../types';
 export const PLAN_LIMITS = {
   free: {
     generationsPerDay: 20,
+    brandKitsPerDay: 5,
     savedBrands: 25,
     exportPDF: false,
     exportJSON: false,
@@ -12,6 +13,7 @@ export const PLAN_LIMITS = {
   },
   pro: {
     generationsPerDay: Infinity,
+    brandKitsPerDay: Infinity,
     savedBrands: Infinity,
     exportPDF: true,
     exportJSON: true,
@@ -20,6 +22,7 @@ export const PLAN_LIMITS = {
   },
   business: {
     generationsPerDay: Infinity,
+    brandKitsPerDay: Infinity,
     savedBrands: Infinity,
     exportPDF: true,
     exportJSON: true,
@@ -59,10 +62,22 @@ export function useSubscription() {
   const canExportJSON = () => limits.exportJSON;
   const showAds = () => limits.ads;
 
+  const hasReachedBrandKitLimit = () => {
+    if (isGuest || plan !== 'free') return false;
+    // We would track this in stats.brandKitsToday. For now, mock it:
+    const stats = user?.stats;
+    if (!stats) return false;
+    const today = new Date().toISOString().split('T')[0];
+    const lastGen = new Date(stats.lastGenerationDate).toISOString().split('T')[0];
+    // Reusing generationsToday as proxy if brandKitsToday isn't in DB yet
+    return today === lastGen && (stats.generationsToday >= limits.brandKitsPerDay);
+  };
+
   return {
     plan,
     limits,
     hasReachedGenerationLimit,
+    hasReachedBrandKitLimit,
     canSaveBrand,
     canExportPDF,
     canExportJSON,

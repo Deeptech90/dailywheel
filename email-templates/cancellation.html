@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { font-family: 'Helvetica Neue', Arial, sans-serif; background-color: #f4f4f5; margin: 0; padding: 40px 0; }
+    .container { max-width: 600px; margin: 0 auto; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+    .header { background: #12122a; padding: 30px; text-align: center; }
+    .header h1 { color: #fff; margin: 0; font-size: 24px; }
+    .header span { color: #c084fc; }
+    .content { padding: 40px 30px; color: #334155; line-height: 1.6; }
+    .content h2 { color: #0f172a; font-size: 20px; margin-top: 0; }
+    .features-lost { background: #fafafa; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px 20px; margin: 16px 0; }
+    .features-lost li { padding: 4px 0; color: #64748b; font-size: 0.875rem; }
+    .btn { display: inline-block; background: #a855f7; color: #fff; text-decoration: none; padding: 12px 24px; border-radius: 6px; font-weight: bold; margin-top: 10px; }
+    .survey { font-size: 0.82rem; color: #64748b; margin-top: 20px; }
+    .footer { text-align: center; padding: 20px; color: #94a3b8; font-size: 12px; border-top: 1px solid #e2e8f0; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header"><h1>UniqueBusinessName<span>.com</span></h1></div>
+    <div class="content">
+      <h2>Your subscription has been cancelled 😢</h2>
+      <p>Hi {{name}},</p>
+      <p>Your <strong>{{plan_name}}</strong> subscription has been cancelled. You'll continue to have access to Pro features until <strong>{{access_until}}</strong>.</p>
+      <p>After that date, you'll lose access to:</p>
+      <ul class="features-lost">
+        <li>✗ Unlimited name generations</li>
+        <li>✗ PDF & JSON exports</li>
+        <li>✗ Unlimited saved brands</li>
+        <li>✗ Ad-free experience</li>
+      </ul>
+      <p>Changed your mind? You can reactivate anytime:</p>
+      <a href="{{reactivate_url}}" class="btn">Reactivate Pro</a>
+      <p class="survey">We'd love to know why you cancelled: <a href="{{survey_url}}">Take a 1-min survey</a></p>
+    </div>
+    <div class="footer"><p>© 2026 UniqueBusinessName.com — We'll miss you!</p></div>
+  </div>
+</body>
+</html>

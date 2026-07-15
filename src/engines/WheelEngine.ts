@@ -150,16 +150,20 @@ export class WheelEngine {
       ctx.translate(cx, cy);
       ctx.rotate(midAngle);
       // Text reads outward from center; anchor at 70% of radius
-      const labelRadius = radius * 0.68;
+      const labelRadius = radius * 0.55;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillStyle = '#fff';
+      ctx.fillStyle = '#ffffff';
       ctx.font = `bold ${this._labelFontSize(count)}px Outfit, sans-serif`;
-      ctx.shadowColor = 'rgba(0,0,0,0.6)';
-      ctx.shadowBlur = 4;
+      
+      // Better text shadow for high contrast on light/dark segments
+      ctx.shadowColor = 'rgba(0,0,0,0.85)';
+      ctx.shadowBlur = 6;
+      ctx.shadowOffsetX = 1;
+      ctx.shadowOffsetY = 1;
 
       const label = this.segments[i].label;
-      const maxWidth = radius * 0.55;
+      const maxWidth = radius * 0.70;
       const truncated = this._truncate(ctx, label, maxWidth);
       ctx.fillText(truncated, labelRadius, 0);
       ctx.restore();
@@ -228,10 +232,11 @@ export class WheelEngine {
   // _drawPointer removed — needle is now drawn from the center hub
 
   private _labelFontSize(count: number): number {
-    if (count <= 6) return 14;
-    if (count <= 10) return 12;
-    if (count <= 14) return 10;
-    return 9;
+    if (count <= 6) return 20;
+    if (count <= 10) return 18;
+    if (count <= 14) return 15;
+    if (count <= 20) return 13;
+    return 11;
   }
 
   private _truncate(ctx: CanvasRenderingContext2D, text: string, maxWidth: number): string {

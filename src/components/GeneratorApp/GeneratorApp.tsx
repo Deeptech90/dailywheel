@@ -11,7 +11,6 @@ import { Icon } from '../Icon/Icon';
 import { WheelModeSelector } from '../WheelModeSelector/WheelModeSelector';
 import { DailyChoicesInput } from '../DailyChoicesInput/DailyChoicesInput';
 import { LandingHero } from '../LandingHero/LandingHero';
-import { CategoryGrid } from '../CategoryGrid/CategoryGrid';
 import { BottomNav, BottomNavTab } from '../BottomNav/BottomNav';
 
 // Lazy-loaded Components
@@ -313,11 +312,9 @@ export function GeneratorApp() {
         </div>
       </header>
 
-      {/* ── Landing Hero (full-viewport intro screen) ─────── */}
-      <LandingHero
-        onStartGenerating={scrollToGenerator}
-        onExploreCategories={scrollToCategories}
-      />
+      <section className={styles.heroSection} aria-label="Introduction">
+        <LandingHero />
+      </section>
 
       {/* ── Generator Section ────────────────────────────── */}
       <main className={styles.main} ref={generatorRef} id="generator">
@@ -331,28 +328,40 @@ export function GeneratorApp() {
           />
         </section>
 
-        {/* Category Grid (business mode only) */}
+        {/* Category Dropdown (business mode only) */}
         {state.wheelMode === 'business' && (
-          <section className={styles.generatorSection} ref={categoriesRef} aria-label="Business categories">
-            <CategoryGrid
-              categories={BUSINESS_CATEGORIES}
-              selected={businessCategory}
-              onSelect={handleCategorySelect}
-              disabled={state.isSpinning}
-            />
-            <div style={{ marginTop: '1.25rem' }}>
+          <section className={styles.generatorSectionCategory} ref={categoriesRef} aria-label="Business categories">
+            <label htmlFor="category-select" className={styles.formTitle}>Select Category</label>
+            <div className={styles.selectWrapper}>
+              <select
+                id="category-select"
+                className={styles.selectField}
+                value={businessCategory}
+                onChange={(e) => {
+                  handleCategorySelect(e.target.value as BusinessCategory);
+                  setNamesLoaded(false);
+                }}
+                disabled={state.isSpinning}
+              >
+                {BUSINESS_CATEGORIES.map(c => (
+                  <option key={c.id} value={c.id}>{c.icon} {c.label}</option>
+                ))}
+              </select>
+              <div className={styles.selectIcon}>
+                <Icon name="chevron-down" size={16} />
+              </div>
+            </div>
+            
+            {!namesLoaded && (
               <button
-                className={styles.submitBtn}
+                className={styles.secondaryBtn}
+                style={{ marginTop: '0.5rem', width: '100%', justifyContent: 'center' }}
                 onClick={handleLoadBusinessNames}
                 disabled={state.isSpinning}
-                id="load-names-btn"
               >
-                {state.isSpinning
-                  ? <><span className={styles.spinnerIcon}>🌀</span> {loadingMsg}</>
-                  : <><Icon name="spin" size={18} /> Load Names & Spin</>
-                }
+                Load {selectedCategoryLabel} Names
               </button>
-            </div>
+            )}
           </section>
         )}
 
@@ -370,17 +379,6 @@ export function GeneratorApp() {
           <section className={styles.generatorSection} aria-label="Spirit animal">
             <h2 className={styles.formTitle}>🐾 Spirit Animal Wheel</h2>
             <p className={styles.formSubtitle}>Discover which animal represents your personality today!</p>
-            <button
-              className={styles.submitBtn}
-              onClick={() => wheelSpinTriggerRef.current?.()}
-              disabled={state.isSpinning}
-              id="spin-animal-btn"
-            >
-              {state.isSpinning
-                ? <><span className={styles.spinnerIcon}>🌀</span> {loadingMsg}</>
-                : <><Icon name="spin" size={18} /> Reveal My Spirit Animal</>
-              }
-            </button>
           </section>
         )}
 
@@ -398,28 +396,31 @@ export function GeneratorApp() {
             physicsCanvasRef={physicsCanvasRef}
             spinRef={wheelSpinTriggerRef}
           />
-          {showAds() && (
-            <div className={styles.adPlaceholder} onClick={() => window.location.href = '/pricing'}>
-              <div className={styles.adTag}>ADVERTISEMENT</div>
-              <div className={styles.adContent}>
-                <h3>Tired of Ads?</h3>
-                <p>Upgrade to Pro for an ad-free experience, unlimited generation, and PDF exports.</p>
-              </div>
-            </div>
-          )}
           <FloatingElements isSpinning={state.isSpinning} centerRef={wheelSectionRef} />
         </div>
 
+        {/* Massive Spin Button */}
+        <button
+          className={styles.spinBtn}
+          onClick={() => {
+            if (!namesLoaded && state.wheelMode === 'business') {
+              handleLoadBusinessNames();
+            } else {
+              wheelSpinTriggerRef.current?.();
+            }
+          }}
+          disabled={state.isSpinning || (state.wheelMode === 'daily' && !namesLoaded)}
+          id="main-spin-btn"
+        >
+          {state.isSpinning ? (
+            <><span className={styles.spinnerIcon}>🌀</span> Spinning...</>
+          ) : (
+            'SPIN THE WHEEL'
+          )}
+        </button>
+
         {/* Controls */}
         <div className={styles.controls}>
-          <p className={styles.hint} aria-live="polite">
-            {state.isSpinning
-              ? `🌀 ${loadingMsg}`
-              : namesLoaded
-                ? '👆 Tap the hub, swipe, or press Space to spin!'
-                : '👆 Select a category above, then load names to spin!'}
-          </p>
-
           <div className={styles.secondaryBtns}>
             {state.wheelMode !== 'animal' && (
               <button
@@ -429,7 +430,7 @@ export function GeneratorApp() {
                 aria-label="Edit wheel segments"
                 id="edit-segments-btn"
               >
-                <Icon name="edit" size={15} /> Edit Segments
+                <Icon name="edit" size={15} /> Edit
               </button>
             )}
             <button

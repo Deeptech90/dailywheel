@@ -73,38 +73,7 @@
   align-items: center;
 }
 
-/* Desktop nav links */
-.desktopNav {
-  display: none;
-  gap: 4px;
-  margin-right: 12px;
-}
-
-@media (min-width: 900px) {
-  .desktopNav {
-    display: flex;
-  }
-}
-
-.desktopNavLink {
-  color: var(--text-muted);
-  text-decoration: none;
-  font-size: 0.9rem;
-  font-weight: 500;
-  padding: 6px 12px;
-  border-radius: var(--radius-full);
-  transition: all var(--duration-fast) var(--ease-smooth);
-}
-
-.desktopNavLink:hover {
-  color: var(--text);
-  background: var(--surface-2);
-}
-
-.desktopNavLinkActive {
-  color: var(--primary);
-  background: rgba(29, 78, 216, 0.05); /* very faint primary bg */
-}
+/* Desktop nav links removed as requested */
 
 .iconBtn {
   background: transparent;
@@ -148,40 +117,13 @@
 
 .adPlaceholder {
   margin-top: 2rem;
-  background: var(--surface-2);
-  border: 1px dashed var(--border);
+  background: transparent;
   border-radius: var(--radius-md);
-  padding: 1.5rem;
+  padding: 0;
   text-align: center;
-  cursor: pointer;
-  transition: all 0.3s;
   max-width: 400px;
   width: 100%;
-}
-
-.adPlaceholder:hover {
-  background: rgba(168, 85, 247, 0.1);
-  border-color: var(--glow);
-}
-
-.adTag {
-  font-size: 0.6rem;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  letter-spacing: 0.1em;
-  margin-bottom: 0.5rem;
-}
-
-.adContent h3 {
-  margin: 0 0 0.5rem 0;
-  color: #fff;
-  font-family: var(--font-display);
-}
-
-.adContent p {
-  margin: 0;
-  font-size: 0.85rem;
-  color: var(--text-muted);
+  overflow: hidden;
 }
 
 .main {
@@ -263,6 +205,16 @@
   animation: fadeSlideUp 0.6s 0.15s var(--ease-spring) both;
 }
 
+.generatorSectionCategory {
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+  animation: fadeSlideUp 0.6s 0.15s var(--ease-spring) both;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
 .formTitle {
   font-family: var(--font-display);
   font-size: 1.1rem;
@@ -339,47 +291,46 @@
 }
 
 /* ── Primary Submit Button (56px, thumb-friendly) ────────── */
-.submitBtn {
-  background: var(--primary);
+.spinBtn {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--glow) 100%);
   color: #fff;
   border: none;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 1.125rem;
-  /* 56px touch target — meets WCAG 2.5.5 */
-  height: 56px;
-  min-height: 56px;
+  font-weight: 800;
+  font-size: 1.25rem;
+  height: 60px;
+  min-height: 60px;
+  width: 90%;
+  margin: 1rem auto;
   cursor: pointer;
-  transition: background var(--duration-fast) var(--ease-smooth),
-              transform var(--duration-fast) var(--ease-smooth),
+  transition: transform var(--duration-fast) var(--ease-smooth),
               box-shadow var(--duration-fast) var(--ease-smooth);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  width: 100%;
-  letter-spacing: 0.01em;
-  box-shadow: 0 2px 8px rgba(29, 78, 216, 0.25);
-  /* Remove 300ms click delay on mobile */
+  letter-spacing: 0.02em;
+  box-shadow: 0 4px 20px rgba(168, 85, 247, 0.4);
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
 }
 
-.submitBtn:hover:not(:disabled) {
-  background: var(--primary-light);
+.spinBtn:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(29, 78, 216, 0.35);
+  box-shadow: 0 8px 30px rgba(168, 85, 247, 0.5);
 }
 
-.submitBtn:active:not(:disabled) {
-  transform: scale(0.97);
-  box-shadow: 0 1px 4px rgba(29, 78, 216, 0.2);
+.spinBtn:active:not(:disabled) {
+  transform: scale(0.96);
+  box-shadow: 0 2px 10px rgba(168, 85, 247, 0.3);
 }
 
-.submitBtn:disabled {
+.spinBtn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+  filter: grayscale(100%);
+  box-shadow: none;
 }
 
 /* ── Wheel Section ───────────────────────────────────────── */
@@ -487,56 +438,14 @@
   .kbdHint { display: inline-block; }
 }
 
-/* ── Desktop Two-Column Layout ───────────────────────────── */
+/* ── Desktop Single-Column Layout ───────────────────────────── */
 @media (min-width: 900px) {
   .main {
-    display: grid;
-    grid-template-columns: 380px 1fr;
-    grid-template-areas:
-      "hero     hero"
-      "modesec  wheel"
-      "form     wheel"
-      "controls wheel"
-      ".        wheel";
-    column-gap: 4rem;
-    row-gap: 1.5rem;
-    align-items: start;
-    /* Desktop: no bottom nav padding needed */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     padding: 3rem 2rem 4rem;
   }
-
-  .heroSection { 
-    grid-area: hero; 
-    text-align: left; 
-    margin-bottom: 1rem;
-  }
-  
-  .modeSelectorWrap { 
-    grid-area: modesec; 
-    max-width: 100%; 
-  }
-  
-  .generatorSection { 
-    grid-area: form; 
-    max-width: 100%;
-    padding: 1.5rem;
-  }
-  
-  .wheelSection { 
-    grid-area: wheel; 
-    width: 100%; 
-    position: sticky; 
-    top: 100px;
-  }
-  
-  .controls { 
-    grid-area: controls; 
-    align-items: flex-start; 
-  }
-
-  .heroTitle { font-size: clamp(2.5rem, 4vw, 4rem); }
-  .heroSubtitle { margin-left: 0; margin-right: 0; }
-  .hint { text-align: left; }
 }
 
 /* ── Mobile Landscape ────────────────────────────────────── */

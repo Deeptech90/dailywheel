@@ -8,10 +8,8 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  /* Fit inside one mobile screen:
-     - subtract header (60px) and bottom nav (60px + safe area)
-     - use dvh (dynamic viewport height) for iOS Safari toolbar awareness */
-  min-height: calc(100dvh - 60px - var(--bottom-nav-h, 60px) - var(--safe-bottom, 0px));
+  max-height: 180px;
+  min-height: 140px;
   padding: 1.5rem 1.25rem 2rem;
   position: relative;
   overflow: hidden;
@@ -23,37 +21,6 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── Badge ───────────────────────────────────────────────── */
-.badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  padding: 6px 14px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--primary);
-  margin-bottom: 1.5rem;
-  box-shadow: var(--shadow-sm);
-  animation: heroIn 0.7s 0.1s var(--ease-smooth) both;
-}
-
-.badgeDot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--success);
-  animation: pulse 2s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.6; transform: scale(0.8); }
-}
-
-/* ── Headline ─────────────────────────────────────────────── */
 .headline {
   font-family: var(--font-display);
   /* Smaller minimum for iPhone SE (375px): 1.85rem = 29.6px */
@@ -84,158 +51,15 @@
   animation: heroIn 0.7s 0.2s var(--ease-smooth) both;
 }
 
-/* ── Benefit pills ────────────────────────────────────────── */
-.benefits {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 6px;
-  margin-bottom: 1.5rem;
-  animation: heroIn 0.7s 0.25s var(--ease-smooth) both;
-}
-
-.benefit {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  padding: 4px 11px;
-  font-size: 0.77rem;
-  font-weight: 500;
-  color: var(--text-muted);
-  white-space: nowrap;
-}
-
-.benefitCheck {
-  color: var(--success);
-  font-size: 0.75rem;
-  font-weight: 700;
-}
-
-/* ── CTA Buttons ──────────────────────────────────────────── */
-.ctaRow {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  justify-content: center;
-  animation: heroIn 0.7s 0.3s var(--ease-smooth) both;
-}
-
-.ctaPrimary {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--primary);
-  color: #fff;
-  border: none;
-  border-radius: var(--radius-md);
-  padding: 0 24px;
-  /* 56px touch target for primary CTA */
-  height: 56px;
-  min-height: 56px;
-  font-family: var(--font-display);
-  font-size: 1.125rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: transform 150ms var(--ease-smooth), box-shadow 150ms var(--ease-smooth);
-  box-shadow: 0 4px 16px rgba(29, 78, 216, 0.3);
-  text-decoration: none;
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
-}
-
-.ctaPrimary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(29, 78, 216, 0.4);
-}
-
-.ctaPrimary:active {
-  transform: scale(0.97);
-  box-shadow: 0 2px 8px rgba(29, 78, 216, 0.2);
-  transition-duration: 80ms;
-}
-
-.ctaSecondary {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--surface);
-  color: var(--text);
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 0 20px;
-  height: 56px;
-  min-height: 56px;
-  font-family: var(--font-display);
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 150ms ease, border-color 150ms ease;
-  box-shadow: var(--shadow-sm);
-  text-decoration: none;
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
-}
-
-.ctaSecondary:hover {
-  background: var(--surface-2);
-  border-color: var(--text-dim);
-}
-
-.ctaSecondary:active {
-  transform: scale(0.97);
-  transition-duration: 80ms;
-}
-
-/* ── Scroll hint ─────────────────────────────────────────── */
-.scrollHint {
-  position: absolute;
-  /* Position relative to hero bottom, well clear of bottom nav */
-  bottom: 1.25rem;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  color: var(--text-dim);
-  font-size: 0.72rem;
-  animation: bounce 2.5s ease-in-out infinite;
-  /* Hide if hero doesn't have enough room */
-  opacity: 0.8;
-}
-
-.scrollChevron {
-  font-size: 0.9rem;
-}
-
-@keyframes bounce {
-  0%, 100% { transform: translateX(-50%) translateY(0); }
-  50% { transform: translateX(-50%) translateY(6px); }
-}
-
-@media (min-width: 768px) {
-  .hero {
-    min-height: calc(80vh - 60px);
-    padding: 3rem 1.5rem;
-  }
-  .scrollHint { bottom: 2rem; }
-}
-
 /* Extra small: iPhone SE, Galaxy A-series (320–360px) */
 @media (max-width: 380px) {
-  .hero { padding: 1rem 1rem 1.5rem; }
+  .hero { padding: 1rem 1rem; }
   .headline { font-size: 1.65rem; margin-bottom: 0.625rem; }
-  .subheading { font-size: 0.875rem; margin-bottom: 1rem; }
-  .benefits { margin-bottom: 1.125rem; }
-  .ctaPrimary, .ctaSecondary { height: 52px; font-size: 0.9rem; }
-  .scrollHint { display: none; }
+  .subheading { font-size: 0.875rem; margin-bottom: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero, .badge, .headline, .subheading, .benefits, .ctaRow {
+  .hero, .headline, .subheading {
     animation: none;
   }
 }

@@ -6,6 +6,7 @@ import styles from './NavigationDrawer.module.css';
 const NAV_LINKS = [
   { href: '/',          label: 'Name Generator',  emoji: '🌀' },
   { href: '/dashboard', label: 'My Brands',       emoji: '🎨' },
+  { href: '/pricing',   label: 'Upgrade to Pro',  emoji: '⚡' },
   { href: '/about',     label: 'About Us',         emoji: '💡' },
   { href: '/contact',   label: 'Contact Us',       emoji: '✉️'  },
   { href: '/privacy',   label: 'Privacy Policy',   emoji: '🔒' },

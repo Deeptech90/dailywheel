@@ -19,17 +19,19 @@ interface WheelCanvasProps {
 
 /** Returns ideal canvas size based on viewport and orientation */
 function getCanvasSize(): number {
-  const isLandscape = window.innerWidth > window.innerHeight;
-  if (isLandscape) {
-    // In landscape, wheel shares horizontal space with controls
-    return clamp(window.innerHeight * 0.75, 220, 380);
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+  
+  // Desktop
+  if (width >= 1024) return 560;
+  
+  // Tablet
+  if (width >= 768) {
+    return clamp(Math.min(width - 64, height * 0.6), 480, 520);
   }
-  // Portrait: wheel takes most of the vertical space
-  return clamp(
-    Math.min(window.innerWidth - 32, window.innerHeight * 0.52),
-    260,
-    480,
-  );
+  
+  // Mobile (if screen is very narrow, CSS max-width: 100% will downscale visually)
+  return clamp(Math.min(width - 16, height * 0.55), 380, 420);
 }
 
 export function WheelCanvas({

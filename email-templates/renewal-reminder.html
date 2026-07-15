@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { font-family: 'Helvetica Neue', Arial, sans-serif; background-color: #f4f4f5; margin: 0; padding: 40px 0; }
+    .container { max-width: 600px; margin: 0 auto; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+    .header { background: #12122a; padding: 30px; text-align: center; }
+    .header h1 { color: #fff; margin: 0; font-size: 24px; }
+    .header span { color: #c084fc; }
+    .content { padding: 40px 30px; color: #334155; line-height: 1.6; }
+    .content h2 { color: #0f172a; font-size: 20px; margin-top: 0; }
+    .info-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; margin: 20px 0; }
+    .info-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f1f5f9; font-size: 0.9rem; }
+    .info-row:last-child { border-bottom: none; font-weight: 700; font-size: 1rem; }
+    .btn { display: inline-block; background: #a855f7; color: #fff; text-decoration: none; padding: 12px 24px; border-radius: 6px; font-weight: bold; margin-top: 10px; }
+    .cancel-link { font-size: 0.8rem; color: #94a3b8; display: block; margin-top: 12px; text-align: center; }
+    .footer { text-align: center; padding: 20px; color: #94a3b8; font-size: 12px; border-top: 1px solid #e2e8f0; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header"><h1>UniqueBusinessName<span>.com</span></h1></div>
+    <div class="content">
+      <h2>Your subscription renews in 3 days 🔄</h2>
+      <p>Hi {{name}},</p>
+      <p>This is a friendly reminder that your <strong>{{plan_name}}</strong> subscription will automatically renew on <strong>{{renewal_date}}</strong>.</p>
+      <div class="info-box">
+        <div class="info-row"><span>Plan</span><span>{{plan_name}}</span></div>
+        <div class="info-row"><span>Billing Cycle</span><span>{{billing_cycle}}</span></div>
+        <div class="info-row"><span>Renewal Date</span><span>{{renewal_date}}</span></div>
+        <div class="info-row"><span>Total</span><span>{{amount}}</span></div>
+      </div>
+      <a href="{{dashboard_url}}" class="btn">Manage Subscription</a>
+      <a href="{{cancel_url}}" class="cancel-link">Cancel before renewal</a>
+    </div>
+    <div class="footer"><p>© 2026 UniqueBusinessName.com — Questions? Reply to this email.</p></div>
+  </div>
+</body>
+</html>
