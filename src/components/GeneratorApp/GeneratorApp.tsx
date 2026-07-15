@@ -5,13 +5,10 @@ import { Link } from '../Link/Link';
 import { WheelCanvas } from '../WheelCanvas/WheelCanvas';
 import { AntiGravityField } from '../AntiGravityField/AntiGravityField';
 import { FloatingElements } from '../FloatingElements/FloatingElements';
-import { QuestionPrompt } from '../QuestionPrompt/QuestionPrompt';
-import { NavigationDrawer } from '../NavigationDrawer/NavigationDrawer';
 import { Icon } from '../Icon/Icon';
 import { WheelModeSelector } from '../WheelModeSelector/WheelModeSelector';
 import { DailyChoicesInput } from '../DailyChoicesInput/DailyChoicesInput';
 import { LandingHero } from '../LandingHero/LandingHero';
-import { BottomNav, BottomNavTab } from '../BottomNav/BottomNav';
 
 // Lazy-loaded Components
 const ResultModal = lazy(() => import('../ResultModal/ResultModal').then(module => ({ default: module.ResultModal })));
@@ -110,7 +107,6 @@ export function GeneratorApp() {
   const [isHydrated, setIsHydrated] = useState(false);
   const [businessCategory, setBusinessCategory] = useState<BusinessCategory>('restaurant');
   const [showInfo, setShowInfo] = useState(false);
-  const [activeTab, setActiveTab] = useState<BottomNavTab>('home');
   const [namesLoaded, setNamesLoaded] = useState(false);
 
   const { theme, toggleTheme } = useTheme();
@@ -186,12 +182,10 @@ export function GeneratorApp() {
   /* ── Navigation helpers ─────────────────────────────────── */
   const scrollToGenerator = () => {
     generatorRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    setActiveTab('generator');
   };
 
   const scrollToCategories = () => {
     categoriesRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    setActiveTab('generator');
   };
 
   /* ── Mode / spin handlers ───────────────────────────────── */
@@ -300,17 +294,15 @@ export function GeneratorApp() {
             {theme === 'dark' ? <Icon name="sun" size={20} /> : <Icon name="moon" size={20} />}
           </button>
 
-          <button
-            className={`${styles.iconBtn} ${!state.soundEnabled ? styles.iconBtnActive : ''}`}
-            onClick={() => dispatch({ type: 'TOGGLE_SOUND' })}
-            aria-label={state.soundEnabled ? 'Mute sound' : 'Enable sound'}
-          >
-            <Icon name={state.soundEnabled ? 'volume-on' : 'volume-off'} size={20} />
-          </button>
-
-          <NavigationDrawer />
-        </div>
-      </header>
+            <button
+              className={`${styles.iconBtn} ${!state.soundEnabled ? styles.iconBtnActive : ''}`}
+              onClick={() => dispatch({ type: 'TOGGLE_SOUND' })}
+              aria-label={state.soundEnabled ? 'Mute sound' : 'Enable sound'}
+            >
+              <Icon name={state.soundEnabled ? 'volume-on' : 'volume-off'} size={20} />
+            </button>
+          </div>
+        </header>
 
       <section className={styles.heroSection} aria-label="Introduction">
         <LandingHero />
@@ -381,8 +373,6 @@ export function GeneratorApp() {
             <p className={styles.formSubtitle}>Discover which animal represents your personality today!</p>
           </section>
         )}
-
-        <QuestionPrompt isSpinning={state.isSpinning} />
 
         {/* Wheel */}
         <div className={styles.wheelSection} ref={wheelSectionRef}>
@@ -456,19 +446,6 @@ export function GeneratorApp() {
           </div>
         </div>
       </main>
-
-      {/* ── Bottom Navigation (mobile only) ──────────────── */}
-      <BottomNav
-        activeTab={activeTab}
-        onTabChange={tab => {
-          setActiveTab(tab);
-          if (tab === 'home') window.scrollTo({ top: 0, behavior: 'smooth' });
-          if (tab === 'generator') scrollToGenerator();
-          if (tab === 'saved') dispatch({ type: 'TOGGLE_HISTORY' });
-          if (tab === 'menu') setShowInfo(true);
-        }}
-        savedCount={favorites.length}
-      />
 
       {/* ── Overlays ─────────────────────────────────────── */}
       <Suspense fallback={null}>
