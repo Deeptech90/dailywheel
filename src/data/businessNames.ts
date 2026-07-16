@@ -31,10 +31,7 @@ export const BUSINESS_CATEGORIES: CategoryData[] = [
     gradient: ['#FF6B35', '#F7931E'],
     popular: true,
     names: [
-      'Feastopia','DineMingle','UrbanCrave','FlavorNest','AromaHarbor',
-      'BistroBlend','PalatePulse','SavorLane','TableTide','CraveCanvas',
-      'TasteTrail','YumFusion','FlavorVista','MealMuse','EpicureEase',
-      'DishDelight','SpiceSphere','ForkFlair','DineDream','MenuMingle',
+      'SolaOlive','CharredRustic','TruffleCoriander','CorianderCask','SpoonGilt','Rusticon','LumiCask','SpoonThicket','VeloAero','MiroAnvil','CharredWhisk','AshPlatter','ZenSage','RusticTruffle','RooAura','AuraCoriander','NovaBramble','RootOxcart','CopperFennel','VeloKori','MarrowEmber','ZenOxcart','MarrowRustic','VelaCoriander'
     ],
   },
   {
@@ -44,10 +41,7 @@ export const BUSINESS_CATEGORIES: CategoryData[] = [
     description: 'Coffee shops & cafés',
     gradient: ['#8B5E3C', '#C9883A'],
     names: [
-      'BrewMuse','SipSphere','CafeNova','MomentMug','BeanBliss',
-      'LatteLane','CupCraft','RoastRoute','SteamScene','AromaticNook',
-      'FoamFable','PourPath','BrewHarbor','CuppaNest','MochaMingle',
-      'EspressoEra','CafeCanvas','SipSaga','GrindGarden','BlendBase',
+      'GrindFroth','FabNova','DuskBean','BeanKnot','SolaDark','Frothon','ZenMug','SteamDark','AeroCrema','FabOrio','VesselBean','DuskBloom','Mochaen','VesselDrip','DarkMug','Steamus','DriAlta','Beanon','DriEcho','AuraDusk','VeraCraft','PuroArtisan','KnoAlta','KoriCrema'
     ],
   },
   {
@@ -57,10 +51,7 @@ export const BUSINESS_CATEGORIES: CategoryData[] = [
     description: 'Baked goods & pastries',
     gradient: ['#E8A598', '#F4C5A1'],
     names: [
-      'CrumbCraft','BakeBloom','SweetForge','DoughDuo','FlourishCafe',
-      'MorningCrust','BakersBounty','KneadNest','SugarSip','OvenAura',
-      'YeastYard','RiseRoost','ToastyTreat','MugMatters','JavaBlend',
-      'BrewBerry','CrustCorner','LatteLeaf','PaniniPick','ChillBrew',
+      'Oakify','CruOrio','SolaOak','FoldBake','YeastSugar','Oaker','OrioHoney','Whimex','AeroOven','AuraGlaze','Proofor','Loafen','VeraProof','Yonderity','Oakum','HonZen','Proofis','Grainum','OakLumi','CruPuro','NexaOven','CrustGlaze','OmniCrumb','BakNova'
     ],
   },
   {
@@ -71,10 +62,7 @@ export const BUSINESS_CATEGORIES: CategoryData[] = [
     gradient: ['#9B59B6', '#E91E8C'],
     popular: true,
     names: [
-      'ThreadTide','VoguVista','StitchSphere','HauteLine','FabricFable',
-      'TrendThread','StyleSurge','WeavWave','CoutureCore','DrapeDrift',
-      'PatternPeak','LoomLane','SeamScene','TextileTide','ChicCircuit',
-      'FashFusion','WardrobeWave','LuxeLayer','RunwayRoot','DressDrift',
+      'Drapeify','Loomia','Coutureis','LooPuro','OrioCanvas','Garbio','LaceCanvas','ThornDrape','VeraLace','ZetaTailor','Stitchia','SilVera','StitchThorn','ZetaDrape','SilkLoom','StitchCouture','PleAero','ThreadTailor','VeilWeave','KoriCanvas','AeroDrape','OrioWard','Weaveum','Canvasar'
     ],
   },
   {
@@ -85,10 +73,7 @@ export const BUSINESS_CATEGORIES: CategoryData[] = [
     gradient: ['#2563EB', '#06B6D4'],
     popular: true,
     names: [
-      'ByteWave','NexaCore','InnoVista','TechTide','QuantumLyft',
-      'CodeNest','PixelPulse','DataDrift','LogicLeap','CyberHive',
-      'NetNimble','CloudQuark','SyncPath','SmartFlux','ZenTech',
-      'AlgoArc','VirtuCore','AppApex','BlueCircuit','NimbiSoft',
+      'ZetaData','Novais','Sparkis','KoriCore','LogicCore','VoxelGlow','QuantPuro','GlowVoxel','CodOrio','GriMiro','GraphLogic','LumiByte','Nestor','LumiDrift','NexSola','SynNova','FluxNexus','MiroNova','LumiGrid','Voxelia','Sparkly','AltaGlow','ZetaNexus','QuantAlta'
     ],
   },
   {
@@ -99,10 +84,7 @@ export const BUSINESS_CATEGORIES: CategoryData[] = [
     gradient: ['#7C3AED', '#3B82F6'],
     popular: true,
     names: [
-      'LaunchLift','PivotPath','VentureVine','ScaleSpark','MomentumMesh',
-      'FounderForge','IdeaIgnite','RunwayRise','TractionTide','GrowthGrid',
-      'SprintSphere','AgileArc','IteratIQ','BuildBurst','PitchPoint',
-      'FundFlow','DisruptDen','NovaNest','BreakthroughBase','StartSurge',
+      'OmniScale','Pivotix','VanguardVenture','ZenAgile','FrostAgile','SparkVenture','Tractionum','FluxMesh','LaunchFrost','EchoVista','Scaleor','ZetaMomentum','Vanguardis','NexaVanguard','FabZen','SolaFable','ZenTraction','AltaFlux','Pivotar','PivZeta','PuroPivot','Sprinton','FableSprint','AgiPuro'
     ],
   },
   {
@@ -112,10 +94,7 @@ export const BUSINESS_CATEGORIES: CategoryData[] = [
     description: 'Property & housing services',
     gradient: ['#059669', '#34D399'],
     names: [
-      'NestNova','HomeCraft','DwellDrift','PropertyPeak','RealtySphere',
-      'AbordeArc','EstateEdge','LandLoft','HabitatHub','ResidenceRise',
-      'PropPath','VillaVista','TerraThread','KeystoneKraft','PremierPlace',
-      'RoofReach','FoundationFair','AddressAura','ListingLane','PlotPoint',
+      'Roofen','EchoResidence','ProOmni','Parcelen','Roofer','Dwellix','Keystoneia','NexaParcel','RoofRoof','ManLumi','Keystoneon','ProEcho','VilNexa','ZenLand','ManEcho','StructuOmni','HabitatStructure','PuroDomain','MiroProp','AltaHabitat','AuraRoof','VelaKeystone','SolaDomain','MiroHaven'
     ],
   },
   {
@@ -125,10 +104,7 @@ export const BUSINESS_CATEGORIES: CategoryData[] = [
     description: 'Building & infrastructure',
     gradient: ['#D97706', '#F59E0B'],
     names: [
-      'BuildBridge','StructureSurge','FrameForge','FoundationFlex','CraftCrew',
-      'ConcreteCore','SteelStream','ArchitectArc','BlueprintBase','ProjectPeak',
-      'SiteSphere','MasonMesh','TrussTrail','BeamBlend','GradeGrid',
-      'ConstructCraft','SolidSet','PlanPivot','BuildBurst','ElevateEdge',
+      'SolaSteel','Trussus','BuildPillar','Architecton','FoundationBuild','IronFoundation','Anvilum','BlueprintConstruct','IronPillar','FrameFoundation','VelaFoundation','Blueprintia','TrussBuild','TrussTruss','TruEcho','BluepriNexa','TrussIron','GirdGird','SolidMason','SolaBuild','ConcreteMason','Concreteor','Builden','FraNova'
     ],
   },
   {
@@ -139,10 +115,7 @@ export const BUSINESS_CATEGORIES: CategoryData[] = [
     gradient: ['#DC2626', '#F97316'],
     popular: true,
     names: [
-      'PulsePeak','FitForge','CoreMotion','FlexHive','GrindGym',
-      'ZenFitHub','EnduraCore','VitalStride','IronNest','LiftLab',
-      'BodyBloom','CardioCube','StaminaSpace','PowerPeak','MuscleMinds',
-      'TrainTrail','FitFoundry','RunRidge','ZenZest','GymGenius',
+      'MiroGrind','MiroCardio','VeraPace','PacLumi','FormEndura','GaiVela','ZenTrain','SolaForm','PulseRep','Grindio','MuscleRep','KoriFlex','PulZen','TrainSweat','Grindify','MuscleLift','GrindStamina','Liftio','VitalRep','TrainGrind','AltaGrind','LumiStamina','Formix','VitOmni'
     ],
   },
   {
@@ -152,10 +125,7 @@ export const BUSINESS_CATEGORIES: CategoryData[] = [
     description: 'Medical & wellness services',
     gradient: ['#0D9488', '#06B6D4'],
     names: [
-      'CareCore','VitalVine','MedMesh','HealthHive','CurePath',
-      'WellnessWave','HealHub','ClinicCraft','NurtureNest','PulsePlus',
-      'CareBridge','VitaCare','MendMuse','RemedyRise','TreatTrail',
-      'HealthHarbor','CliniqCore','WellWard','MedNova','CareCanvas',
+      'CurLumi','MiroCure','Treater','AurAlta','NexaPulse','Vitalify','MendHeal','Cliniqar','WellnessNurture','CureCare','WellnessCare','TheraKori','RemeAura','Nurtureify','MiroNurture','Cureity','WelZeta','RemeAlta','PulseNurture','OmniWell','Remedyix','NurtureHeal','RemePuro','AuraNurture'
     ],
   },
   {
@@ -166,10 +136,7 @@ export const BUSINESS_CATEGORIES: CategoryData[] = [
     gradient: ['#DB2777', '#F472B6'],
     popular: true,
     names: [
-      'GlowCraft','BlushBlend','BeautyBurst','RadianceRise','LumineLane',
-      'VelvetVibe','PrismPetal','ShimmerSphere','RoseRoot','GleamGrid',
-      'GlazingGlow','AllurAura','PorePoint','FlawlessForge','BeauBloom',
-      'TintTrail','PigmentPath','BlusherBase','GlowGrid','LuxeLuster',
+      'Auraix','PetalLumine','LusterFlawless','GloAero','Tintly','AltaPetal','OmniGlow','PigmeNova','PrismTint','Glazingum','ShimmerRose','GleNexa','PlumpGleam','PigmentGleam','Blushex','Petalio','ShimmerAura','LumineAura','KoriGlazing','SolaAura','Plumply','Gleamix','MiroPlump','Prismio'
     ],
   },
   {
@@ -179,10 +146,7 @@ export const BUSINESS_CATEGORIES: CategoryData[] = [
     description: 'Gems, accessories & luxury',
     gradient: ['#B45309', '#D97706'],
     names: [
-      'GemGlow','CrystalCraft','JewelJunction','SparkSphere','CaclCrown',
-      'GoldGrain','DiamondDrift','PreciousPath','GemGrid','CaratCore',
-      'SparkleSet','LusterLane','BrilliantBase','GemstonGuild','TreasureTide',
-      'PlatinumPoint','PearlPeak','OrnaOrbit','JewelJet','MetalMuse',
+      'BrilliaZen','Goldar','AeroDiamond','GoldGem','DiamondCarat','GliMiro','MiroCarat','NexaPrecious','VelaGold','Facetex','StoPuro','Crystally','KoriPearl','BrilliantCarat','GoldTreasure','Caratia','FacEcho','LumiBrilliant','GlintTreasure','Brilliantor','Glintis','KoriCrystal','TreasuLumi','NovaFacet'
     ],
   },
   {
@@ -192,10 +156,7 @@ export const BUSINESS_CATEGORIES: CategoryData[] = [
     description: 'Banking, investment & fintech',
     gradient: ['#1E40AF', '#3B82F6'],
     names: [
-      'CapitalCore','WealthWave','FundForge','InvestIQ','ProfitPath',
-      'FinFlux','AssetArc','MoneyMesh','VaultVista','EconomyEdge',
-      'TrustTide','FiscalFuse','PortfolioPoint','CreditCraft','GrowthGate',
-      'EquityEdge','MintMesh','StockSphere','BondBase','FinanceFlair',
+      'StockPortfolio','OmniVault','VeraCapital','TruAero','EconomyFiscal','ProfitFiscal','Profitor','WealthPortfolio','WealNexa','Stockix','OrioEquity','InvestCredit','Equityio','SolaEquity','WealthAsset','FundEconomy','Mintis','VelaAsset','Profitus','CoinInvest','Economyon','ZetaEquity','AltaGrowth','AssLumi'
     ],
   },
   {
@@ -205,10 +166,7 @@ export const BUSINESS_CATEGORIES: CategoryData[] = [
     description: 'Strategy & advisory services',
     gradient: ['#475569', '#64748B'],
     names: [
-      'InsightWorks','StratEdge','GuideBeacon','ApexAdvisors','ClarityCrest',
-      'PrimeCounsel','VisionaryOps','BeaconBridge','PivotPartners','CoreConsult',
-      'BrainLens','WiseBridge','SavvySense','PraxisPoint','EliteStrategy',
-      'InnoviAdvisors','MentorMatrix','SummitWise','Planarium','StratoSolve',
+      'MiroSummit','CounsAlta','PraxNexa','CounselElite','NovaInsight','KoriSummit','Visionar','SolveSavvy','PuroSavvy','Strategyex','Brainon','Mentoren','Wiseer','ZetaElite','LumiAdvisors','AdvisorsCore','CorNova','VisiSola','Insightio','ZetaSolve','NovaPraxis','WisAlta','EchoSavvy','Savvyly'
     ],
   },
   {
@@ -218,10 +176,7 @@ export const BUSINESS_CATEGORIES: CategoryData[] = [
     description: 'Learning & training services',
     gradient: ['#4F46E5', '#7C3AED'],
     names: [
-      'LearnLoft','EduEdge','SkillSphere','KnowledgeKraft','TeachTide',
-      'MindMesh','ScholarShift','TutorTree','AcademyArc','ClassCraft',
-      'WisdomWave','StudyStream','CourseCore','BrainBase','EduNova',
-      'LessonLane','TeachTech','GrowthGrade','LiteracyLift','EducaEdge',
+      'Tutorar','MiroStudy','Lessonon','Learnus','ClassLogic','NovaLiteracy','VelaLearn','Academyia','ThiVela','StudyWisdom','KnowledgeTutor','EduAlta','AcadeOmni','Classis','ScholNova','Courseum','ThinkLiteracy','Coursely','LiteraVela','LiteracyClass','EduGrade','PuroScholar','ZenLearn','KnowledgeLearn'
     ],
   },
   {
@@ -231,10 +186,7 @@ export const BUSINESS_CATEGORIES: CategoryData[] = [
     description: 'Tours, trips & adventures',
     gradient: ['#0284C7', '#38BDF8'],
     names: [
-      'WanderWave','JourneyJet','ExploreEdge','RoamRoute','AdventureArc',
-      'VoyageVine','TrekTide','GlobGlide','DestinDrift','PilgrimPath',
-      'NomadNest','ExpeditionEdge','TravelTrace','JourneyJive','WaypointWave',
-      'TrailTide','AtlasArc','Quest Quest','CompassCraft','HorizonHub',
+      'OmniHorizon','GlobGlob','ExploOmni','Nomadio','LumiAtlas','TreAero','NexaCompass','PuroHorizon','Nomader','TriOrio','VeraCompass','Questis','VoyaNova','Expeditionon','Adventureio','AdventureDestin','HorizonNomad','NexaDestin','Voyageia','TraKori','Pilgrimix','AtlasVoyage','Pilgrimon','JournLumi'
     ],
   },
   {
@@ -244,10 +196,7 @@ export const BUSINESS_CATEGORIES: CategoryData[] = [
     description: 'Content creators & streamers',
     gradient: ['#DC2626', '#F87171'],
     names: [
-      'FrameForge','ChannelCraft','ViewVault','ContentCore','ViralVista',
-      'StreamSphere','ReelRise','ClickCraft','WatchWave','TubeTrail',
-      'ShootSphere','EditEdge','PixelPost','VlogVault','CaptureCore',
-      'SnapSurge','StudioStream','SceneSphere','CutCraft','FrameFusion',
+      'EdiKori','SceneClick','LumiWatch','VelaReel','EditWatch','TubNova','OrioViral','Sceneor','ChannZen','AltaContent','Watchia','CutCut','ContentWatch','Castly','Clickly','CastCapture','SolaStream','SceneSnap','KoriEdit','VieKori','KoriFrame','CaptuVera','ReeZen','TubOrio'
     ],
   },
   {
@@ -257,10 +206,7 @@ export const BUSINESS_CATEGORIES: CategoryData[] = [
     description: 'Audio shows & broadcasting',
     gradient: ['#7C3AED', '#A855F7'],
     names: [
-      'WaveCast','EchoPod','SoundSphere','MicMesh','VoiceVault',
-      'AudioArc','CastCore','FrequencyForge','ResonateRise','AmplifyAura',
-      'PodPath','ListenLoft','SignalSurge','CastCraft','BroadBase',
-      'NarrateNest','SpokenSphere','AudioBlend','TuneTrail','DialogueDrift',
+      'MicMic','Micio','FrequencyEcho','OmniSignal','EchoSpeak','OmniEcho','Speaken','ZetaTune','AudioSound','VelaAmplify','AeroListen','TuneSpoken','FrequencyWave','SpeakResonate','LumiDialogue','OrioNarrate','Soundia','EchoWave','NovaDialogue','LumiVoice','NexaResonate','SpeOrio','TunPuro','PodLumi'
     ],
   },
   {
@@ -271,10 +217,7 @@ export const BUSINESS_CATEGORIES: CategoryData[] = [
     gradient: ['#4F46E5', '#7C3AED'],
     popular: true,
     names: [
-      'PixelPulse','QuestCore','LevelLoft','GameGrid','ArenaArc',
-      'SpawnSphere','GuildGate','RespawnRise','QuestQuasar','LootLane',
-      'FpsForge','RaidRoute','MapMesh','SpawnSurge','GamerGuild',
-      'EsportEdge','ArcadeAura','PlayPath','ControlCraft','GameGlide',
+      'PlaOrio','MapGuild','NovaGame','ArcaVera','Pixelex','PuroMap','LevelPixel','QuestConsole','PlayEsport','Raidia','NexaLevel','Spawnor','Respawnly','Spawnity','MapEcho','PuroEsport','LevelEsport','EsportGuild','AltaPlay','VelaGuild','GuildEsport','AeroLoot','ControlMatch','PixAura'
     ],
   },
   {
@@ -285,10 +228,7 @@ export const BUSINESS_CATEGORIES: CategoryData[] = [
     gradient: ['#0369A1', '#06B6D4'],
     popular: true,
     names: [
-      'NeuralNest','DeepDrift','CogniCore','AIArc','ThinkTide',
-      'MindMesh','SynapSphere','AlgoAura','SmartSurge','IntelliIQ',
-      'BotBase','LearnLoop','DataDawn','AIEdge','CognitiveCraft',
-      'NeuralNova','DeepDive','TensorTrail','MindMapMesh','AIApex',
+      'ThinkData','Botio','LogicCognitive','RoboBrain','RobMiro','RoboNeural','NeuralDeep','DatZen','RobOmni','ZenDeep','CogniThink','AuraSynth','SolaBot','BrainCogni','AiTensor','NeurKori','VelaSynap','LogPuro','LogZen','TensorSynth','AlgoIntelli','AeroThink','VelaSynth','Brainex'
     ],
   },
   {
@@ -298,10 +238,7 @@ export const BUSINESS_CATEGORIES: CategoryData[] = [
     description: 'Online retail & marketplaces',
     gradient: ['#059669', '#10B981'],
     names: [
-      'ShopSphere','ClickCartel','TrendFusion','MarketNest','BuyHive',
-      'CartCrafters','DealDrift','MegaMart','FlashSalesHQ','NovaShops',
-      'BuzzCart','QuickDealio','OmniCommerce','EShopia','WebWagon',
-      'PixelCart','GlobeGoods','StreamShop','SaleDash','CartConnect',
+      'DasSola','VeraTrade','StoMiro','AuraBuy','Omnior','TradeShop','Clickus','ShopNova','CarAero','AeroBuzz','Buzzor','EchoClick','GloNova','Buzzer','GloLumi','KoriNova','ZenOmni','ZetaRetail','Tradeus','OmnKori','OmniBuzz','Marketly','PuroDeal','LumiDeal'
     ],
   },
   {
@@ -311,10 +248,7 @@ export const BUSINESS_CATEGORIES: CategoryData[] = [
     description: 'Blockchain & digital assets',
     gradient: ['#D97706', '#FBBF24'],
     names: [
-      'ChainCore','BlockBase','TokenTide','CryptoCanvas','LedgerLoft',
-      'CoinCraft','HashHive','WalletWave','DeFiDrift','MintMesh',
-      'NodeNest','GenesisGrid','BitBridge','NFTNova','TokenForge',
-      'ChainCraft','DecentralDawn','VaultVine','CryptoCore','BlockBlend',
+      'SatoshiWallet','AltaBlock','ZenCoin','VauAlta','ZetaLedger','LumiMint','DecentralVault','CoiOmni','NodeNode','DefLumi','KoriSatoshi','DefiBit','ChaAura','LedgerStake','WalletVault','Nften','AuraNft','Coinex','AeroGenesis','MinVera','DefiGenesis','Ledgeria','TokenBit','Ledgerify'
     ],
   },
   {
@@ -324,10 +258,7 @@ export const BUSINESS_CATEGORIES: CategoryData[] = [
     description: 'Home & space aesthetics',
     gradient: ['#92400E', '#D97706'],
     names: [
-      'SpaceSphere','DesignDrift','InteriorIQ','AestheticArc','StyleSpace',
-      'RoomRoot','DecorDrift','PlacePulse','AmbianceAura','VogueVault',
-      'LivingLoft','ThemeThread','AccentArc','ComfortCraft','SuiteStyle',
-      'NookNova','PalettePlace','DesignDen','HomoHue','RoomRise',
+      'HueVibe','SpaceTheme','MiroComfort','Themear','ZenSpace','AestheticTheme','Vibeon','DesignAesthetic','OmniNook','Hueex','StyleDecor','OrioTheme','Livingum','Paletteify','LivingAccent','ZenAesthetic','TheAero','PaletteComfort','AccentTheme','Nookis','EchoLayout','KoriAccent','Ambianceus','DenRoom'
     ],
   },
   {
@@ -337,10 +268,7 @@ export const BUSINESS_CATEGORIES: CategoryData[] = [
     description: 'Visual arts & photo studios',
     gradient: ['#374151', '#6B7280'],
     names: [
-      'LenLoft','SnapSphere','ExposureEdge','FrameFocus','ShutterShift',
-      'VisualVault','CaptureCore','ApertureArc','LightLane','FocusForge',
-      'PixelPath','MomentMesh','ShotSphere','FStop','DarkroomDrift',
-      'LensLegacy','ExposureEra','ShootSurge','VisualVine','FrameForge',
+      'PuroExposure','EchoShot','OmniPhoto','PhotoImage','SolaShot','VeraLens','Exposurear','SolaExposure','NexaVisual','VelaLight','Shutteron','Shotex','ShutterFocus','PhotoPhoto','ShootSnap','ExposureSnap','NovaFlash','OrioImage','SolaSnap','ShutterDarkroom','ShootFstop','OmniFrame','Flashify','Shutterex'
     ],
   },
   {
@@ -350,10 +278,7 @@ export const BUSINESS_CATEGORIES: CategoryData[] = [
     description: 'Advertising & brand growth',
     gradient: ['#EA580C', '#F97316'],
     names: [
-      'BrandBurst','CampaignCore','ReachRise','ImpactIQ','MarketMesh',
-      'GrowthGrid','EngageEdge','AudienceArc','ConvertCraft','InfluenceIQ',
-      'ViraVault','PitchPath','TractionTide','BrandBridge','MessageMesh',
-      'TargetTrail','BoostBase','BuzzBuild','ReachRoot','ContentCore',
+      'ContePuro','VeraEngage','OmniContent','EngageBrand','ConvertEngage','MessaZeta','VirZeta','VeraConvert','OrioInfluence','OmniMessage','ZenAudience','MarketTraction','Influenceity','Engageer','CampaiPuro','Pitchon','OmniCampaign','EchoConvert','Messagear','MarketMessage','BoostVira','Targetis','CampaignReach','ConteSola'
     ],
   },
   {
@@ -363,10 +288,7 @@ export const BUSINESS_CATEGORIES: CategoryData[] = [
     description: 'Home & office cleaning',
     gradient: ['#0EA5E9', '#38BDF8'],
     names: [
-      'SparkleSet','CleanCraft','ShineShift','MaidMesh','GleamGrid',
-      'ScrubSphere','FreshForge','PristinePath','BrightBase','CleanCore',
-      'TidyTide','PurePulse','LusterLane','CleanCanvas','PolishPeak',
-      'GlossGrid','SanitySphere','FreshFlair','ClearCraft','ScrubSurge',
+      'TidNexa','LusterPristine','EchoClean','Clearar','Gleamor','SolaLuster','GlossTidy','DusPuro','VelaMaid','BrigAura','AuraMaid','SpotlessClean','PuroShine','Tidyus','Pureio','CleOmni','TidyPure','ShiMiro','PureSpotless','CleNexa','PoliVera','Pristineum','LumiWipe','SparkZeta'
     ],
   },
   {
@@ -376,10 +298,7 @@ export const BUSINESS_CATEGORIES: CategoryData[] = [
     description: 'Pet care, grooming & supplies',
     gradient: ['#D97706', '#FBBF24'],
     names: [
-      'PawPath','FurFriends','PetPeak','TailTide','WoofWave',
-      'SniffSphere','FurForge','PawPulse','PetNest','BarkBase',
-      'MewMesh','TreatTrail','WagWave','PetPoint','FurFusion',
-      'PoochPath','KittyCore','PawPark','AnimalAura','PetCraft',
+      'BarkBark','EchoTail','PawWag','MewTreat','VelaCat','Vetum','PoochFur','PuroVet','NovaBark','MewCat','PawAnimal','LumiKitty','DogNexa','SniffVet','CatAura','FurPuro','NexaGroom','PoochGroom','Dogio','Mewor','SniAlta','KitVera','Petly','KoriWoof'
     ],
   },
   {
@@ -389,10 +308,7 @@ export const BUSINESS_CATEGORIES: CategoryData[] = [
     description: 'Parties, weddings & corporate events',
     gradient: ['#7C3AED', '#DB2777'],
     names: [
-      'GalaGrid','EventEdge','OccasionOrbit','FestivalForge','CelebCraft',
-      'SoireeSet','BanquetBase','GatherGrid','VenuVibe','EventEra',
-      'PartyPath','ShindigSphere','BashBase','GalaGlow','FeteForge',
-      'CelebSurge','EventArc','WeddingWave','FunctionFlair','GatherGate',
+      'AuraHost','Shindigum','VenuParty','Galaor','Partyus','Fiestaen','HosAura','GalaShindig','Eventor','AltaShindig','FiesMiro','VeraEvent','OccasionSoiree','FunctiNova','ZetaSoiree','InviteGala','SolaFunction','Galaex','GathNova','SolaGather','GatherFiesta','Banquetor','NovaSoiree','ParZeta'
     ],
   },
   {
@@ -402,10 +318,7 @@ export const BUSINESS_CATEGORIES: CategoryData[] = [
     description: 'Furniture & interior accessories',
     gradient: ['#4D7C0F', '#84CC16'],
     names: [
-      'DecorDrift','HomeSphere','NestNiche','DwellDream','CasaCraft',
-      'HomeHaven','LivingLoft','CozyCraft','ArtisanAbode','BlissBase',
-      'InteriorIdyll','ComfortCore','StyleSanctum','HouseHue','HearthHaven',
-      'SanctuarySphere','DecorNest','HomeHarbor','NookNice','CasaCanvas',
+      'SolaHaven','SanctuaOrio','FurnishIdyll','DecorNest','AltaHearth','Nestus','ArtisAura','PluNova','Idyllen','OrioBliss','Sanctuaryex','Styleix','SanctuaAlta','FurnishCasa','FurniOrio','VelaSanctum','IdyllIdyll','ChicSanctum','KoriAbode','FurnishFurnish','HearNexa','Homeus','SanctKori','VeraAbode'
     ],
   },
   {
@@ -415,10 +328,7 @@ export const BUSINESS_CATEGORIES: CategoryData[] = [
     description: 'Auto repair & car services',
     gradient: ['#475569', '#334155'],
     names: [
-      'AutoArc','GarageGrid','WrenchWave','DriveForge','MechanicMesh',
-      'PistonPath','EngineEdge','TorqueTide','GearGrid','AutoApex',
-      'RevRise','ThrottleThread','DriveCore','SpeedSphere','CarCraft',
-      'AutoArena','MechanicMuse','PistonPeak','WheelWork','GarageGate',
+      'TyrOrio','WrenLumi','EngineAuto','Autoia','Torquely','CarTyre','NovaPiston','TorqAura','TorqAero','RideGear','Pistonon','PistonPiston','GarageWheel','WheNexa','ZetaSpeed','MiroAuto','AeroDrive','AltaDrive','BrakeThrottle','Rideis','GearGear','EngineRide','TorqKori','MotVela'
     ],
   },
   {
@@ -428,10 +338,7 @@ export const BUSINESS_CATEGORIES: CategoryData[] = [
     description: 'Legal services & attorneys',
     gradient: ['#1E3A5F', '#2563EB'],
     names: [
-      'JusticePath','LawLoft','CounselCore','LegalLane','JurisdictionIQ',
-      'BarristerBase','AttorneyArc','LegalLegacy','CausalCounsel','JuryJunction',
-      'DefendDrift','LitigateLane','LawLedger','PrecedentPath','TrialTide',
-      'LegalLeap','StatuteSet','VerVault','CourtCraft','LawLuminary',
+      'SolaJustice','CounselPrecedent','FirAero','OrioJury','VeraJustice','StatuteLaw','PrecedeKori','PrecedentTrial','JustiPuro','JurisLegacy','LedgerLegacy','Juryis','StatuVela','RuleCourt','AttorneyFirm','Barristeris','FirmRule','Courton','EchoTrial','DefendCourt','Legacyon','Precedentus','DefeNova','LegalRule'
     ],
   },
   {
@@ -441,10 +348,7 @@ export const BUSINESS_CATEGORIES: CategoryData[] = [
     description: 'Dental care & orthodontics',
     gradient: ['#0891B2', '#22D3EE'],
     names: [
-      'BrightSmile','DentalDrift','OralOrbit','SmileSphere','ToothTide',
-      'GumGrid','PearlPath','DentalCore','CrownCraft','BraceBase',
-      'Enameledge','OrthOrbit','SmileSurge','FlossForge','DentalDawn',
-      'MolarMesh','CavityCare','SmileStream','DentalNova','PerfectPearls',
+      'CavityOral','Crownum','ZenBrace','VelaClean','PearlOrtho','Pearlon','ToothPearl','FloAero','PuroPearl','NexaGum','Whiteen','CroAlta','Denton','FlossCavity','TooLumi','EchoSmile','Molarex','OrtAura','DentOmni','BitOrio','OrioDent','WhiteCavity','PuroMolar','CavityOrtho'
     ],
   },
   {
@@ -454,10 +358,7 @@ export const BUSINESS_CATEGORIES: CategoryData[] = [
     description: 'Pharmacy & medical supplies',
     gradient: ['#059669', '#34D399'],
     names: [
-      'PharmaPulse','MediMesh','HealthHub','CureCore','RxRise',
-      'WellnessWave','MedMart','PharmPath','ClinicCraft','CareCraft',
-      'RemedyRise','RxRoot','PharmaForge','MediNova','HealthHaven',
-      'CureCraft','MedMuse','PharmaPeak','WellBase','CarePath',
+      'MartPharma','AeroHeal','AidAero','RxClinic','LifPuro','ZenDrug','PharMiro','MarOmni','AeroCure','MedEcho','WelAero','KoriHeal','SolaWell','ZenBio','SolaHealth','RxPill','Careity','Healon','PharmaMart','Cureen','MiroRemedy','MiroRoot','Rootia','WelOrio'
     ],
   },
   {
@@ -468,10 +369,7 @@ export const BUSINESS_CATEGORIES: CategoryData[] = [
     gradient: ['#B91C1C', '#EF4444'],
     popular: true,
     names: [
-      'IronHive','GrindZone','LiftLegacy','StrengthSphere','MuscleMap',
-      'PowerPoint','RepsRise','GymGlide','SweatSphere','BarbellBase',
-      'IronIQ','BulkBridge','GymGrid','MassiveMesh','LifterLoft',
-      'HeavyHive','PlatePoint','GainGrid','GymGate','IronEmpire',
+      'Trainex','KoriPlate','TrainLift','Sweator','TrainWork','Trainity','SweZeta','GrindBulk','PuroMuscle','GymSola','SquatPower','GrindFit','Squatar','LiftPower','Barbellly','StrengthRep','VeraGrind','Ironis','RepGrind','StrengthPower','HeavyStrength','GrindGrind','MuscleLift','KoriGain'
     ],
   },
   {
@@ -481,10 +379,7 @@ export const BUSINESS_CATEGORIES: CategoryData[] = [
     description: 'Home & office furniture',
     gradient: ['#92400E', '#B45309'],
     names: [
-      'WoodWave','CraftChair','TimberTide','FurnitureForge','WoodWork',
-      'ChairCraft','TableTide','GrainGrid','LumberLoft','WoodNest',
-      'SolidSet','CedarCore','OakOrbit','MaplesMesh','WoodWise',
-      'JoineryJunction','CabinetCraft','WoodWarden','CarpentryCo','TimberedTide',
+      'Lumberify','CedarCarpentry','VeraLumber','MapleSofa','VelaWood','BedFurnish','PuroGrain','AeroWood','CedAura','NovaGrain','LumiDesk','LumiCarpentry','VeraGrain','Chairus','GraNova','Chairor','TimberCraft','Oaken','OakNova','FurnishCarpentry','CabinLumi','SheAura','FurniMiro','CarpentAlta'
     ],
   },
   {
@@ -494,10 +389,7 @@ export const BUSINESS_CATEGORIES: CategoryData[] = [
     description: 'Hotels & accommodations',
     gradient: ['#B45309', '#D97706'],
     names: [
-      'GrandGate','SuiteSet','LuxeLounge','HotelHarbor','ResidenceRise',
-      'VelvetVault','GoldenGrid','EliteEstate','MarbleManor','RoyalRoost',
-      'LodgeLane','ChambersChic','PremierPlace','HospitalHaven','GrandGlide',
-      'SuiteStream','AtriumArc','BelvedereBase','PlazaPeak','HotelHaven',
+      'EchoLounge','ResidenNova','LoungeLodge','NovaChambers','RoomChambers','Lodgeis','RooOmni','AltaLounge','PuroVelvet','RooPuro','Estateix','ResidenceChambers','VelvetVelvet','AtriPuro','ManorStay','LuxeChambers','VelvetStay','AtriZeta','StaNexa','AuraRoom','VelaAtrium','VelvOrio','Luxeis','ChambersLodge'
     ],
   },
   {
@@ -507,10 +399,7 @@ export const BUSINESS_CATEGORIES: CategoryData[] = [
     description: 'Resorts & holiday destinations',
     gradient: ['#0284C7', '#06B6D4'],
     names: [
-      'TropicalTide','PalmPath','IslandIQ','LagoonLoft','SunSphere',
-      'WavesWard','BeachBase','OceanOrbit','CoralCore','SunsetSurge',
-      'MarineManor','TropicTree','ReefRetreat','AzureArc','BreezeBase',
-      'ShorelineSphere','CoastalCraft','TidalTide','IsleIQ','SunSanctuary',
+      'ZenBeach','SanVera','Islander','AzureBeach','ReeVera','TropicOmni','SolaLagoon','Beachity','LumiSun','Sunity','VelaSunset','Sandis','BreeVela','BreeEcho','Spaio','ReefBeach','OmniTropical','AzureCoastal','ZetaRest','PalAura','ReeZen','PuroSpa','ReefBreeze','SanOmni'
     ],
   },
   {
@@ -521,10 +410,7 @@ export const BUSINESS_CATEGORIES: CategoryData[] = [
     gradient: ['#BE185D', '#EC4899'],
     popular: true,
     names: [
-      'GlamourTree','StyleNest','ChromaSalon','VelvetGlow','ChicLane',
-      'ManeMuse','PurePolish','BeautyAura','LuxeLocks','SilkShear',
-      'GlossGarden','TrendTress','OpalSpa','MirrorMane','AuraShears',
-      'CharmCove','GlowTrend','LuxeDiva','FlareSalon','IconixBeauty',
+      'SheOmni','Locksor','Cutum','ZenMirror','Purely','LumiShear','PureVelvet','PuroTrend','GlossShear','DivaDiva','Pureia','ManMiro','SalonChroma','Pureen','SalonHair','SolaMirror','ChaSola','HaiVela','Opalon','ChicTrend','SolaLocks','ChromaHair','GloVera','Trendor'
     ],
   },
   {
@@ -534,10 +420,7 @@ export const BUSINESS_CATEGORIES: CategoryData[] = [
     description: 'Wellness, relaxation & therapy',
     gradient: ['#7C3AED', '#A78BFA'],
     names: [
-      'SereneSet','BlissBath','SoakSphere','ZenZone','RelaxRoute',
-      'TranquilTide','SpaStream','RejuvenRoot','PeacefulPath','WellnessWard',
-      'SootheSphere','CalmCraft','RestoreRoot','SanctuarySphere','MendMesh',
-      'HealHarbor','SpaAura','RenewalRise','RefreshRoot','ReplenishPoint',
+      'Rejuvenus','PuroHeal','EchoMassage','Relaxus','SoakReplenish','RejuvNexa','Massageix','Peaceer','MiroTranquil','Zenum','Blissix','KoriSoothe','BliVera','RefreshRejuven','Replenishus','PuroSoothe','LumiCalm','OmniSoak','VeraMend','Tranquilor','RefreZen','RepleniSola','VelaSoothe','OmniBliss'
     ],
   },
   {
@@ -547,10 +430,7 @@ export const BUSINESS_CATEGORIES: CategoryData[] = [
     description: 'Barber shops & men\'s grooming',
     gradient: ['#1E40AF', '#3B82F6'],
     names: [
-      'SharpShave','BladeBase','TrimTide','BarberBureau','CutCraft',
-      'RazorRise','ClipCore','GradeGrid','LineUp','BarberBlend',
-      'FadeForge','ScissorSphere','SharpSet','GroomGrid','NickNest',
-      'BarberAura','KingsCut','ShaveSurge','ClipCraft','ClassicCut',
+      'BladeBuzz','Kingsis','Cutio','Bureauity','RazorGrade','RazorBuzz','Bladeix','EchoScissor','ScissorComb','Razorio','Fadeen','BeardKings','EchoClip','BuzzBuzz','Clipix','VeraSharp','AeroClassic','MiroClassic','KoriClip','LineClassic','CombClip','KingsClassic','LineComb','Sharpar'
     ],
   },
 ];
