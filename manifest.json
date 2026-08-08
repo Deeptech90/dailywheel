@@ -1,0 +1,16 @@
+{
+  "name": "Daily Life Random Decision Maker",
+  "short_name": "DecisionWheel",
+  "description": "Spin the wheel and let fate decide your next meal, movie, music, or travel destination!",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#0f0c29",
+  "theme_color": "#7c3aed",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en-US",
+  "icons": [
+    { "src": "icons/icon-192x192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable any" },
+    { "src": "icons/icon-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable any" }
+  ]
+}

@@ -1,0 +1,22 @@
+﻿# ── Zip archives (build artifacts, not source) ──
+*.zip
+
+# ── Build / utility scripts ──
+Create-ZIP.bat
+Create-ZIP.ps1
+download-zip.html
+generate-icons.html
+
+# ── Old / duplicate project folders ──
+Spinning_Wheel/
+uniquebusinessname/
+
+# ── OS files ──
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Editor ──
+.vscode/
+*.suo
+*.user
