@@ -74,8 +74,8 @@ export function buildMinimalistPrompt(inputs: LogoInputs, prefs: DesignPrefs): s
     `Layout: ${prefs.layout}. Transparent background.`;
 }
 
-export function buildNegativePrompt(inputs: LogoInputs): string {
-  const extras = inputs.styleKeywords.includes('mascot') ? '' : ', cartoon characters unless requested';
+export function buildNegativePrompt(inputs: LogoInputs, prefs: DesignPrefs): string {
+  const extras = prefs.templateStyle === 'mascot' ? '' : ', cartoon characters unless requested';
   return `Exclude: blurry, pixelated, distorted, low-resolution, watermark, signature, ` +
     `random background, extra unnecessary text, photography, oil paint, sketch lines${extras}, ` +
     `3D renders unless specified, excessive gradients, drop shadows, clipart, stock imagery.`;
@@ -92,7 +92,7 @@ export function buildPromptSet(
   const detailed = buildDetailedPrompt(inputs, prefs);
   const creative = buildCreativePrompt(inputs, prefs);
   const minimalist = buildMinimalistPrompt(inputs, prefs);
-  const negative = buildNegativePrompt(inputs);
+  const negative = buildNegativePrompt(inputs, prefs);
 
   const variants: Record<PromptVariant, string> = { concise, detailed, creative, minimalist };
 

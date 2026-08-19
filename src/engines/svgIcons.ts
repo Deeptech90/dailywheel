@@ -8,7 +8,7 @@ export interface SvgIcon {
   id: string;
   tags: string[];
   viewBox: string;
-  path: string;          // single <path d="..."/> value
+  path?: string;         // single <path d="..."/> value
   paths?: string[];      // multi-path icons
   strokeWidth?: number;  // defaults to 0 (filled); set for outline icons
   filled?: boolean;
@@ -439,7 +439,7 @@ export function renderIconSvg(
 
   const pathDefs = icon.paths
     ? icon.paths.map(p => `<path d="${p}" fill="${fill}" stroke="${stroke}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round"/>`).join('\n    ')
-    : `<path d="${icon.path}" fill="${fill}" stroke="${stroke}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round"/>`;
+    : `<path d="${icon.path ?? ''}" fill="${fill}" stroke="${stroke}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round"/>`;
 
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${icon.viewBox}" width="${size}" height="${size}">
   ${pathDefs}
