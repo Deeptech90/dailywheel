@@ -1,11 +1,9 @@
-'use client';
-
 import { useEffect } from 'react';
 
-const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
-const CLARITY_ID = process.env.NEXT_PUBLIC_CLARITY_ID;
-const HOTJAR_ID = process.env.NEXT_PUBLIC_HOTJAR_ID;
-const HOTJAR_SV = process.env.NEXT_PUBLIC_HOTJAR_SV || '6';
+const GA_ID = import.meta.env.VITE_GA_MEASUREMENT_ID as string | undefined;
+const CLARITY_ID = import.meta.env.VITE_CLARITY_PROJECT_ID as string | undefined;
+const HOTJAR_ID = import.meta.env.VITE_HOTJAR_ID as string | undefined;
+const HOTJAR_SV = (import.meta.env.VITE_HOTJAR_SV as string | undefined) || '6';
 
 export function TrackingScripts() {
   useEffect(() => {

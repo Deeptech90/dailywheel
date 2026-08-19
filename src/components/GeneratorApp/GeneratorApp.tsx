@@ -285,9 +285,10 @@ export function GeneratorApp() {
 
         <div className={styles.headerActions}>
           <nav className={styles.desktopNav} aria-label="Main navigation">
-            <Link href="/"        className={styles.desktopNavLink}>Generator</Link>
-            <Link href="/about"   className={styles.desktopNavLink}>About</Link>
-            <Link href="/contact" className={styles.desktopNavLink}>Contact</Link>
+            <Link href="/"           className={styles.desktopNavLink}>Generator</Link>
+            <Link href="/logo-maker" className={styles.desktopNavLink}>Logo Maker</Link>
+            <Link href="/about"      className={styles.desktopNavLink}>About</Link>
+            <Link href="/contact"    className={styles.desktopNavLink}>Contact</Link>
           </nav>
 
           <button className={styles.iconBtn} onClick={toggleTheme} aria-label="Toggle theme">

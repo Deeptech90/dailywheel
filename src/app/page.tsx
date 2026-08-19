@@ -216,6 +216,7 @@ export default function Home() {
               <a href="#" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '0.9rem' }}>Business Mode</a>
               <a href="#" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '0.9rem' }}>Daily Choices</a>
               <a href="#" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '0.9rem' }}>Spirit Animals</a>
+              <a href="/logo-maker" style={{ color: 'var(--primary)', textDecoration: 'none', fontSize: '0.9rem', fontWeight: 600 }}>✦ Logo Maker</a>
             </div>
           </div>
 

@@ -12,6 +12,7 @@ const OfflinePage = lazy(() => import('./app/offline/page'));
 const DashboardPage = lazy(() => import('./app/dashboard/page'));
 const PricingPage = lazy(() => import('./app/pricing/page'));
 const AdminPage = lazy(() => import('./app/admin/page'));
+const LogoMakerPage = lazy(() => import('./app/logo-maker/page'));
 const NotFound = lazy(() => import('./app/not-found'));
 
 const BlogIndexPage = lazy(() => import('./components/Blog/BlogIndexPage').then(m => ({ default: m.BlogIndexPage })));
@@ -51,6 +52,7 @@ export function App() {
     if (currentPath === '/dashboard') return <DashboardPage />;
     if (currentPath === '/pricing') return <PricingPage />;
     if (currentPath === '/admin') return <AdminPage />;
+    if (currentPath === '/logo-maker') return <LogoMakerPage />;
     if (currentPath === '/blog') return <BlogIndexPage />;
     
     if (currentPath.startsWith('/blog/')) {
