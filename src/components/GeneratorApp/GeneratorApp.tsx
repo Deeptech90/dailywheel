@@ -101,7 +101,7 @@ function reducer(state: AppState, action: AppAction): AppState {
 }
 
 /* ── Component ───────────────────────────────────────────── */
-export function GeneratorApp() {
+export function GeneratorApp({ initialMode }: { initialMode?: WheelMode } = {}) {
   const [state, dispatch] = useReducer(reducer, clientInitialState);
   const { hasReachedGenerationLimit, showAds } = useSubscription();
   const [isHydrated, setIsHydrated] = useState(false);
@@ -132,7 +132,8 @@ export function GeneratorApp() {
     const loadedSegments = loadSegments();
     const loadedHistory = loadHistory();
     const loadedSound = loadSoundEnabled();
-    const modeStr = localStorage.getItem('ubn_wheel_mode') as 'business' | 'daily' | 'animal' | null;
+    // Use initialMode prop if provided (for dedicated route pages), otherwise fall back to localStorage
+    const modeStr = initialMode || (localStorage.getItem('ubn_wheel_mode') as 'business' | 'daily' | 'animal' | null);
     
     dispatch({ type: 'HYDRATE', payload: {
       segments: loadedSegments,
@@ -140,8 +141,18 @@ export function GeneratorApp() {
       soundEnabled: loadedSound,
       wheelMode: modeStr || 'business'
     }});
+
+    // For animal mode, preload segments immediately
+    if ((modeStr || 'business') === 'animal') {
+      const animalSegments: Segment[] = ANIMALS.map((a, idx) => ({
+        id: `anim-${idx}`, label: a.name, color: a.color, icon: a.icon, trait: a.trait,
+      }));
+      dispatch({ type: 'SET_SEGMENTS', segments: animalSegments });
+      setNamesLoaded(true);
+    }
+
     setIsHydrated(true);
-  }, []);
+  }, [initialMode]);
 
   useEffect(() => {
     // 2. Cloud merge for history

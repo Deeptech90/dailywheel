@@ -1,13 +1,15 @@
 import styles from './LandingHero.module.css';
 
+// NOTE: The H1 for the homepage now lives in src/app/page.tsx for SEO focus.
+// This component renders an animated visual sub-heading only — no <h1> tag here.
 export function LandingHero() {
   return (
-    <section className={styles.hero} aria-label="Hero">
-      <h1 className={styles.headline}>
-        Find Your Perfect Business Name
-      </h1>
+    <section className={styles.hero} aria-label="Hero tagline">
+      <p className={styles.headline}>
+        The Physics-Powered Name Generator
+      </p>
       <p className={styles.subheading}>
-        Generate a unique business name instantly with our interactive spinning wheel.
+        Spin the Anti-Gravity Wheel — get a unique, brandable business name instantly.
       </p>
     </section>
   );
