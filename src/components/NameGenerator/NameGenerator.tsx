@@ -77,7 +77,7 @@ export const NameGenerator: React.FC = () => {
   const [selectedStyle, setSelectedStyle] = useState<NamingStyle>('brandable');
   const [randomness, setRandomness] = useState<RandomnessLevel>('medium');
   const [lengthFilter, setLengthFilter] = useState<NameLengthFilter>('all');
-  const [showFilters, setShowFilters] = useState<boolean>(false);
+  const [showFilters, setShowFilters] = useState<boolean>(true);
 
   const [names, setNames] = useState<GeneratedBusinessName[]>([]);
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
@@ -242,11 +242,16 @@ export const NameGenerator: React.FC = () => {
       </div>
 
       {/* 3-Axis Filter Matrix Controls (Collapsible or Always Active) */}
-      <div className={`${styles.filterMatrix} ${showFilters ? styles.filterMatrixOpen : ''}`}>
+      <div className={`${styles.filterMatrix} ${showFilters ? styles.filterMatrixOpen : styles.filterMatrixCollapsed}`}>
         <div className={styles.filterGroup}>
           <div className={styles.filterGroupHeader}>
-            <Layers size={16} />
-            <span>1. Naming Style Taxonomy (8 Categories)</span>
+            <div className={styles.headerTitleWrap}>
+              <span className={styles.headerIconBadge} style={{ background: 'rgba(99, 102, 241, 0.12)', color: '#6366F1' }}>
+                <Layers size={15} />
+              </span>
+              <span className={styles.filterSectionTitle}>1. Naming Style Taxonomy</span>
+            </div>
+            <span className={styles.filterSubtext}>8 AI Generation Archetypes</span>
           </div>
           <div className={styles.stylePills}>
             {NAMING_STYLES.map(st => (
@@ -270,15 +275,21 @@ export const NameGenerator: React.FC = () => {
           {/* Randomness / Temperature */}
           <div className={styles.subFilterGroup}>
             <div className={styles.filterGroupHeader}>
-              <TrendingUp size={16} />
-              <span>2. Generation Randomness (Decoding Temperature)</span>
+              <div className={styles.headerTitleWrap}>
+                <span className={styles.headerIconBadge} style={{ background: 'rgba(245, 158, 11, 0.12)', color: '#F59E0B' }}>
+                  <TrendingUp size={15} />
+                </span>
+                <span className={styles.filterSectionTitle}>2. Generation Randomness</span>
+              </div>
+              <span className={styles.filterSubtext}>Decoding Temperature</span>
             </div>
             <div className={styles.segmentedControl}>
               {RANDOMNESS_OPTIONS.map(opt => (
                 <button
                   key={opt.id}
                   type="button"
-                  className={`${styles.segmentBtn} ${randomness === opt.id ? styles.segmentBtnActive : ''}`}
+                  data-randomness={opt.id}
+                  className={`${styles.segmentBtn} ${styles[`rand_${opt.id}`]} ${randomness === opt.id ? styles.segmentBtnActive : ''}`}
                   onClick={() => {
                     setRandomness(opt.id);
                     runGeneration();
@@ -294,15 +305,21 @@ export const NameGenerator: React.FC = () => {
           {/* Name Length Filter */}
           <div className={styles.subFilterGroup}>
             <div className={styles.filterGroupHeader}>
-              <Globe size={16} />
-              <span>3. String Length Filter</span>
+              <div className={styles.headerTitleWrap}>
+                <span className={styles.headerIconBadge} style={{ background: 'rgba(14, 165, 233, 0.12)', color: '#0EA5E9' }}>
+                  <Globe size={15} />
+                </span>
+                <span className={styles.filterSectionTitle}>3. String Length Filter</span>
+              </div>
+              <span className={styles.filterSubtext}>Character Count</span>
             </div>
             <div className={styles.segmentedControl}>
               {LENGTH_OPTIONS.map(len => (
                 <button
                   key={len.id}
                   type="button"
-                  className={`${styles.segmentBtn} ${lengthFilter === len.id ? styles.segmentBtnActive : ''}`}
+                  data-length={len.id}
+                  className={`${styles.segmentBtn} ${styles[`len_${len.id}`]} ${lengthFilter === len.id ? styles.segmentBtnActive : ''}`}
                   onClick={() => {
                     setLengthFilter(len.id);
                     runGeneration();
@@ -320,7 +337,8 @@ export const NameGenerator: React.FC = () => {
       {/* Results Header Bar */}
       <div className={styles.resultsBar}>
         <div className={styles.resultsCount}>
-          <span>Showing <strong>{names.length}</strong> brandable name ideas for &ldquo;{keywords}&rdquo;</span>
+          <span className={styles.resultsCountBadge}>{names.length} Ideas</span>
+          <span>Brandable names for <span className={styles.resultsKeywordHighlight}>&ldquo;{keywords}&rdquo;</span></span>
         </div>
 
         <div className={styles.resultsActions}>
@@ -330,7 +348,7 @@ export const NameGenerator: React.FC = () => {
             onClick={() => setIsSavedDrawerOpen(true)}
             id="view-saved-names-btn"
           >
-            <Heart size={16} fill={savedNames.length > 0 ? '#EF4444' : 'none'} color={savedNames.length > 0 ? '#EF4444' : 'currentColor'} />
+            <Heart size={16} fill={savedNames.length > 0 ? '#EF4444' : 'none'} color={savedNames.length > 0 ? '#EF4444' : '#DC2626'} />
             <span>Saved Names</span>
             {savedNames.length > 0 && (
               <span className={styles.savedBadge}>{savedNames.length}</span>
