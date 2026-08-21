@@ -61,7 +61,6 @@ function generateSlug(name) {
 }
 
 // ── Homepage pre-rendered HTML content (injected into <div id="root">) ────────
-// This makes view-source return real, crawlable text instead of an empty shell.
 const HOMEPAGE_PRERENDER_CONTENT = `
 <div id="root">
   <div style="min-height:100vh;font-family:system-ui,sans-serif;color:#111827">
@@ -78,145 +77,78 @@ const HOMEPAGE_PRERENDER_CONTENT = `
       </style>
     </noscript>
     <main class="seo-prerender">
-      <h1>Free Business Name Generator &mdash; Spin the Wheel for Instant Brand Name Ideas</h1>
+      <h1>AI Business Name Generator &mdash; Generate Unique Brand Names &amp; Vector Logos Instantly</h1>
       <p>
-        Struggling to name your new venture? UniqueBusinessName.com&apos;s physics-driven Anti-Gravity Wheel
-        generates unique, creative, and brandable business name ideas in seconds &mdash; completely free.
-        Choose from dozens of industry categories (tech, food, fashion, fitness, and more), spin the wheel,
-        and instantly get a curated shortlist of names worth building a brand around. Trusted by startups,
-        freelancers, and small business owners who want a name that stands out from day one.
-        No sign-up. No limits. Just great names.
+        UniqueBusinessName.com is an enterprise-grade AI branding platform that unites a Namelix-grade Business Name Generator
+        with a Turbologo-grade Vector Logo Creator Suite. Configure 8 distinct naming style taxonomies, temperature decoding
+        parameters, and string length constraints. Discover brandable company names, check real-time domain availability
+        across .com, .io, .ai, and .app TLDs, and export complete vector brand asset packages in a single click.
       </p>
 
-      <h2>How the Business Name Generator Works</h2>
+      <h2>How the AI Naming &amp; Logo Discovery Pipeline Works</h2>
       <ol>
-        <li><strong>Choose your industry category</strong> &mdash; Select from 30+ categories such as Restaurant, Tech Startup, Clothing Brand, and more. Each category has a curated pool of highly brandable names.</li>
-        <li><strong>Load the wheel</strong> &mdash; Click &ldquo;Load Names&rdquo; and the wheel is populated with 10 randomly selected names from your chosen category. Every load produces a fresh combination.</li>
-        <li><strong>Spin it</strong> &mdash; Hit the big &ldquo;SPIN THE WHEEL&rdquo; button. The Anti-Gravity physics engine simulates real angular momentum, friction, and weighted deceleration.</li>
-        <li><strong>Check your winner</strong> &mdash; When the wheel stops, your business name idea is revealed. Check domain availability, spin again, or save your favourite to history.</li>
+        <li><strong>Enter Keywords or Business Concepts</strong> &mdash; Type your venture theme and configure your desired naming style taxonomy (Brandable, Compound, Alt Spellings, Real Words, Rhyming, Non-English Roots).</li>
+        <li><strong>Tune Decoding Randomness &amp; Length</strong> &mdash; Select low, medium, or high temperature variability and choose short, medium, or long character constraints.</li>
+        <li><strong>Verify Real-Time Domain Availability</strong> &mdash; As candidate names are synthesized, asynchronous DNS over HTTPS lookups verify .com, .io, .ai, and .app registration statuses.</li>
+        <li><strong>1-Click Vector Logo Creation</strong> &mdash; Select &ldquo;Create Logo with This Name&rdquo; to instantly launch the 6-stage Logo Creator Suite, customize typography and colors, preview on product mockups, and export vector SVGs and transparent PNGs.</li>
       </ol>
 
-      <h2>Tips for Choosing a Great Business Name</h2>
+      <h2>Tips for Choosing a High-Conversion Business Name</h2>
 
-      <h3>Keep It Short and Memorable</h3>
+      <h3>1. Keep It Short and Memorable</h3>
       <p>
-        Aim for one to three syllables. Short names are easier to say, spell, and remember.
-        Think of iconic brands &mdash; Apple, Nike, Stripe, Lyft. If someone has to ask you to spell
-        your business name twice over the phone, it&apos;s a red flag.
+        Aim for 1 to 3 syllables. Short names are easier to pronounce, spell, and recall.
+        Think of iconic tech giants like Apple, Stripe, Lyft, and Google.
       </p>
 
-      <h3>Check Domain Availability First</h3>
+      <h3>2. Verify Domain Availability Immediately</h3>
       <p>
-        Before you fall in love with a name, verify the .com domain is available. A .com is not strictly
-        required in 2026 &mdash; .io, .co, and .ai are widely accepted &mdash; but .com still carries the
-        most credibility. Run a quick search on Namecheap or GoDaddy before registering any business entity.
+        Securing a clean .com, .io, .ai, or .app domain is essential for credibility and brand discovery.
+        Our asynchronous lookup engine tests domain registration status in real time.
       </p>
 
-      <h3>Avoid Trademark Conflicts</h3>
+      <h3>3. Avoid Trademark Conflicts</h3>
       <p>
-        Using a trademarked name can result in a cease-and-desist letter and a forced rebrand.
-        Always search the USPTO TESS database (for the US) before filing your business registration.
-        Pay attention to confusingly similar names in the same industry class, not just identical matches.
-      </p>
-
-      <h3>Make It Easy to Say and Spell</h3>
-      <p>
-        Word-of-mouth is still the most powerful marketing channel. If your business name is difficult
-        to pronounce or has an unexpected spelling, you&apos;re working against every referral.
-        Test shortlisted names by saying them out loud to someone unfamiliar with the brand.
+        Always search the USPTO TESS database before registering your business entity to avoid conflicting with existing trademarks.
       </p>
 
       <h2>Frequently Asked Questions</h2>
 
       <div class="faq-item">
-        <p class="faq-q">Is the business name generator free to use?</p>
-        <p>Yes &mdash; UniqueBusinessName.com is 100% free. There are no hidden fees, no credit card required, and no limit on the number of spins. Generate as many business name ideas as you need, completely free of charge.</p>
+        <p class="faq-q">Is the AI business name generator free to use?</p>
+        <p>Yes &mdash; UniqueBusinessName.com is 100% free with no credit card required. Generate unlimited brand name ideas and test visual logo designs without limits.</p>
       </div>
 
       <div class="faq-item">
-        <p class="faq-q">Can I trademark a name I get from this tool?</p>
-        <p>The names generated are not pre-cleared for trademark. Before attempting to register a name with the USPTO (or your country&apos;s equivalent), you must conduct a thorough trademark search. A name that appears brandable may already be in use. Consult a trademark attorney before filing.</p>
+        <p class="faq-q">Can I instantly create a logo for a generated business name?</p>
+        <p>Yes. Every name card features a 1-click &ldquo;Create Logo with This Name&rdquo; button that seamlessly transfers your active brand name into the Logo Creator Suite without losing state.</p>
       </div>
 
       <div class="faq-item">
-        <p class="faq-q">How do I check if a business name is already taken?</p>
-        <p>Start with a free search on the USPTO TESS database (tmsearch.uspto.gov) for trademark conflicts. Also check your state&apos;s Secretary of State business name database. Finally, search Google and check domain availability &mdash; a name with an available .com is a strong signal it&apos;s not heavily used.</p>
+        <p class="faq-q">What file formats are provided with logo exports?</p>
+        <p>You can export vector SVG files, high-resolution transparent PNGs at 512px, 1024px, and 2048px resolutions, and print-ready PDF brand sheets.</p>
       </div>
 
-      <div class="faq-item">
-        <p class="faq-q">How does the business name generator work?</p>
-        <p>We maintain a curated database of highly brandable names across dozens of industries. When you select a category, the tool selects a random subset of names and loads them onto the wheel. Our physics engine simulates realistic angular momentum, friction, and deceleration to pick a winner.</p>
-      </div>
-
-      <div class="faq-item">
-        <p class="faq-q">Can I use this tool for things other than business names?</p>
-        <p>Yes. Visit our Decision Wheel at /decision-wheel to enter custom options for any random choice. Or try the Spirit Animal Wheel at /spirit-animal for a fun personality reveal. All three modes use the same physics-driven wheel.</p>
-      </div>
-
-      <div class="faq-item">
-        <p class="faq-q">What makes a good business name?</p>
-        <p>The best business names are short (1-3 syllables), easy to spell and pronounce, and meaningful or evocative. They should have an available .com domain and no trademark conflicts. Avoid overly generic names that are difficult to protect legally.</p>
-      </div>
-
-      <p><a href="/decision-wheel">Try the Decision Wheel</a> &bull; <a href="/spirit-animal">Try the Spirit Animal Wheel</a></p>
+      <p><a href="/logo-maker">Try the Logo Creator Suite</a> &bull; <a href="/pricing">View Pro Features</a></p>
     </main>
   </div>
 </div>`;
 
-// ── Decision Wheel pre-rendered content ───────────────────────────────────────
-const DECISION_WHEEL_PRERENDER = `
+// ── Logo Maker pre-rendered content ──────────────────────────────────────────
+const LOGO_MAKER_PRERENDER = `
 <div id="root">
   <div style="min-height:100vh;font-family:system-ui,sans-serif;color:#111827">
     <main style="max-width:900px;margin:0 auto;padding:2rem 1.5rem">
-      <h1 style="font-size:2rem;font-weight:900;line-height:1.1;margin-bottom:1rem">Free Decision Wheel Spinner &mdash; Let Fate Decide for You</h1>
+      <h1 style="font-size:2rem;font-weight:900;line-height:1.1;margin-bottom:1rem">Free Business Logo Creator Suite &mdash; Vector Brand Generator</h1>
       <p style="color:#4B5563;line-height:1.7;margin-bottom:1.5rem">
-        Can&apos;t make up your mind? Our free decision wheel spinner takes the stress out of everyday choices.
-        Enter your custom options, give the wheel a spin, and let physics decide. Whether you&apos;re picking
-        a restaurant, choosing a movie, settling a debate with friends, or making any other daily decision &mdash;
-        the Anti-Gravity Decision Wheel delivers a fair, random, and satisfying answer every time.
-        No sign-up needed. 100% free.
+        Design professional vector logos in minutes with our 6-stage guided logo wizard and interactive canvas customizer.
+        Explore curated color palettes, searchable SVG vector symbols, live font styling, and real-world mockup studio previews.
+        Export print-ready SVG, transparent PNG, and PDF files with 100% commercial ownership.
       </p>
-      <h2 style="font-size:1.5rem;font-weight:800;margin:2rem 0 0.75rem">How the Decision Wheel Works</h2>
-      <ol style="padding-left:1.5rem;color:#4B5563;line-height:1.8">
-        <li><strong>Enter your choices</strong> &mdash; type each option into the Daily Choices panel. Add up to 20 custom options.</li>
-        <li><strong>Load the wheel</strong> &mdash; click &ldquo;Load Wheel&rdquo; to populate the spinner with your options.</li>
-        <li><strong>Spin it</strong> &mdash; press SPIN THE WHEEL or tap Space. The physics engine takes over.</li>
-        <li><strong>Accept the result</strong> &mdash; the wheel decelerates with real momentum and lands on a winner. Decision made!</li>
-      </ol>
-      <p style="margin-top:2rem;color:#4B5563"><a href="/">Business Name Generator</a> &bull; <a href="/spirit-animal">Spirit Animal Wheel</a></p>
+      <p style="margin-top:2rem;color:#4B5563"><a href="/">Back to AI Name Generator</a></p>
     </main>
   </div>
 </div>`;
-
-// ── Spirit Animal pre-rendered content ────────────────────────────────────────
-const SPIRIT_ANIMAL_PRERENDER = `
-<div id="root">
-  <div style="min-height:100vh;font-family:system-ui,sans-serif;color:#111827">
-    <main style="max-width:900px;margin:0 auto;padding:2rem 1.5rem">
-      <h1 style="font-size:2rem;font-weight:900;line-height:1.1;margin-bottom:1rem">Spirit Animal Wheel &mdash; Spin to Discover Your Inner Animal</h1>
-      <p style="color:#4B5563;line-height:1.7;margin-bottom:1.5rem">
-        Which creature speaks to your soul today? Spin the Anti-Gravity Spirit Animal Wheel and discover
-        which animal&apos;s energy is guiding you. Our curated collection of spirit animals &mdash; from the
-        wise Owl to the bold Lion &mdash; each carry unique personality traits and symbolic meanings.
-        Free to play, no sign-up required.
-      </p>
-      <h2 style="font-size:1.5rem;font-weight:800;margin:2rem 0 0.75rem">Spirit Animals &amp; Their Meanings</h2>
-      <ul style="padding-left:1.5rem;color:#4B5563;line-height:2">
-        <li><strong>Eagle</strong> &mdash; Vision, freedom, and spiritual awareness</li>
-        <li><strong>Wolf</strong> &mdash; Loyalty, intuition, and pack strength</li>
-        <li><strong>Lion</strong> &mdash; Courage, leadership, and confidence</li>
-        <li><strong>Fox</strong> &mdash; Cleverness, adaptability, and quick thinking</li>
-        <li><strong>Dolphin</strong> &mdash; Playfulness, intelligence, and harmony</li>
-        <li><strong>Bear</strong> &mdash; Grounding, strength, and introspection</li>
-        <li><strong>Butterfly</strong> &mdash; Transformation, growth, and renewal</li>
-        <li><strong>Turtle</strong> &mdash; Patience, wisdom, and steady progress</li>
-      </ul>
-      <p style="margin-top:2rem;color:#4B5563"><a href="/">Business Name Generator</a> &bull; <a href="/decision-wheel">Decision Wheel</a></p>
-    </main>
-  </div>
-</div>`;
-
-// ─────────────────────────────────────────────────────────────────────────────
 
 async function main() {
   console.log('🚀 Starting Post-Build SEO Generation...');
@@ -230,8 +162,7 @@ async function main() {
 
   let sitemapEntries = [
     { url: '/',                priority: '1.0', changefreq: 'daily' },
-    { url: '/decision-wheel',  priority: '0.9', changefreq: 'monthly' },
-    { url: '/spirit-animal',   priority: '0.9', changefreq: 'monthly' },
+    { url: '/logo-maker',      priority: '0.9', changefreq: 'monthly' },
     { url: '/about',           priority: '0.7', changefreq: 'monthly' },
     { url: '/pricing',         priority: '0.8', changefreq: 'monthly' },
     { url: '/blog',            priority: '0.8', changefreq: 'weekly' },
@@ -243,11 +174,11 @@ async function main() {
   // ── Patch homepage HTML with pre-rendered content ─────────────────────────
   const patchIndexHtml = (htmlTemplate, prerenderContent, opts = {}) => {
     const {
-      title = 'Free Business Name Generator | Spin the Anti-Gravity Wheel | UniqueBusinessName.com',
-      description = 'Generate unique, creative, and brandable business names instantly. Use our physics-driven Anti-Gravity Wheel to pick the perfect name. 100% free.',
+      title = 'AI Business Name Generator & Logo Creator | UniqueBusinessName.com',
+      description = 'Generate catchy, brandable, high-conversion business names and design vector logo packages instantly. Real-time domain checking and mockup studio previews. 100% free.',
       canonical = `${SITE_URL}/`,
-      ogTitle = 'Free Business Name Generator — Anti-Gravity Wheel',
-      ogDescription = 'Spin the physics-driven wheel to generate unique, brandable business names. 100% free.',
+      ogTitle = 'AI Business Name Generator & Logo Creator Suite',
+      ogDescription = 'Generate brandable business names, check domain availability, and create vector logos with our enterprise AI branding engine.',
       ogUrl = `${SITE_URL}/`,
       extraSchema = '',
     } = opts;
@@ -269,6 +200,14 @@ async function main() {
       .replace('<div id="root"></div>', prerenderContent);
   };
 
+  // ── Helper: write a static route shell ────────────────────────────────────
+  const writeStaticPage = (routePath, prerenderContent, opts = {}) => {
+    const fullDir = path.join(DIST_DIR, routePath);
+    if (!fs.existsSync(fullDir)) fs.mkdirSync(fullDir, { recursive: true });
+    const modifiedHtml = patchIndexHtml(indexHtml, prerenderContent, opts);
+    fs.writeFileSync(path.join(fullDir, 'index.html'), modifiedHtml);
+  };
+
   // ── Homepage ──────────────────────────────────────────────────────────────
   const homepageFaqSchema = JSON.stringify({
     "@context": "https://schema.org",
@@ -276,119 +215,64 @@ async function main() {
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "Is the business name generator free to use?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Yes — UniqueBusinessName.com is 100% free. There are no hidden fees, no credit card required, and no limit on the number of spins. Generate as many business name ideas as you need, completely free of charge." }
+        "name": "How does the AI Business Name Generator work?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Our AI naming engine leverages large language models and phonetic synthesis algorithms tuned for morphological brandability across 8 naming styles with real-time domain lookups." }
       },
       {
         "@type": "Question",
-        "name": "Can I trademark a name I get from this tool?",
-        "acceptedAnswer": { "@type": "Answer", "text": "The names generated by this tool are not pre-cleared for trademark. Before attempting to register a name with the USPTO (or your country's equivalent), you must conduct a thorough trademark search. A name that appears brandable may already be in use. We strongly recommend consulting a trademark attorney before filing." }
+        "name": "Can I instantly create a logo for a generated business name?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Every generated name card has a 1-click Create Logo with This Name action that pre-populates your brand identity into the Logo Creator Suite." }
       },
       {
         "@type": "Question",
-        "name": "How do I check if a business name is already taken?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Start with a free search on the USPTO TESS database (tmsearch.uspto.gov) for trademark conflicts. Also check your state's Secretary of State business name database for entity registrations. Finally, search Google and run a domain availability check — a name with an available .com domain is a strong signal it's not heavily used." }
-      },
-      {
-        "@type": "Question",
-        "name": "How does the business name generator work?",
-        "acceptedAnswer": { "@type": "Answer", "text": "We maintain a curated database of highly brandable names across dozens of industries. When you select a category — such as Tech, Bakery, or Fitness — the tool selects a random subset of names and loads them onto the wheel. Our physics engine then simulates realistic angular momentum, friction, and deceleration to pick a winner." }
-      },
-      {
-        "@type": "Question",
-        "name": "Can I use this tool for things other than business names?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Absolutely. Switch to \"Daily Choices\" mode at /decision-wheel to enter your own custom options for any random decision — from picking a restaurant to choosing a workout. Or visit /spirit-animal for a fun spirit animal reveal." }
-      },
-      {
-        "@type": "Question",
-        "name": "What makes a good business name?",
-        "acceptedAnswer": { "@type": "Answer", "text": "The best business names are short (1-3 syllables), easy to spell, easy to pronounce, and meaningful or evocative. They should have an available .com domain, no existing trademark conflicts, and no negative connotations in other languages if you plan to operate internationally." }
+        "name": "What file formats are provided with logo exports?",
+        "acceptedAnswer": { "@type": "Answer", "text": "The Logo Creator Suite exports vector SVG files, high-resolution transparent PNGs (512px, 1024px, 2048px), and print-ready PDF brand sheets." }
       }
     ]
   });
 
-  const homepageBreadcrumb = JSON.stringify({
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": SITE_URL + "/" },
-      { "@type": "ListItem", "position": 2, "name": "Decision Wheel", "item": SITE_URL + "/decision-wheel" },
-      { "@type": "ListItem", "position": 3, "name": "Spirit Animal Wheel", "item": SITE_URL + "/spirit-animal" }
-    ]
-  });
-
   const homepagePatched = patchIndexHtml(indexHtml, HOMEPAGE_PRERENDER_CONTENT, {
-    extraSchema: `<script type="application/ld+json">${homepageFaqSchema}</script>\n  <script type="application/ld+json">${homepageBreadcrumb}</script>`,
+    extraSchema: `<script type="application/ld+json">${homepageFaqSchema}</script>`,
   });
   fs.writeFileSync(path.join(DIST_DIR, 'index.html'), homepagePatched);
   console.log('✅ Homepage HTML patched with pre-rendered content');
 
-  // ── Helper: write a static route shell ────────────────────────────────────
-  const writeStaticPage = (routePath, prerenderContent, opts = {}) => {
-    const fullDir = path.join(DIST_DIR, routePath);
-    if (!fs.existsSync(fullDir)) fs.mkdirSync(fullDir, { recursive: true });
-    // NOTE: No keywords meta added here — keywords meta has no SEO value
-    const modifiedHtml = patchIndexHtml(indexHtml, prerenderContent, opts);
-    fs.writeFileSync(path.join(fullDir, 'index.html'), modifiedHtml);
-  };
-
-  // ── Decision Wheel static shell ────────────────────────────────────────────
-  writeStaticPage('/decision-wheel', DECISION_WHEEL_PRERENDER, {
-    title: 'Free Decision Wheel Spinner — Let Fate Decide | UniqueBusinessName.com',
-    description: 'Spin the free decision wheel to settle any daily choice. Add your custom options, give it a spin, and let the physics-powered wheel decide. No signup required.',
-    canonical: `${SITE_URL}/decision-wheel`,
-    ogTitle: 'Free Decision Wheel Spinner — UniqueBusinessName.com',
-    ogDescription: 'Add your custom options and spin the physics-powered decision wheel. Perfect for picking restaurants, movies, workouts, or settling any debate.',
-    ogUrl: `${SITE_URL}/decision-wheel`,
+  // ── Logo Maker static shell ────────────────────────────────────────────────
+  writeStaticPage('/logo-maker', LOGO_MAKER_PRERENDER, {
+    title: 'Free Business Logo Creator Suite | UniqueBusinessName.com',
+    description: 'Design professional vector logos in minutes with our 6-stage guided logo wizard and interactive canvas customizer. Export print-ready SVG, PNG, and PDF brand packages.',
+    canonical: `${SITE_URL}/logo-maker`,
+    ogTitle: 'Business Logo Creator Suite — UniqueBusinessName.com',
+    ogDescription: 'Design professional vector logos and preview live product mockups. 100% free vector and PNG exports.',
+    ogUrl: `${SITE_URL}/logo-maker`,
     extraSchema: `<script type="application/ld+json">${JSON.stringify({
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      "name": "Decision Wheel Spinner",
-      "description": "A free, physics-driven decision wheel spinner. Enter your custom choices, spin, and get a random result.",
-      "url": `${SITE_URL}/decision-wheel`,
-      "applicationCategory": "UtilityApplication",
+      "name": "Business Logo Creator Suite",
+      "description": "An interactive AI logo maker and vector brand identity generator with real-world mockup studio.",
+      "url": `${SITE_URL}/logo-maker`,
+      "applicationCategory": "DesignApplication",
       "operatingSystem": "All",
       "offers": { "@type": "Offer", "price": "0.00", "priceCurrency": "USD" }
     })}</script>`,
   });
-  console.log('✅ /decision-wheel static shell written');
-
-  // ── Spirit Animal static shell ─────────────────────────────────────────────
-  writeStaticPage('/spirit-animal', SPIRIT_ANIMAL_PRERENDER, {
-    title: 'Spirit Animal Wheel — Discover Your Inner Animal | UniqueBusinessName.com',
-    description: 'Spin the Spirit Animal Wheel to discover which animal guides you today. From the wise Owl to the bold Lion — a fun, free personality reveal tool.',
-    canonical: `${SITE_URL}/spirit-animal`,
-    ogTitle: 'Spirit Animal Wheel — Discover Your Inner Animal',
-    ogDescription: 'Spin the wheel to find your spirit animal. Each result reveals the animal\'s symbolic meaning and personality trait. Free to play, no signup.',
-    ogUrl: `${SITE_URL}/spirit-animal`,
-    extraSchema: `<script type="application/ld+json">${JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "Spirit Animal Wheel",
-      "description": "A free, physics-driven spirit animal wheel. Spin to discover which animal spirit guides you today.",
-      "url": `${SITE_URL}/spirit-animal`,
-      "applicationCategory": "EntertainmentApplication",
-      "operatingSystem": "All",
-      "offers": { "@type": "Offer", "price": "0.00", "priceCurrency": "USD" }
-    })}</script>`,
-  });
-  console.log('✅ /spirit-animal static shell written');
+  console.log('✅ /logo-maker static shell written');
 
   // ── Industry category landing pages ──────────────────────────────────────
   industries.forEach((industry) => {
     const slug = generateSlug(industry);
     const title = `${industry} Name Generator — Free & Instant | UniqueBusinessName.com`;
-    const description = `Generate unique and catchy ${industry.toLowerCase()} names in seconds with our free, physics-driven name generator. No signup required.`;
+    const description = `Generate unique, catchy ${industry.toLowerCase()} names in seconds with our AI-powered name generator and create vector logos instantly.`;
     const prerender = `
 <div id="root">
   <div style="min-height:100vh;font-family:system-ui,sans-serif;color:#111827">
     <main style="max-width:900px;margin:0 auto;padding:2rem 1.5rem">
-      <h1 style="font-size:2rem;font-weight:900;line-height:1.1;margin-bottom:1rem">${industry} Name Generator — Free &amp; Instant</h1>
+      <h1 style="font-size:2rem;font-weight:900;line-height:1.1;margin-bottom:1rem">${industry} Name Generator &mdash; Free &amp; Instant</h1>
       <p style="color:#4B5563;line-height:1.7;margin-bottom:1.5rem">
-        Looking for a unique ${industry.toLowerCase()} name? Spin our free physics-powered wheel and get
-        creative, brandable name ideas instantly. No signup required.
+        Looking for a unique ${industry.toLowerCase()} name? Use our AI business name generator to discover
+        creative, brandable name ideas and design matching vector logos instantly.
       </p>
-      <p style="color:#4B5563"><a href="/">Back to Business Name Generator</a></p>
+      <p style="color:#4B5563"><a href="/">Back to AI Business Name Generator</a></p>
     </main>
   </div>
 </div>`;
@@ -425,7 +309,7 @@ async function main() {
     <main style="max-width:900px;margin:0 auto;padding:2rem 1.5rem">
       <h1 style="font-size:2rem;font-weight:900;line-height:1.1;margin-bottom:1rem">${blog.title}</h1>
       <p style="color:#4B5563;line-height:1.7;margin-bottom:1.5rem">${blog.desc}</p>
-      <p style="color:#4B5563"><a href="/blog">Back to Blog</a> &bull; <a href="/">Business Name Generator</a></p>
+      <p style="color:#4B5563"><a href="/blog">Back to Blog</a> &bull; <a href="/">AI Name Generator</a></p>
     </main>
   </div>
 </div>`;

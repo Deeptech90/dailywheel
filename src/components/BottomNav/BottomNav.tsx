@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import React from 'react';
 import styles from './BottomNav.module.css';
 
-export type BottomNavTab = 'home' | 'generator' | 'saved' | 'premium' | 'menu';
+export type BottomNavTab = 'home' | 'logo' | 'saved' | 'premium' | 'menu';
 
 interface BottomNavProps {
   activeTab?: BottomNavTab;
@@ -10,14 +10,14 @@ interface BottomNavProps {
 }
 
 const TABS: { id: BottomNavTab; icon: string; label: string }[] = [
-  { id: 'home',      icon: '🏠', label: 'Home' },
-  { id: 'generator', icon: '🎡', label: 'Generator' },
-  { id: 'saved',     icon: '❤️', label: 'Saved' },
-  { id: 'premium',   icon: '⭐', label: 'Premium' },
-  { id: 'menu',      icon: '☰', label: 'Menu' },
+  { id: 'home',    icon: '✨', label: 'Names' },
+  { id: 'logo',    icon: '🎨', label: 'Logos' },
+  { id: 'saved',   icon: '❤️', label: 'Saved' },
+  { id: 'premium', icon: '⚡', label: 'Pro' },
+  { id: 'menu',    icon: '☰', label: 'Menu' },
 ];
 
-export function BottomNav({ activeTab = 'generator', onTabChange, savedCount = 0 }: BottomNavProps) {
+export function BottomNav({ activeTab = 'home', onTabChange, savedCount = 0 }: BottomNavProps) {
   return (
     <nav className={styles.nav} aria-label="Bottom navigation">
       {TABS.map(tab => (

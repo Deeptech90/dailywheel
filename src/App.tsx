@@ -1,5 +1,6 @@
 import { useState, useEffect, Suspense, lazy } from 'react';
 import Home from './app/page';
+import { BrandStateProvider } from './context/BrandStateContext';
 import { CookieConsent } from './components/CookieConsent/CookieConsent';
 import { TrackingScripts } from './components/TrackingScripts/TrackingScripts';
 
@@ -13,8 +14,6 @@ const DashboardPage = lazy(() => import('./app/dashboard/page'));
 const PricingPage = lazy(() => import('./app/pricing/page'));
 const AdminPage = lazy(() => import('./app/admin/page'));
 const LogoMakerPage = lazy(() => import('./app/logo-maker/page'));
-const DecisionWheelPage = lazy(() => import('./app/decision-wheel/page'));
-const SpiritAnimalPage = lazy(() => import('./app/spirit-animal/page'));
 const NotFound = lazy(() => import('./app/not-found'));
 
 const BlogIndexPage = lazy(() => import('./components/Blog/BlogIndexPage').then(m => ({ default: m.BlogIndexPage })));
@@ -44,7 +43,7 @@ export function App() {
   }, []);
 
   const renderContent = () => {
-    if (currentPath === '/') return <Home />;
+    if (currentPath === '/' || currentPath === '/name-generator') return <Home />;
     if (currentPath === '/about') return <AboutUs />;
     if (currentPath === '/contact') return <Contact />;
     if (currentPath === '/privacy') return <Privacy />;
@@ -55,8 +54,6 @@ export function App() {
     if (currentPath === '/pricing') return <PricingPage />;
     if (currentPath === '/admin') return <AdminPage />;
     if (currentPath === '/logo-maker') return <LogoMakerPage />;
-    if (currentPath === '/decision-wheel') return <DecisionWheelPage />;
-    if (currentPath === '/spirit-animal') return <SpiritAnimalPage />;
     if (currentPath === '/blog') return <BlogIndexPage />;
     
     if (currentPath.startsWith('/blog/')) {
@@ -75,7 +72,7 @@ export function App() {
   };
 
   return (
-    <>
+    <BrandStateProvider>
       <div id="app-root-container">
         <Suspense fallback={<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100dvh', color: 'var(--text-muted)' }}>Loading...</div>}>
           {renderContent()}
@@ -85,6 +82,6 @@ export function App() {
       <UpdatePrompt />
       <CookieConsent />
       <TrackingScripts />
-    </>
+    </BrandStateProvider>
   );
 }

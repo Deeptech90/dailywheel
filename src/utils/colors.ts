@@ -1,8 +1,10 @@
-import { Segment } from '../types';
-import { capitalizeLabel } from './labels';
+/* ============================================================
+   Color Utilities — HSL/RGB conversions, palette generators,
+   luminance calculations and contrast color pickers
+   ============================================================ */
 
 /**
- * Generates a harmonious HSL color palette for N segments.
+ * Generates a harmonious HSL color palette for N items.
  * Uses evenly spaced hues at fixed saturation and lightness.
  */
 export function generatePalette(count: number): string[] {
@@ -52,7 +54,7 @@ export function adjustColorOpacity(color: string, opacity: number): string {
 /**
  * Parses an HSL, RGB, or Hex color string into [R, G, B] values.
  */
-function parseToRgb(color: string): [number, number, number] {
+export function parseToRgb(color: string): [number, number, number] {
   if (!color) return [0, 0, 0];
   
   if (color.startsWith('#')) {
@@ -106,28 +108,4 @@ export function getContrastTextColor(backgroundColor: string): string {
   const [r, g, b] = parseToRgb(backgroundColor);
   const L = 0.2126 * (r / 255) + 0.7152 * (g / 255) + 0.0722 * (b / 255);
   return L > 0.6 ? '#12122a' : '#ffffff';
-}
-
-
-/** Raw default labels — auto-capitalized via capitalizeLabel */
-const RAW_DEFAULTS = [
-  'go for a walk',
-  'read a book',
-  'try a new recipe',
-  'meditate',
-  'call a friend',
-  'watch a documentary',
-  'draw something',
-  'play outside',
-];
-
-export const DEFAULT_SEGMENTS: Segment[] = RAW_DEFAULTS.map((label, i) => ({
-  id: String(i + 1),
-  label: capitalizeLabel(label),
-  color: `hsl(${Math.round((i / RAW_DEFAULTS.length) * 360)}, 70%, 55%)`,
-}));
-
-export function recolorSegments(segments: Segment[]): Segment[] {
-  const palette = generatePalette(segments.length);
-  return segments.map((s, i) => ({ ...s, color: palette[i] }));
 }

@@ -4,14 +4,16 @@ import { Icon } from '../Icon/Icon';
 import styles from './NavigationDrawer.module.css';
 
 const NAV_LINKS = [
-  { href: '/',          label: 'Name Generator',  emoji: '🌀' },
-  { href: '/dashboard', label: 'My Brands',       emoji: '🎨' },
-  { href: '/pricing',   label: 'Upgrade to Pro',  emoji: '⚡' },
-  { href: '/about',     label: 'About Us',         emoji: '💡' },
-  { href: '/contact',   label: 'Contact Us',       emoji: '✉️'  },
-  { href: '/privacy',   label: 'Privacy Policy',   emoji: '🔒' },
-  { href: '/terms',     label: 'Terms of Service', emoji: '📜' },
-  { href: '/cookies',   label: 'Cookie Policy',    emoji: '🍪' },
+  { href: '/',          label: 'AI Name Generator',  emoji: '✨' },
+  { href: '/logo-maker',label: 'Logo Creator Suite', emoji: '🎨' },
+  { href: '/dashboard', label: 'My Brand Kits',      emoji: '📂' },
+  { href: '/pricing',   label: 'Pro Suite',          emoji: '⚡' },
+  { href: '/about',     label: 'About Us',           emoji: '💡' },
+  { href: '/blog',      label: 'Guides & Blog',      emoji: '📖' },
+  { href: '/contact',   label: 'Contact Us',         emoji: '✉️'  },
+  { href: '/privacy',   label: 'Privacy Policy',     emoji: '🔒' },
+  { href: '/terms',     label: 'Terms of Service',   emoji: '📜' },
+  { href: '/cookies',   label: 'Cookie Policy',      emoji: '🍪' },
 ];
 
 export function NavigationDrawer() {
@@ -63,8 +65,8 @@ export function NavigationDrawer() {
             {/* Header */}
             <div className={styles.drawerHeader}>
               <div className={styles.drawerBrand}>
-                <div className={styles.drawerBrandIcon}>🌀</div>
-                <span className={styles.drawerTitle}>UBN</span>
+                <div className={styles.drawerBrandIcon}>✦</div>
+                <span className={styles.drawerTitle}>UniqueBusinessName</span>
               </div>
               <button
                 className={styles.closeBtn}

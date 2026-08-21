@@ -1,6 +1,7 @@
+import React from 'react';
 import { SEOCategory } from '../../data/seoCategories';
 import { SEOHead } from '../SEOHead/SEOHead';
-import GeneratorApp from '../GeneratorApp/GeneratorApp';
+import { NameGenerator } from '../NameGenerator/NameGenerator';
 import { Link } from '../Link/Link';
 import { BUSINESS_CATEGORIES } from '../../data/businessNames';
 import styles from './CategoryLandingPage.module.css';
@@ -14,8 +15,8 @@ export function CategoryLandingPage({ category }: { category: SEOCategory }) {
         type="WebApplication"
       />
       
-      {/* The main interactive app */}
-      <GeneratorApp />
+      {/* The main interactive AI Naming Engine */}
+      <NameGenerator />
 
       {/* SEO Content strictly for crawlers & organic discovery */}
       <article className={styles.seoContent}>

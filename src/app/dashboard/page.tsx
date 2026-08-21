@@ -137,7 +137,7 @@ export default function DashboardPage() {
                   <div key={h.id || i} className={styles.activityItem}>
                     <div className={styles.activityIcon}>🎡</div>
                     <div className={styles.activityDetails}>
-                      <span className={styles.activityName}>{h.segment?.label}</span>
+                      <span className={styles.activityName}>{h.name}</span>
                       <span className={styles.activityTime}>{new Date(h.timestamp).toLocaleString()}</span>
                     </div>
                   </div>

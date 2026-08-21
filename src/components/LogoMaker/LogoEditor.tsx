@@ -1,9 +1,23 @@
 /* ============================================================
-   Logo Editor — slide-in panel for editing a selected logo
+   Logo Editor — Turbologo Interactive Canvas & Customizer
+   Live controls: Typography, Letter Spacing, Icon Scale,
+   Color Palettes, Mockup Previews, and Multi-Format Exports
    ============================================================ */
-import { useState, useEffect } from 'react';
-import { GeneratedLogo, LogoInputs, DesignPrefs, FontStyle, LayoutChoice, TemplateStyle, TEMPLATE_STYLES } from '../../types/logoMaker';
+
+import React, { useState, useEffect } from 'react';
+import { Sparkles, Sliders, Eye, Download, Copy, Check, X, Palette, Type, Layout, RefreshCw } from 'lucide-react';
+import {
+  GeneratedLogo,
+  LogoInputs,
+  DesignPrefs,
+  FontStyle,
+  LayoutChoice,
+  TemplateStyle,
+  MockupType,
+  TEMPLATE_STYLES
+} from '../../types/logoMaker';
 import { ColorPalettePicker } from './ColorPalettePicker';
+import { MockupPreview } from './MockupPreview';
 import { regenerateSingleLogo } from '../../engines/logoRenderer';
 import { svgToDataUrl, exportLogoSVG, exportLogoPNG, copySVGToClipboard } from '../../utils/logoExport';
 import styles from './LogoMaker.module.css';
@@ -16,10 +30,12 @@ interface LogoEditorProps {
 }
 
 const FONT_OPTIONS: { id: FontStyle; label: string }[] = [
-  { id: 'sans',      label: 'Sans-Serif' },
-  { id: 'serif',     label: 'Serif' },
-  { id: 'script',    label: 'Script' },
-  { id: 'geometric', label: 'Geometric' },
+  { id: 'geometric', label: 'Geometric (Modern)' },
+  { id: 'sans',      label: 'Sans-Serif (Clean)' },
+  { id: 'serif',     label: 'Serif (Classic)' },
+  { id: 'display',   label: 'Display (Bold)' },
+  { id: 'script',    label: 'Script (Artisan)' },
+  { id: 'mono',      label: 'Monospace (Tech)' },
 ];
 
 const LAYOUT_OPTIONS: { id: LayoutChoice; label: string }[] = [
@@ -29,18 +45,29 @@ const LAYOUT_OPTIONS: { id: LayoutChoice; label: string }[] = [
   { id: 'text-only',  label: 'Text Only' },
 ];
 
-export function LogoEditor({ logo, inputs, onClose, onSave }: LogoEditorProps) {
+export const LogoEditor: React.FC<LogoEditorProps> = ({
+  logo,
+  inputs,
+  onClose,
+  onSave
+}) => {
   const [prefs, setPrefs] = useState<DesignPrefs>({
     primaryColor:   logo.primaryColor,
     secondaryColor: logo.secondaryColor,
     iconKeyword:    '',
-    fontStyle:      'sans',
+    fontStyle:      logo.fontStyle || 'geometric',
     layout:         logo.layout,
     templateStyle:  logo.templateStyle,
     aspectRatio:    '1:1',
+    fontSize:       undefined,
+    letterSpacing:  0,
+    iconScale:      1,
+    bgFill:         undefined,
   });
 
   const [currentLogo, setCurrentLogo] = useState<GeneratedLogo>(logo);
+  const [activeTab, setActiveTab] = useState<'canvas' | 'mockups'>('canvas');
+  const [activeMockup, setActiveMockup] = useState<MockupType>('business-card');
   const [downloadingPng, setDownloadingPng] = useState<512 | 1024 | 2048 | null>(null);
   const [copied, setCopied] = useState(false);
   const [showBg, setShowBg] = useState(false);
@@ -96,7 +123,26 @@ export function LogoEditor({ logo, inputs, onClose, onSave }: LogoEditorProps) {
       >
         {/* Header */}
         <div className={styles.editorHeader}>
-          <h2 className={styles.editorTitle}>Edit Logo</h2>
+          <div className={styles.editorHeaderLeft}>
+            <h2 className={styles.editorTitle}>Interactive Logo Customizer</h2>
+            <div className={styles.editorTabToggle}>
+              <button
+                type="button"
+                className={`${styles.editorTabBtn} ${activeTab === 'canvas' ? styles.editorTabBtnActive : ''}`}
+                onClick={() => setActiveTab('canvas')}
+              >
+                <Sliders size={14} /> Editor Canvas
+              </button>
+              <button
+                type="button"
+                className={`${styles.editorTabBtn} ${activeTab === 'mockups' ? styles.editorTabBtnActive : ''}`}
+                onClick={() => setActiveTab('mockups')}
+              >
+                <Eye size={14} /> Mockup Studio
+              </button>
+            </div>
+          </div>
+
           <div className={styles.editorHeaderActions}>
             <button
               type="button"
@@ -104,7 +150,7 @@ export function LogoEditor({ logo, inputs, onClose, onSave }: LogoEditorProps) {
               onClick={handleSave}
               aria-label="Save changes"
             >
-              Save Changes
+              Save Brand Kit
             </button>
             <button
               type="button"
@@ -112,177 +158,225 @@ export function LogoEditor({ logo, inputs, onClose, onSave }: LogoEditorProps) {
               onClick={onClose}
               aria-label="Close editor"
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
-              </svg>
+              <X size={20} />
             </button>
           </div>
         </div>
 
         <div className={styles.editorBody}>
-          {/* ── Live Preview ────────────────────────────────────── */}
-          <div className={styles.editorPreviewSection}>
-            <div
-              className={styles.editorPreviewWrap}
-              style={{ background: showBg ? prefs.primaryColor : 'transparent' }}
-            >
-              <img
-                src={dataUrl}
-                alt={`Live preview of ${inputs.businessName} logo`}
-                className={styles.editorPreviewImg}
-                draggable={false}
-              />
-            </div>
-            <div className={styles.editorPreviewControls}>
-              <button
-                type="button"
-                className={`${styles.bgToggleBtn} ${showBg ? styles.bgToggleBtnActive : ''}`}
-                onClick={() => setShowBg(b => !b)}
-                aria-pressed={showBg}
-              >
-                {showBg ? 'Transparent BG' : 'Colored BG'}
-              </button>
-            </div>
-          </div>
-
-          {/* ── Controls ────────────────────────────────────────── */}
-          <div className={styles.editorControls}>
-
-            {/* Colors */}
-            <div className={styles.editorSection}>
-              <h3 className={styles.editorSectionTitle}>Colors</h3>
-              <ColorPalettePicker
-                primaryColor={prefs.primaryColor}
-                secondaryColor={prefs.secondaryColor}
-                onChange={handleColorChange}
-              />
-            </div>
-
-            {/* Template Style */}
-            <div className={styles.editorSection}>
-              <h3 className={styles.editorSectionTitle}>Logo Style</h3>
-              <div className={styles.editorChipRow}>
-                {TEMPLATE_STYLES.map(t => (
-                  <button
-                    key={t.id}
-                    type="button"
-                    className={`${styles.editorChip} ${prefs.templateStyle === t.id ? styles.editorChipActive : ''}`}
-                    onClick={() => setPrefs(p => ({ ...p, templateStyle: t.id as TemplateStyle }))}
-                    aria-pressed={prefs.templateStyle === t.id}
-                  >
-                    {t.icon} {t.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Layout */}
-            <div className={styles.editorSection}>
-              <h3 className={styles.editorSectionTitle}>Layout</h3>
-              <div className={styles.editorChipRow}>
-                {LAYOUT_OPTIONS.map(l => (
-                  <button
-                    key={l.id}
-                    type="button"
-                    className={`${styles.editorChip} ${prefs.layout === l.id ? styles.editorChipActive : ''}`}
-                    onClick={() => setPrefs(p => ({ ...p, layout: l.id as LayoutChoice }))}
-                    aria-pressed={prefs.layout === l.id}
-                  >
-                    {l.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Font */}
-            <div className={styles.editorSection}>
-              <h3 className={styles.editorSectionTitle}>Font Style</h3>
-              <div className={styles.editorChipRow}>
-                {FONT_OPTIONS.map(f => (
-                  <button
-                    key={f.id}
-                    type="button"
-                    className={`${styles.editorChip} ${prefs.fontStyle === f.id ? styles.editorChipActive : ''}`}
-                    onClick={() => setPrefs(p => ({ ...p, fontStyle: f.id as FontStyle }))}
-                    aria-pressed={prefs.fontStyle === f.id}
-                  >
-                    {f.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Icon Keyword */}
-            <div className={styles.editorSection}>
-              <h3 className={styles.editorSectionTitle}>Icon</h3>
-              <input
-                type="text"
-                className={styles.fieldInput}
-                value={prefs.iconKeyword}
-                onChange={(e) => setPrefs(p => ({ ...p, iconKeyword: e.target.value }))}
-                placeholder='e.g. "leaf", "bolt", "heart"'
-                aria-label="Icon keyword search"
-                id="editor-icon-keyword"
-              />
-              <p className={styles.fieldHint}>Type a keyword to match a different icon</p>
-            </div>
-
-            {/* ── Export ────────────────────────────────────────── */}
-            <div className={styles.editorSection}>
-              <h3 className={styles.editorSectionTitle}>Export</h3>
-
-              <div className={styles.exportGroup}>
-                <button
-                  type="button"
-                  className={styles.exportBtn}
-                  onClick={() => exportLogoSVG(currentLogo, inputs.businessName)}
-                  id="editor-download-svg"
+          {activeTab === 'canvas' ? (
+            <>
+              {/* ── Live Preview Canvas ────────────────────────── */}
+              <div className={styles.editorPreviewSection}>
+                <div
+                  className={styles.editorPreviewWrap}
+                  style={{ background: showBg ? prefs.primaryColor : 'transparent' }}
                 >
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" />
-                  </svg>
-                  Download SVG
-                </button>
-
-                <button
-                  type="button"
-                  className={`${styles.exportBtn} ${copied ? styles.exportBtnSuccess : ''}`}
-                  onClick={handleCopySvg}
-                  id="editor-copy-svg"
-                >
-                  {copied ? '✓ Copied' : 'Copy SVG Code'}
-                </button>
-              </div>
-
-              <div className={styles.pngExportGroup}>
-                <label className={styles.exportLabel}>Download PNG</label>
-                <div className={styles.exportGroup}>
-                  {([512, 1024, 2048] as const).map(size => (
-                    <button
-                      key={size}
-                      type="button"
-                      className={`${styles.exportBtn} ${styles.exportBtnSm}`}
-                      onClick={() => handleDownloadPng(size)}
-                      disabled={downloadingPng !== null}
-                      aria-label={`Download PNG at ${size}×${size}px`}
-                      id={`editor-download-png-${size}`}
-                    >
-                      {downloadingPng === size ? (
-                        <span className={styles.miniSpinner} aria-hidden="true" />
-                      ) : null}
-                      {size}px
-                    </button>
-                  ))}
+                  <img
+                    src={dataUrl}
+                    alt={`Live preview of ${inputs.businessName} logo`}
+                    className={styles.editorPreviewImg}
+                    draggable={false}
+                  />
+                </div>
+                <div className={styles.editorPreviewControls}>
+                  <button
+                    type="button"
+                    className={`${styles.bgToggleBtn} ${showBg ? styles.bgToggleBtnActive : ''}`}
+                    onClick={() => setShowBg(b => !b)}
+                    aria-pressed={showBg}
+                  >
+                    {showBg ? 'Transparent Background' : 'Solid Brand Fill'}
+                  </button>
                 </div>
               </div>
 
-              <p className={styles.exportNote}>
-                All exports include embedded metadata (name, date, style).
-              </p>
+              {/* ── Live Controls Customization Suite ──────────── */}
+              <div className={styles.editorControls}>
+                {/* Colors */}
+                <div className={styles.editorSection}>
+                  <div className={styles.sectionHeader}>
+                    <Palette size={16} />
+                    <h3 className={styles.editorSectionTitle}>Brand Colors</h3>
+                  </div>
+                  <ColorPalettePicker
+                    primaryColor={prefs.primaryColor}
+                    secondaryColor={prefs.secondaryColor}
+                    onChange={handleColorChange}
+                  />
+                </div>
+
+                {/* Typography & Font */}
+                <div className={styles.editorSection}>
+                  <div className={styles.sectionHeader}>
+                    <Type size={16} />
+                    <h3 className={styles.editorSectionTitle}>Typography</h3>
+                  </div>
+                  <div className={styles.editorChipRow}>
+                    {FONT_OPTIONS.map(f => (
+                      <button
+                        key={f.id}
+                        type="button"
+                        className={`${styles.editorChip} ${prefs.fontStyle === f.id ? styles.editorChipActive : ''}`}
+                        onClick={() => setPrefs(p => ({ ...p, fontStyle: f.id }))}
+                        aria-pressed={prefs.fontStyle === f.id}
+                      >
+                        {f.label}
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Letter Spacing & Font Scaling */}
+                  <div className={styles.sliderGroup}>
+                    <label className={styles.sliderLabel}>
+                      <span>Letter Spacing</span>
+                      <span>{prefs.letterSpacing || 0}px</span>
+                    </label>
+                    <input
+                      type="range"
+                      min="-2"
+                      max="10"
+                      step="0.5"
+                      value={prefs.letterSpacing || 0}
+                      onChange={(e) => setPrefs(p => ({ ...p, letterSpacing: parseFloat(e.target.value) }))}
+                      className={styles.rangeSlider}
+                    />
+                  </div>
+                </div>
+
+                {/* Layout & Composition */}
+                <div className={styles.editorSection}>
+                  <div className={styles.sectionHeader}>
+                    <Layout size={16} />
+                    <h3 className={styles.editorSectionTitle}>Layout &amp; Weight</h3>
+                  </div>
+                  <div className={styles.editorChipRow}>
+                    {LAYOUT_OPTIONS.map(l => (
+                      <button
+                        key={l.id}
+                        type="button"
+                        className={`${styles.editorChip} ${prefs.layout === l.id ? styles.editorChipActive : ''}`}
+                        onClick={() => setPrefs(p => ({ ...p, layout: l.id }))}
+                        aria-pressed={prefs.layout === l.id}
+                      >
+                        {l.label}
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Icon Scale */}
+                  <div className={styles.sliderGroup}>
+                    <label className={styles.sliderLabel}>
+                      <span>Icon Scale</span>
+                      <span>{Math.round((prefs.iconScale || 1) * 100)}%</span>
+                    </label>
+                    <input
+                      type="range"
+                      min="0.6"
+                      max="1.6"
+                      step="0.1"
+                      value={prefs.iconScale || 1}
+                      onChange={(e) => setPrefs(p => ({ ...p, iconScale: parseFloat(e.target.value) }))}
+                      className={styles.rangeSlider}
+                    />
+                  </div>
+                </div>
+
+                {/* Template Style */}
+                <div className={styles.editorSection}>
+                  <h3 className={styles.editorSectionTitle}>Logo Style Archetype</h3>
+                  <div className={styles.editorChipRow}>
+                    {TEMPLATE_STYLES.map(t => (
+                      <button
+                        key={t.id}
+                        type="button"
+                        className={`${styles.editorChip} ${prefs.templateStyle === t.id ? styles.editorChipActive : ''}`}
+                        onClick={() => setPrefs(p => ({ ...p, templateStyle: t.id as TemplateStyle }))}
+                        aria-pressed={prefs.templateStyle === t.id}
+                      >
+                        {t.icon} {t.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Icon Keyword Search */}
+                <div className={styles.editorSection}>
+                  <h3 className={styles.editorSectionTitle}>Vector Symbol Keyword</h3>
+                  <input
+                    type="text"
+                    className={styles.fieldInput}
+                    value={prefs.iconKeyword}
+                    onChange={(e) => setPrefs(p => ({ ...p, iconKeyword: e.target.value }))}
+                    placeholder='e.g. "leaf", "rocket", "coffee", "shield"'
+                    aria-label="Icon keyword search"
+                    id="editor-icon-keyword"
+                  />
+                  <p className={styles.fieldHint}>Type a keyword to dynamically change the vector symbol</p>
+                </div>
+
+                {/* ── Multi-Format Export Package ────────────────── */}
+                <div className={styles.editorSection}>
+                  <h3 className={styles.editorSectionTitle}>Export Brand Assets</h3>
+
+                  <div className={styles.exportGroup}>
+                    <button
+                      type="button"
+                      className={styles.exportBtn}
+                      onClick={() => exportLogoSVG(currentLogo, inputs.businessName)}
+                      id="editor-download-svg"
+                    >
+                      <Download size={15} />
+                      Download Vector SVG
+                    </button>
+
+                    <button
+                      type="button"
+                      className={`${styles.exportBtn} ${copied ? styles.exportBtnSuccess : ''}`}
+                      onClick={handleCopySvg}
+                      id="editor-copy-svg"
+                    >
+                      {copied ? <><Check size={15} /> Copied</> : <><Copy size={15} /> Copy SVG</>}
+                    </button>
+                  </div>
+
+                  <div className={styles.pngExportGroup}>
+                    <label className={styles.exportLabel}>High-Resolution Transparent PNG</label>
+                    <div className={styles.exportGroup}>
+                      {([512, 1024, 2048] as const).map(size => (
+                        <button
+                          key={size}
+                          type="button"
+                          className={`${styles.exportBtn} ${styles.exportBtnSm}`}
+                          onClick={() => handleDownloadPng(size)}
+                          disabled={downloadingPng !== null}
+                          id={`editor-download-png-${size}`}
+                        >
+                          {downloadingPng === size ? (
+                            <RefreshCw size={13} className={styles.spinner} />
+                          ) : null}
+                          {size}px
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </>
+          ) : (
+            /* ── Mockup Studio Tab ──────────────────────────────── */
+            <div className={styles.mockupTabContainer}>
+              <MockupPreview
+                logo={currentLogo}
+                businessName={inputs.businessName}
+                tagline={inputs.tagline}
+                activeMockup={activeMockup}
+                onSelectMockup={setActiveMockup}
+              />
             </div>
-          </div>
+          )}
         </div>
       </div>
     </>
   );
-}
+};

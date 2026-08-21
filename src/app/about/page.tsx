@@ -1,4 +1,6 @@
+import React from 'react';
 import { Link } from '../../components/Link/Link';
+import { Sparkles, Palette, Globe, ShieldCheck, Download, Wand2 } from 'lucide-react';
 
 const pageStyles: React.CSSProperties = {
   minHeight: '100vh',
@@ -11,47 +13,47 @@ const pageStyles: React.CSSProperties = {
 const containerStyles: React.CSSProperties = {
   maxWidth: '860px',
   margin: '0 auto',
-  padding: '5rem 1.5rem 4rem',
+  padding: '4rem 1.5rem 4rem',
 };
 
 const FEATURES = [
   {
-    icon: '⚛️',
-    title: 'Physics-Driven Engine',
-    desc: 'Custom angular torque, kinetic friction, and gravity formulas make every spin feel organic and real — no two spins are alike.',
+    icon: '✨',
+    title: 'AI Business Name Generator',
+    desc: 'Linguistic synthesis and LLM-driven generation across 8 naming styles with temperature randomness controls.',
   },
   {
-    icon: '🏢',
-    title: 'Business Name Generator',
-    desc: 'Curated databases across 15+ industries deliver premium, brandable name suggestions ready to register.',
+    icon: '🎨',
+    title: 'Vector Logo Creator Suite',
+    desc: 'Interactive visual identity builder producing high-resolution SVG, transparent PNG, and PDF brand packages.',
   },
   {
-    icon: '📋',
-    title: 'Custom Decision Wheel',
-    desc: 'Enter your own choices for any decision — from lunch to life — and let the physics determine the winner.',
-  },
-  {
-    icon: '🐾',
-    title: 'Spirit Animal Mode',
-    desc: 'A fun, personality-based wheel with animal traits that adds a playful dimension to your daily routine.',
+    icon: '🌐',
+    title: 'Real-Time Domain Verification',
+    desc: 'Asynchronous DNS over HTTPS lookups verify .com, .io, .ai, and .app top-level domain availability instantly.',
   },
   {
     icon: '📱',
-    title: 'Mobile-First PWA',
-    desc: 'Fully installable as a Progressive Web App with offline support, home-screen icon, and smooth touch gestures.',
+    title: 'Real-World Mockup Studio',
+    desc: 'Preview generated brand marks projected onto realistic business cards, mobile screens, apparel, and storefronts.',
+  },
+  {
+    icon: '⚡',
+    title: '1-Click State Bridge',
+    desc: 'Select any generated name to immediately populate the Logo Wizard without losing state or context.',
   },
   {
     icon: '🔐',
-    title: 'Privacy First',
-    desc: 'No account required. All preferences and spin history live in your browser — we never track your personal data without consent.',
+    title: '100% Commercial Rights',
+    desc: 'You own all names and logos created on our platform. Free for commercial registration, trademarking, and branding.',
   },
 ];
 
 const STEPS = [
-  { step: '01', title: 'Choose Your Mode', desc: 'Select Business Name, Daily Choices, or Spirit Animal.' },
-  { step: '02', title: 'Load Your Options', desc: 'Pick a category or enter your custom choices.' },
-  { step: '03', title: 'Spin the Wheel', desc: 'Tap the hub, swipe, or press Space. Watch physics take over.' },
-  { step: '04', title: 'Get Your Answer', desc: 'The wheel stops on a winner. Copy, share, or check the domain!' },
+  { step: '01', title: 'Enter Your Concept', desc: 'Type your business keywords or venture idea into the search engine.' },
+  { step: '02', title: 'Tune Filters & Styles', desc: 'Select from 8 naming styles, decoding temperature, and name length constraints.' },
+  { step: '03', title: 'Check Domain & Shortlist', desc: 'Review real-time domain availability and save preferred candidate names.' },
+  { step: '04', title: 'Build Visual Brand Package', desc: 'Click "Create Logo with This Name" to design vector logos and export print-ready assets.' },
 ];
 
 export default function AboutUs() {
@@ -69,11 +71,11 @@ export default function AboutUs() {
             textDecoration: 'none',
             fontSize: '0.875rem',
             fontWeight: 600,
-            marginBottom: '3rem',
+            marginBottom: '2.5rem',
             transition: 'opacity 0.2s',
           }}
         >
-          ← Back to Wheel
+          ← Back to Generator
         </Link>
 
         {/* Hero */}
@@ -92,7 +94,7 @@ export default function AboutUs() {
             letterSpacing: '0.02em',
             marginBottom: '1.25rem',
           }}>
-            🌀 About Us
+            ✦ About UniqueBusinessName.com
           </div>
           <h1 style={{
             fontFamily: 'var(--font-display)',
@@ -103,12 +105,10 @@ export default function AboutUs() {
             color: 'var(--text)',
             marginBottom: '1.25rem',
           }}>
-            Decisions Made Beautifully
+            Empowering Modern Founders
           </h1>
-          <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem', lineHeight: 1.6, maxWidth: '600px' }}>
-            UniqueBusinessName.com was built to solve a universal problem: decision fatigue. 
-            Whether you're naming a startup or just picking lunch, our physics-driven wheel turns 
-            any list of options into a satisfying experience.
+          <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem', lineHeight: 1.6, maxWidth: '640px' }}>
+            UniqueBusinessName.com is a specialized AI branding platform designed to streamline the journey from business concept to complete visual brand identity in a single friction-free workflow.
           </p>
         </div>
 
@@ -132,16 +132,13 @@ export default function AboutUs() {
             Our Mission
           </h2>
           <p style={{ color: 'var(--text-muted)', lineHeight: 1.6 }}>
-            We believe great decisions shouldn't be stressful. By combining a physics simulation engine with curated data, 
-            we created a tool that feels alive — one that makes the mundane act of choosing into something joyful. 
-            From Fortune 500 team meetings to solo dinner-time dilemmas, the Wheel is your objective, 
-            impartial, and entertaining co-pilot.
+            Starting a new venture shouldn't require weeks of brainstorm gridlock or thousands of dollars in design agency fees. By uniting large language models, phonetic algorithms, and client-side vector composition tools, we give founders instant access to high-conversion branding assets.
           </p>
         </div>
 
         {/* Features grid */}
         <h2 style={{ fontFamily: 'var(--font-display)', color: 'var(--text)', fontSize: '1.5rem', fontWeight: 800, marginBottom: '1.5rem', letterSpacing: '-0.02em' }}>
-          What Makes Us Different
+          Key Platform Capabilities
         </h2>
         <div style={{
           display: 'grid',
@@ -156,10 +153,9 @@ export default function AboutUs() {
               borderRadius: 'var(--radius-md)',
               padding: '1.5rem',
               boxShadow: 'var(--shadow-sm)',
-              transition: 'border-color 0.25s, box-shadow 0.25s',
             }}>
               <div style={{ fontSize: '1.75rem', marginBottom: '0.75rem' }}>{f.icon}</div>
-              <h3 style={{ fontFamily: 'var(--font-display)', color: 'var(--text)', fontSize: '0.975rem', fontWeight: 600, marginBottom: '0.5rem' }}>{f.title}</h3>
+              <h3 style={{ fontFamily: 'var(--font-display)', color: 'var(--text)', fontSize: '0.975rem', fontWeight: 700, marginBottom: '0.5rem' }}>{f.title}</h3>
               <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', lineHeight: 1.5, margin: 0 }}>{f.desc}</p>
             </div>
           ))}
@@ -192,14 +188,14 @@ export default function AboutUs() {
                 alignItems: 'center',
                 justifyContent: 'center',
                 fontFamily: 'var(--font-display)',
-                fontWeight: 600,
+                fontWeight: 700,
                 fontSize: '0.85rem',
                 color: 'var(--primary)',
               }}>
                 {s.step}
               </div>
               <div>
-                <h3 style={{ fontFamily: 'var(--font-display)', color: 'var(--text)', fontSize: '1rem', fontWeight: 600, marginBottom: '0.25rem' }}>{s.title}</h3>
+                <h3 style={{ fontFamily: 'var(--font-display)', color: 'var(--text)', fontSize: '1rem', fontWeight: 700, marginBottom: '0.25rem' }}>{s.title}</h3>
                 <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem', margin: 0, lineHeight: 1.5 }}>{s.desc}</p>
               </div>
             </div>
@@ -219,7 +215,7 @@ export default function AboutUs() {
               padding: '0.875rem 2.5rem',
             }}
           >
-            🌀 Try the Wheel Now
+            ✦ Launch AI Name Generator
           </Link>
         </div>
       </div>

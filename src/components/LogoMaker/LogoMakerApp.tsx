@@ -1,21 +1,30 @@
 /* ============================================================
-   LogoMakerApp — main orchestrator component
-   3-step wizard: inputs → design → generate/preview
+   LogoMakerApp — Turbologo Architecture Suite
+   Multi-step wizard + generative composition + interactive canvas
+   Integrated with BrandStateContext for 1-click state transfer
    ============================================================ */
-import { useState, useCallback, useRef } from 'react';
+
+import React, { useState, useCallback, useEffect, useRef } from 'react';
+import { Sparkles, Layers, ShieldCheck, Download, Palette, Wand2, ArrowLeft, ArrowRight } from 'lucide-react';
+import confetti from 'canvas-confetti';
 import {
-  LogoMakerState, LogoInputs, DesignPrefs, GeneratedLogo,
-  PromptVariant, PRESET_PALETTES,
+  LogoMakerState,
+  LogoInputs,
+  DesignPrefs,
+  GeneratedLogo,
+  PromptVariant,
+  PRESET_PALETTES,
+  Industry
 } from '../../types/logoMaker';
 import { buildPromptSet } from '../../engines/logoPromptBuilder';
 import { generateLogos, checkRateLimit, recordGeneration } from '../../lib/logoApi';
+import { useBrandState } from '../../context/BrandStateContext';
 import { BrandInputStep } from './steps/BrandInputStep';
 import { DesignPrefsStep } from './steps/DesignPrefsStep';
 import { GenerateStep } from './steps/GenerateStep';
 import { LogoEditor } from './LogoEditor';
 import styles from './LogoMaker.module.css';
 
-/* ── Default state ───────────────────────────────────────────── */
 const DEFAULT_INPUTS: LogoInputs = {
   businessName: '',
   tagline: '',
@@ -23,67 +32,70 @@ const DEFAULT_INPUTS: LogoInputs = {
   styleKeywords: ['modern', 'professional'],
   targetAudience: '',
   usageContexts: ['web'],
+  selectedPalettes: ['corporate-blue'],
+  selectedSymbols: ['lightning'],
 };
 
 const DEFAULT_PREFS: DesignPrefs = {
   primaryColor:   PRESET_PALETTES[0].primary,
   secondaryColor: PRESET_PALETTES[0].secondary,
   iconKeyword:    '',
-  fontStyle:      'sans',
+  fontStyle:      'geometric',
   layout:         'horizontal',
   templateStyle:  'minimal',
   aspectRatio:    '1:1',
+  letterSpacing:  0,
+  iconScale:      1,
 };
 
-const INITIAL_STATE: LogoMakerState = {
-  step:             1,
-  inputs:           DEFAULT_INPUTS,
-  prefs:            DEFAULT_PREFS,
-  prompts:          null,
-  logos:            [],
-  selectedLogoId:   null,
-  isGenerating:     false,
-  generationError:  null,
-  showEditor:       false,
-  showPromptPreview:false,
-};
+export const LogoMakerApp: React.FC = () => {
+  const {
+    activeBrandName,
+    setActiveBrandName,
+    activeTagline,
+    setActiveTagline,
+    activeIndustry,
+    setActiveIndustry,
+    saveLogo
+  } = useBrandState();
 
-/* ── Step progress indicator ─────────────────────────────────── */
-function StepIndicator({ currentStep }: { currentStep: 1 | 2 | 3 }) {
-  const steps = [
-    { num: 1, label: 'Brand Info' },
-    { num: 2, label: 'Design' },
-    { num: 3, label: 'Generate' },
-  ];
-  return (
-    <div className={styles.stepIndicator} aria-label="Wizard steps">
-      {steps.map((s, i) => (
-        <div key={s.num} className={styles.stepIndicatorItem}>
-          <div className={`${styles.stepDot} ${currentStep === s.num ? styles.stepDotActive : ''} ${currentStep > s.num ? styles.stepDotDone : ''}`}>
-            {currentStep > s.num ? (
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <polyline points="20 6 9 17 4 12" />
-              </svg>
-            ) : s.num}
-          </div>
-          <span className={`${styles.stepDotLabel} ${currentStep === s.num ? styles.stepDotLabelActive : ''}`}>
-            {s.label}
-          </span>
-          {i < steps.length - 1 && (
-            <div className={`${styles.stepConnector} ${currentStep > s.num ? styles.stepConnectorDone : ''}`} />
-          )}
-        </div>
-      ))}
-    </div>
-  );
-}
+  const [state, setState] = useState<LogoMakerState>({
+    step: 1,
+    inputs: {
+      ...DEFAULT_INPUTS,
+      businessName: activeBrandName || '',
+      tagline: activeTagline || '',
+      industry: activeIndustry || 'technology',
+    },
+    prefs: DEFAULT_PREFS,
+    prompts: null,
+    logos: [],
+    selectedLogoId: null,
+    isGenerating: false,
+    generationError: null,
+    showEditor: false,
+    showPromptPreview: false,
+    activeMockup: 'business-card',
+  });
 
-/* ── Main component ──────────────────────────────────────────── */
-export function LogoMakerApp() {
-  const [state, setState] = useState<LogoMakerState>(INITIAL_STATE);
   const [errors, setErrors] = useState<Partial<Record<keyof LogoInputs, string>>>({});
   const [progressMsg, setProgressMsg] = useState('');
   const topRef = useRef<HTMLDivElement>(null);
+
+  // Sync state if active brand changes from Name Generator bridge
+  useEffect(() => {
+    if (activeBrandName && activeBrandName !== state.inputs.businessName) {
+      setState(s => ({
+        ...s,
+        inputs: {
+          ...s.inputs,
+          businessName: activeBrandName,
+          tagline: activeTagline || s.inputs.tagline,
+          industry: activeIndustry || s.inputs.industry,
+        }
+      }));
+    }
+  }, [activeBrandName, activeTagline, activeIndustry, state.inputs.businessName]);
 
   const scrollTop = () => {
     topRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -106,32 +118,25 @@ export function LogoMakerApp() {
 
   /* ── Step navigation ─────────────────────────────────────────── */
   const goToStep = (step: 1 | 2 | 3) => {
-    setState(s => ({ ...s, step }));
+    setState(s => ({ ...s, step: step as any }));
     scrollTop();
   };
 
   const handleStep1Next = () => {
     if (!validateStep1()) return;
+    setActiveBrandName(state.inputs.businessName);
+    setActiveTagline(state.inputs.tagline);
+    setActiveIndustry(state.inputs.industry);
     goToStep(2);
   };
 
   const handleStep2Next = () => {
     goToStep(3);
+    handleGenerate();
   };
 
   /* ── Generate ────────────────────────────────────────────────── */
   const handleGenerate = useCallback(async () => {
-    // Rate limit check
-    const { allowed, resetIn } = checkRateLimit();
-    if (!allowed) {
-      setState(s => ({
-        ...s,
-        generationError: `API limit reached. Please wait ${resetIn} minute${resetIn !== 1 ? 's' : ''} and try again.`,
-      }));
-      return;
-    }
-
-    // Build prompts
     const promptSet = buildPromptSet(state.inputs, state.prefs, 'detailed');
     const activePrompt = state.prompts?.customPrompt || promptSet.detailed;
 
@@ -158,11 +163,20 @@ export function LogoMakerApp() {
         isGenerating:   false,
         selectedLogoId: result.logos[0]?.id ?? null,
       }));
+
+      try {
+        confetti({
+          particleCount: 40,
+          spread: 70,
+          origin: { y: 0.75 },
+          colors: [state.prefs.primaryColor, state.prefs.secondaryColor, '#10B981']
+        });
+      } catch {}
     } catch (err) {
       setState(s => ({
         ...s,
         isGenerating:   false,
-        generationError: 'Logo generation failed. Please try again or modify your inputs.',
+        generationError: 'Logo generation failed. Please try again or adjust your design preferences.',
       }));
     } finally {
       setProgressMsg('');
@@ -179,6 +193,7 @@ export function LogoMakerApp() {
   };
 
   const handleEditorSave = (updated: GeneratedLogo) => {
+    saveLogo(updated);
     setState(s => ({
       ...s,
       logos: s.logos.map(l => l.id === updated.id ? updated : l),
@@ -186,7 +201,6 @@ export function LogoMakerApp() {
     }));
   };
 
-  /* ── Prompt tweaks ───────────────────────────────────────────── */
   const handlePromptVariantChange = (v: PromptVariant) => {
     setState(s => s.prompts
       ? { ...s, prompts: { ...s.prompts, activeVariant: v, customPrompt: s.prompts[v] } }
@@ -203,43 +217,63 @@ export function LogoMakerApp() {
 
   const selectedLogo = state.logos.find(l => l.id === state.selectedLogoId) ?? null;
 
-  /* ── Render ──────────────────────────────────────────────────── */
   return (
-    <div className={styles.logoMakerRoot} ref={topRef}>
+    <div className={styles.logoMakerRoot} ref={topRef} id="logo-creator-suite">
       {/* Hero Header */}
       <div className={styles.heroSection}>
-        <div className={styles.heroBadge}>✦ New Feature</div>
+        <div className={styles.heroBadge}>
+          <Sparkles size={14} /> AI Brand Identity Engine
+        </div>
         <h1 className={styles.heroTitle}>
-          AI Logo Maker
+          Business Logo Creator Suite
         </h1>
         <p className={styles.heroSubtitle}>
-          Create a professional logo in minutes — no design skills needed.
-          Answer a few questions and our engine generates unique, print-ready designs.
+          Transform your business name into complete vector brand packages, product mockups, and print-ready assets in seconds.
         </p>
+
         <div className={styles.heroFeatures}>
           <span className={styles.heroFeature}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-            6 logo styles
+            <Layers size={14} /> 6+ Composition Archetypes
           </span>
           <span className={styles.heroFeature}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-            SVG &amp; PNG export
+            <Download size={14} /> Vector SVG &amp; Transparent PNG
           </span>
           <span className={styles.heroFeature}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-            Full commercial rights
+            <ShieldCheck size={14} /> 100% Commercial Ownership
           </span>
           <span className={styles.heroFeature}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-            100% free
+            <Palette size={14} /> Mockup Studio Previews
           </span>
         </div>
       </div>
 
-      {/* Wizard Container */}
+      {/* Wizard Progress Indicator */}
       <div className={styles.wizardContainer}>
-        <StepIndicator currentStep={state.step} />
+        <div className={styles.stepIndicator} aria-label="Wizard steps">
+          {[
+            { num: 1, label: 'Brand Info' },
+            { num: 2, label: 'Design System' },
+            { num: 3, label: 'Generate & Preview' },
+          ].map((s, i) => (
+            <div key={s.num} className={styles.stepIndicatorItem}>
+              <div
+                className={`${styles.stepDot} ${state.step === s.num ? styles.stepDotActive : ''} ${state.step > s.num ? styles.stepDotDone : ''}`}
+                onClick={() => state.step > s.num && goToStep(s.num as any)}
+                style={{ cursor: state.step > s.num ? 'pointer' : 'default' }}
+              >
+                {state.step > s.num ? '✓' : s.num}
+              </div>
+              <span className={`${styles.stepDotLabel} ${state.step === s.num ? styles.stepDotLabelActive : ''}`}>
+                {s.label}
+              </span>
+              {i < 2 && (
+                <div className={`${styles.stepConnector} ${state.step > s.num ? styles.stepConnectorDone : ''}`} />
+              )}
+            </div>
+          ))}
+        </div>
 
+        {/* Wizard Step Content */}
         <div className={styles.wizardContent}>
           {state.step === 1 && (
             <BrandInputStep
@@ -249,6 +283,7 @@ export function LogoMakerApp() {
               errors={errors}
             />
           )}
+
           {state.step === 2 && (
             <DesignPrefsStep
               prefs={state.prefs}
@@ -257,6 +292,7 @@ export function LogoMakerApp() {
               onNext={handleStep2Next}
             />
           )}
+
           {state.step === 3 && (
             <GenerateStep
               inputs={state.inputs}
@@ -278,7 +314,7 @@ export function LogoMakerApp() {
         </div>
       </div>
 
-      {/* Logo Editor overlay */}
+      {/* Interactive Logo Editor Overlay */}
       {state.showEditor && selectedLogo && (
         <LogoEditor
           logo={selectedLogo}
@@ -287,30 +323,8 @@ export function LogoMakerApp() {
           onSave={handleEditorSave}
         />
       )}
-
-      {/* Bottom info strip */}
-      <div className={styles.infoStrip}>
-        <div className={styles.infoStripInner}>
-          <div className={styles.infoItem}>
-            <span className={styles.infoIcon}>🎨</span>
-            <span>6 unique template styles</span>
-          </div>
-          <div className={styles.infoItem}>
-            <span className={styles.infoIcon}>📐</span>
-            <span>SVG vector quality</span>
-          </div>
-          <div className={styles.infoItem}>
-            <span className={styles.infoIcon}>🔒</span>
-            <span>You own the logo</span>
-          </div>
-          <div className={styles.infoItem}>
-            <span className={styles.infoIcon}>⚡</span>
-            <span>Instant generation</span>
-          </div>
-        </div>
-      </div>
     </div>
   );
-}
+};
 
 export default LogoMakerApp;

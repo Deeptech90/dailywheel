@@ -1521,17 +1521,401 @@
   font-size: 1.1rem;
 }
 
-/* ── Animations ────────────────────────────────────────────── */
-@keyframes fadeSlideUp {
-  from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: translateY(0); }
+/* ── Mockup Studio & Advanced Editor Controls ──────────────── */
+.editorHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
 }
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
+.editorTabToggle {
+  display: inline-flex;
+  background: var(--surface-2, var(--bg-2));
+  padding: 0.25rem;
+  border-radius: 99px;
+  border: 1px solid var(--border);
 }
 
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.5; }
+.editorTabBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 99px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
 }
+
+.editorTabBtnActive {
+  background: var(--surface);
+  color: var(--primary);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--text);
+  margin-bottom: 0.25rem;
+}
+
+.sliderGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-top: 0.75rem;
+}
+
+.sliderLabel {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.rangeSlider {
+  width: 100%;
+  accent-color: var(--primary);
+  cursor: pointer;
+}
+
+.mockupTabContainer {
+  padding: 1.5rem;
+}
+
+.mockupStudioRoot {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.mockupTabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.mockupTabBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 1rem;
+  background: var(--surface-2, var(--bg-2));
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.mockupTabBtn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.mockupTabBtnActive {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: white;
+}
+
+.mockupDisplayContainer {
+  background: var(--surface-2, var(--bg-2));
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 2rem 1.5rem;
+  min-height: 380px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 1. Business Card Scene */
+.mockupCardScene {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 360px;
+}
+
+@media (min-width: 480px) {
+  .mockupCardScene {
+    flex-direction: row;
+    max-width: 100%;
+    justify-content: center;
+  }
+}
+
+.businessCardFront,
+.businessCardBack {
+  width: 240px;
+  height: 140px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+}
+
+.businessCardFront {
+  border-left-width: 4px;
+}
+
+.cardLogoWrap {
+  height: 40px;
+  margin-bottom: 0.5rem;
+}
+
+.cardLogoImg {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.cardPersonName {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #111827;
+}
+
+.cardPersonRole {
+  font-size: 0.65rem;
+  color: #6b7280;
+  margin-bottom: 0.35rem;
+}
+
+.cardDivider {
+  height: 1.5px;
+  width: 28px;
+  margin-bottom: 0.35rem;
+}
+
+.cardMeta {
+  font-size: 0.58rem;
+  color: #4b5563;
+  line-height: 1.35;
+}
+
+.businessCardBack {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cardBackLogoImg {
+  max-width: 120px;
+  max-height: 60px;
+  object-fit: contain;
+}
+
+/* 2. Mobile Phone Scene */
+.mockupMobileScene {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.mobilePhoneFrame {
+  width: 240px;
+  height: 400px;
+  background: #1f2937;
+  border-radius: 36px;
+  padding: 10px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  border: 3px solid #374151;
+}
+
+.mobileScreenContent {
+  width: 100%;
+  height: 100%;
+  background: #f9fafb;
+  border-radius: 26px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.mobileStatusBar {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 14px 2px;
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.mobileAppHeader {
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobileHeaderLogo {
+  max-height: 28px;
+  max-width: 120px;
+  object-fit: contain;
+}
+
+.mobileAppBody {
+  padding: 1rem 0.85rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.mobileHeroBanner {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 0.75rem;
+  border: 1px solid #e5e7eb;
+}
+
+.mobileHeroTitle {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #111827;
+  margin-bottom: 0.25rem;
+}
+
+.mobileHeroSub {
+  font-size: 0.65rem;
+  color: #6b7280;
+  margin-bottom: 0.5rem;
+  line-height: 1.3;
+}
+
+.mobileActionBtn {
+  display: block;
+  width: 100%;
+  padding: 0.4rem;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-size: 0.68rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.mobileCardPlaceholder {
+  height: 36px;
+  background: #e5e7eb;
+  border-radius: 8px;
+  opacity: 0.6;
+}
+
+/* 3. T-Shirt Scene */
+.mockupTshirtScene {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.tshirtMockupBody {
+  width: 240px;
+  height: 240px;
+  background: #18181b;
+  border-radius: 20px 20px 8px 8px;
+  position: relative;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tshirtCollar {
+  position: absolute;
+  top: 0;
+  width: 80px;
+  height: 30px;
+  border-bottom: 3px solid #27272a;
+  border-radius: 0 0 50px 50px;
+}
+
+.tshirtChestLogo {
+  max-width: 130px;
+  max-height: 65px;
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tshirtLogoImg {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.mockupCaption {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  font-weight: 600;
+}
+
+/* 4. Storefront Signage Scene */
+.mockupStorefrontScene {
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  justify-content: center;
+}
+
+.storefrontWall {
+  width: 100%;
+  height: 200px;
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.4);
+}
+
+.storefrontSignboard {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  padding: 1.25rem 2rem;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  position: relative;
+  z-index: 2;
+}
+
+.storefrontLogoImg {
+  max-width: 180px;
+  max-height: 70px;
+  object-fit: contain;
+  display: block;
+}
+
+.storefrontGlassReflection {
+  position: absolute;
+  top: 0;
+  left: -50%;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(45deg, transparent 40%, rgba(255, 255, 255, 0.05) 50%, transparent 60%);
+  pointer-events: none;
+}
+

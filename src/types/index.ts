@@ -1,16 +1,52 @@
-export interface Segment {
-  id: string;
-  label: string;
-  color: string;
-  /** Optional metadata for animal mode */
-  icon?: string;
-  trait?: string;
+export type NamingStyle =
+  | 'brandable'          // e.g., Google, Spotify, Vroom
+  | 'compound'           // e.g., FedEx, Instagram, SnapChat
+  | 'alternate-spelling' // e.g., Lyft, Flickr, Tumblr
+  | 'real-word'          // e.g., Apple, Shell, Target
+  | 'rhyming'            // e.g., FireWire, LeanBean, CrunchPunch
+  | 'non-english'        // e.g., Terra, Novus, Lumina
+  | 'multiple-words'     // e.g., Blue Horizon, Next Wave, Pure Flow
+  | 'person-name';       // e.g., Harrison, Madison, Watson
+
+export type RandomnessLevel = 'low' | 'medium' | 'high'; // 0.2, 0.7, 1.1
+
+export type NameLengthFilter = 'all' | 'short' | 'medium' | 'long'; // short: 3-6, med: 6-12, long: 12+
+
+export type TLD = '.com' | '.io' | '.ai' | '.app';
+
+export type DomainStatus = 'available' | 'taken' | 'premium' | 'checking';
+
+export interface DomainCheckResult {
+  tld: TLD;
+  domain: string;
+  status: DomainStatus;
+  priceEstimate?: string;
+  registrarUrl?: string;
 }
 
-export type WheelMode = 'business' | 'daily' | 'animal';
+export interface GeneratedBusinessName {
+  id: string;
+  name: string;
+  phonetic: string;
+  meaning: string;
+  style: NamingStyle;
+  lengthCategory: 'short' | 'medium' | 'long';
+  score: number;
+  domains: Record<TLD, DomainStatus>;
+  brandColors?: [string, string];
+  industryCategory?: string;
+  isSaved?: boolean;
+}
 
-// ── SAAS INTERFACES ────────────────────────────────────────
+export interface NamingFilterConfig {
+  keywords: string;
+  style: NamingStyle;
+  randomness: RandomnessLevel;
+  length: NameLengthFilter;
+  industry?: string;
+}
 
+// ── SAAS & USER INTERFACES ──────────────────────────────────
 export type PlanType = 'free' | 'pro' | 'business';
 
 export interface SubscriptionData {
@@ -24,7 +60,7 @@ export interface SubscriptionData {
 
 export interface UserStats {
   generationsToday: number;
-  lastGenerationDate: number; // YYYY-MM-DD string or timestamp
+  lastGenerationDate: number;
   referralsCount: number;
   referralCode: string;
 }
@@ -40,7 +76,6 @@ export interface UserProfile {
 }
 
 // ── BRAND KIT INTERFACES ────────────────────────────────────
-
 export interface BrandIntelligence {
   meaning: string;
   whyItWorks: string;
@@ -54,8 +89,8 @@ export interface BrandIntelligence {
 }
 
 export interface BrandStory {
-  shortDescription: string; // 50-word
-  longDescription: string;  // 100-word
+  shortDescription: string;
+  longDescription: string;
   aboutUs: string;
   elevatorPitch: string;
   mission: string;
@@ -111,59 +146,3 @@ export interface BrandKit {
   createdAt: number;
   lastModified: number;
 }
-
-// ── EXISTING INTERFACES ────────────────────────────────────
-
-export interface Particle {
-  x: number;
-  y: number;
-  vx: number;
-  vy: number;
-  life: number;
-  maxLife: number;
-  color: string;
-  size: number;
-  angle: number;
-  angularVelocity: number;
-  shape: 'circle' | 'star' | 'rect';
-}
-
-export interface SpinResult {
-  id: string;
-  segment: Segment;
-  timestamp: number;
-}
-
-export interface FloatingOrb {
-  el: HTMLElement;
-  originX: number;
-  originY: number;
-  animation: Animation | null;
-}
-
-export type AppState = {
-  segments: Segment[];
-  history: SpinResult[];
-  isSpinning: boolean;
-  soundEnabled: boolean;
-  spinDirection: 1 | -1;  // 1 = CW, -1 = CCW
-  showResult: boolean;
-  currentResult: Segment | null;
-  showEdit: boolean;
-  showHistory: boolean;
-  wheelMode: WheelMode;
-};
-
-export type AppAction =
-  | { type: 'SPIN_START' }
-  | { type: 'SPIN_END'; result: Segment }
-  | { type: 'CLOSE_RESULT' }
-  | { type: 'SET_SEGMENTS'; segments: Segment[] }
-  | { type: 'TOGGLE_SOUND' }
-  | { type: 'TOGGLE_DIRECTION' }
-  | { type: 'TOGGLE_EDIT' }
-  | { type: 'TOGGLE_HISTORY' }
-  | { type: 'SET_MODE'; mode: WheelMode }
-  | { type: 'HYDRATE_STATE'; segments: Segment[]; history: SpinResult[]; soundEnabled: boolean }
-  | { type: 'HYDRATE'; payload: { segments: Segment[]; history: SpinResult[]; soundEnabled: boolean; wheelMode: WheelMode } }
-  | { type: 'SET_HISTORY'; payload: SpinResult[] };

@@ -17,17 +17,21 @@ interface DesignPrefsStepProps {
 }
 
 const FONT_OPTIONS: { id: FontStyle; label: string; sample: string }[] = [
-  { id: 'sans',      label: 'Sans-Serif',  sample: 'Aa' },
-  { id: 'serif',     label: 'Serif',       sample: 'Aa' },
-  { id: 'script',    label: 'Script',      sample: 'Aa' },
-  { id: 'geometric', label: 'Geometric',   sample: 'Aa' },
+  { id: 'geometric', label: 'Geometric', sample: 'Aa' },
+  { id: 'sans',      label: 'Sans-Serif', sample: 'Aa' },
+  { id: 'serif',     label: 'Serif', sample: 'Aa' },
+  { id: 'display',   label: 'Display', sample: 'Aa' },
+  { id: 'script',    label: 'Script', sample: 'Aa' },
+  { id: 'mono',      label: 'Monospace', sample: 'Aa' },
 ];
 
 const FONT_PREVIEWS: Record<FontStyle, React.CSSProperties> = {
+  geometric: { fontFamily: "'Outfit', sans-serif", fontWeight: 700, letterSpacing: '0.05em' },
   sans:      { fontFamily: "'Inter', sans-serif" },
   serif:     { fontFamily: "'Georgia', serif" },
+  display:   { fontFamily: "'Outfit', sans-serif", fontWeight: 900, letterSpacing: '-0.02em' },
   script:    { fontFamily: 'cursive' },
-  geometric: { fontFamily: "'Outfit', sans-serif", fontWeight: 700, letterSpacing: '0.05em' },
+  mono:      { fontFamily: "ui-monospace, 'Courier New', monospace" },
 };
 
 const LAYOUT_OPTIONS: { id: LayoutChoice; label: string; icon: string }[] = [

@@ -1,32 +1,27 @@
-import { Segment, SpinResult } from '../types';
-import { DEFAULT_SEGMENTS } from './colors';
+/* ============================================================
+   Storage Utilities — LocalStorage persistence for user preferences,
+   brand history, and saved items
+   ============================================================ */
 
-const SEGMENTS_KEY = 'dw_segments';
-const HISTORY_KEY = 'dw_history';
-const SOUND_KEY = 'dw_sound';
-
-export function loadSegments(): Segment[] {
-  try {
-    const raw = localStorage.getItem(SEGMENTS_KEY);
-    if (raw) return JSON.parse(raw) as Segment[];
-  } catch { /* ignore */ }
-  return DEFAULT_SEGMENTS;
+export interface GenerationHistoryItem {
+  id: string;
+  name: string;
+  category?: string;
+  timestamp: number;
 }
 
-export function saveSegments(segments: Segment[]): void {
-  localStorage.setItem(SEGMENTS_KEY, JSON.stringify(segments));
-}
+const HISTORY_KEY = 'ubn_generation_history';
+const SOUND_KEY = 'ubn_sound_enabled';
 
-export function loadHistory(): SpinResult[] {
+export function loadHistory(): GenerationHistoryItem[] {
   try {
     const raw = localStorage.getItem(HISTORY_KEY);
-    if (raw) return JSON.parse(raw) as SpinResult[];
+    if (raw) return JSON.parse(raw) as GenerationHistoryItem[];
   } catch { /* ignore */ }
   return [];
 }
 
-export function saveHistory(history: SpinResult[]): void {
-  // Keep only the last 50 results
+export function saveHistory(history: GenerationHistoryItem[]): void {
   const trimmed = history.slice(-50);
   localStorage.setItem(HISTORY_KEY, JSON.stringify(trimmed));
 }
