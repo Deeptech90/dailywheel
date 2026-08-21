@@ -79,8 +79,8 @@ const HOMEPAGE_PRERENDER_CONTENT = `
     <main class="seo-prerender">
       <h1>AI Business Name Generator &mdash; Generate Unique Brand Names &amp; Vector Logos Instantly</h1>
       <p>
-        UniqueBusinessName.com is an enterprise-grade AI branding platform that unites a Namelix-grade Business Name Generator
-        with a Turbologo-grade Vector Logo Creator Suite. Configure 8 distinct naming style taxonomies, temperature decoding
+        UniqueBusinessName.com is an enterprise-grade AI branding platform that unites an advanced Business Name Generator
+        with a professional Vector Logo Creator Suite. Configure 8 distinct naming style taxonomies, temperature decoding
         parameters, and string length constraints. Discover brandable company names, check real-time domain availability
         across .com, .io, .ai, and .app TLDs, and export complete vector brand asset packages in a single click.
       </p>

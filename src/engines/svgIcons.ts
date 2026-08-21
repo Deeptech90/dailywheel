@@ -1,5 +1,5 @@
 /* ============================================================
-   SVG Icons Library — Turbologo Reference Vector Index
+   SVG Icons Library
    Comprehensive categorized SVG vector symbols
    ============================================================ */
 

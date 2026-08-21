@@ -1,5 +1,5 @@
 /* ============================================================
-   MockupPreview — Turbologo Real-World Product Mockup Studio
+   MockupPreview — Real-World Product Mockup Studio
    Renders active brand logo across:
    1. Business Card
    2. Mobile Screen

@@ -1,8 +1,8 @@
 /* ============================================================
    Homepage — UniqueBusinessName.com
    Dual-Engine AI Branding Platform:
-   1. AI Business Name Generator (Namelix architecture)
-   2. Business Logo Creator Suite (Turbologo architecture)
+   1. AI Business Name Generator
+   2. Business Logo Creator Suite
    Connected via unified BrandStateContext
    ============================================================ */
 
@@ -220,7 +220,7 @@ export default function Home() {
               <Wand2 size={24} />
             </div>
             <h3 style={{ fontSize: '1.25rem', fontWeight: 800, marginBottom: '0.5rem', color: 'var(--text)' }}>
-              1. AI Naming Engine (Namelix Architecture)
+              1. Intelligent AI Naming Engine
             </h3>
             <p style={{ color: 'var(--text-muted)', fontSize: '0.92rem', lineHeight: 1.6 }}>
               Configure 8 distinct naming style taxonomies, variable temperature decoding ($0.2$ to $1.1$), and string length parameters. Our phonetic synthesis algorithm creates catchy, memorable coinages.
@@ -244,7 +244,7 @@ export default function Home() {
               <Palette size={24} />
             </div>
             <h3 style={{ fontSize: '1.25rem', fontWeight: 800, marginBottom: '0.5rem', color: 'var(--text)' }}>
-              3. Vector Logo Creator (Turbologo Architecture)
+              3. Vector Logo Creator Suite
             </h3>
             <p style={{ color: 'var(--text-muted)', fontSize: '0.92rem', lineHeight: 1.6 }}>
               Transfer your selected name into a 6-stage logo creator. Customise typography font families, letter spacing, icon scales, color palettes, and preview live on product mockups.

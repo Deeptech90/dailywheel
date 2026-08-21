@@ -1,5 +1,5 @@
 /* ============================================================
-   Logo Renderer — Turbologo Client-Side SVG Vector Engine
+   Logo Renderer — Client-Side SVG Vector Engine
    Generates structured SVG strings for 6+ template styles
    Supports typography metrics, icon scaling, and layout balance
    ============================================================ */

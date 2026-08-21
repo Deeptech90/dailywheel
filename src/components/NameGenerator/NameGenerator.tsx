@@ -1,7 +1,7 @@
 /* ============================================================
-   NameGenerator — Namelix Architecture AI Business Name Engine
-   Search interface, 8 naming styles, temperature decoding,
-   length constraints, and live domain lookup name card grid
+   NameGenerator — AI Business Name Discovery Engine
+   Morphological synthesis, 8 styles, temperature controls,
+   and real-time asynchronous domain checking
    ============================================================ */
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
@@ -156,7 +156,7 @@ export const NameGenerator: React.FC = () => {
           <span className={styles.heroBadge}>
             <Sparkles size={14} /> AI Brand Engine
           </span>
-          <span className={styles.subBadge}>Namelix-Grade Architecture</span>
+          <span className={styles.subBadge}>Advanced Neural Generator</span>
         </div>
 
         <h1 className={styles.mainTitle}>

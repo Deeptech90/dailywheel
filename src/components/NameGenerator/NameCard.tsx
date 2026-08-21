@@ -1,5 +1,5 @@
 /* ============================================================
-   NameCard — Namelix-grade interactive brand name card
+   NameCard — Interactive brand name card
    Displays phonetics, domain status badges, heart save action,
    and 1-click "Create Logo with This Name" CTA
    ============================================================ */

@@ -1,5 +1,5 @@
 /* ============================================================
-   Logo Maker — Turbologo Architecture Type Definitions
+   Logo Maker — Visual Brand Suite Type Definitions
    ============================================================ */
 
 export type TemplateStyle = 'minimal' | 'emblem' | 'wordmark' | 'lettermark' | 'mascot' | 'abstract' | 'badge' | 'modern-geo';

@@ -1,5 +1,5 @@
 /* ============================================================
-   AI Naming Engine — Namelix Architecture
+   AI Naming Engine
    Phonetic synthesis, 8 styles, temperature decoding, length
    constraints, and preference vector learning loop
    ============================================================ */

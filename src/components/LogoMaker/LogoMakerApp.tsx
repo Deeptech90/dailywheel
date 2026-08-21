@@ -1,5 +1,5 @@
 /* ============================================================
-   LogoMakerApp — Turbologo Architecture Suite
+   LogoMakerApp — Visual Brand Suite
    Multi-step wizard + generative composition + interactive canvas
    Integrated with BrandStateContext for 1-click state transfer
    ============================================================ */

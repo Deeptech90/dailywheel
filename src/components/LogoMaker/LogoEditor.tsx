@@ -1,5 +1,5 @@
 /* ============================================================
-   Logo Editor — Turbologo Interactive Canvas & Customizer
+   Logo Editor — Interactive Canvas & Customizer
    Live controls: Typography, Letter Spacing, Icon Scale,
    Color Palettes, Mockup Previews, and Multi-Format Exports
    ============================================================ */
