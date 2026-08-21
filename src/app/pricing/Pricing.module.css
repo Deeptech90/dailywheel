@@ -75,7 +75,7 @@
   border: none;
   cursor: pointer;
   position: relative;
-  transition: all 0.3s;
+  transition: background-color 0.25s ease;
 }
 
 .toggleBtn[aria-pressed="true"] {
@@ -181,7 +181,7 @@
   font-weight: 600;
   cursor: pointer;
   margin-bottom: 2rem;
-  transition: all 0.2s;
+  transition: transform 0.15s ease, background-color 0.2s ease, border-color 0.2s ease;
 }
 
 .btnPrimary {
@@ -302,7 +302,7 @@
   font-weight: 600;
   margin-bottom: 1.5rem;
   margin-top: -1.5rem;
-  transition: all 0.2s;
+  transition: background-color 0.2s ease;
 }
 .trialLink:hover { background: rgba(168,85,247,0.1); }
 

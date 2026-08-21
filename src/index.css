@@ -129,8 +129,9 @@ body {
   min-height: 100dvh;
   overflow-x: hidden;
   position: relative;
-  /* Prevent page-level bounce/overscroll on iOS Safari */
-  overscroll-behavior: none;
+  /* Prevent horizontal bounce while keeping native vertical scroll momentum */
+  overscroll-behavior-x: none;
+  overscroll-behavior-y: auto;
   transition: background 0.3s ease, color 0.3s ease;
   /* Smooth momentum scrolling on iOS */
   -webkit-overflow-scrolling: touch;
@@ -149,10 +150,17 @@ button, a, img {
   -webkit-touch-callout: none;
 }
 
+/* Non-blocking canvas touch default: allows normal vertical page scrolling */
 canvas {
-  touch-action: none;
+  touch-action: pan-y;
   -webkit-user-select: none;
   user-select: none;
+}
+
+/* Strictly scoped touch-action: none ONLY when actively editing/dragging */
+canvas.interactiveCanvas,
+.interactiveCanvas canvas {
+  touch-action: none;
 }
 
 /* Prevent zoom on input focus — iOS Safari requires font-size >= 16px */
@@ -220,7 +228,7 @@ input, textarea, select {
   font-family: var(--font-display);
   font-size: 1.125rem; /* 18px */
   font-weight: 600;
-  transition: all var(--duration-base) var(--ease-smooth);
+  transition: transform var(--duration-base) var(--ease-smooth), box-shadow var(--duration-base) var(--ease-smooth);
   box-shadow: 0 4px 12px var(--glow);
   /* Minimum touch target */
   min-height: 56px;

@@ -25,7 +25,7 @@ export function NavigationDrawer() {
       setPathname(window.location.pathname);
       setIsOpen(false);
     };
-    window.addEventListener('popstate', handleLocationChange);
+    window.addEventListener('popstate', handleLocationChange, { passive: true });
     return () => window.removeEventListener('popstate', handleLocationChange);
   }, []);
 

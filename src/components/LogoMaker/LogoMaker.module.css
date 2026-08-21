@@ -133,7 +133,7 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  transition: all 0.3s var(--ease-smooth);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
   z-index: 1;
 }
 
@@ -379,7 +379,8 @@
   font-size: 0.85rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+  min-height: 44px;
 }
 
 .chip:hover:not(:disabled) {
@@ -405,6 +406,7 @@
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 0.75rem;
   margin-top: 0.5rem;
+  touch-action: pan-y;
 }
 
 .templateCard {
@@ -418,8 +420,11 @@
   background: var(--surface);
   cursor: pointer;
   text-align: left;
-  transition: all 0.2s var(--ease-smooth);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
   overflow: hidden;
+  content-visibility: auto;
+  contain-intrinsic-size: 0 120px;
+  touch-action: pan-y;
 }
 
 .templateCard:hover {
@@ -501,15 +506,16 @@
   border: 2px solid transparent;
   overflow: hidden;
   cursor: pointer;
-  width: 40px;
-  height: 24px;
-  transition: all 0.15s ease;
+  width: 48px;
+  height: 36px;
+  min-height: 44px;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
   padding: 0;
 }
 
 .paletteChipActive {
   border-color: var(--text);
-  transform: scale(1.15);
+  transform: scale(1.1);
   box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 
@@ -547,8 +553,8 @@
 }
 
 .colorInput {
-  width: 44px;
-  height: 36px;
+  width: 48px;
+  height: 44px;
   border: 1.5px solid var(--border);
   border-radius: var(--radius-xs);
   padding: 2px;
@@ -564,6 +570,9 @@
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
   border: 1px solid var(--border);
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
 }
 
 /* ── Font Grid ─────────────────────────────────────────────── */
@@ -582,13 +591,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 0.4rem;
   padding: 0.85rem 0.5rem;
   border: 1.5px solid var(--border);
   border-radius: var(--radius-md);
   background: var(--surface);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: border-color 0.15s ease, background-color 0.15s ease, transform 0.15s ease;
+  min-height: 64px;
 }
 
 .fontCard:hover {
@@ -628,13 +639,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 0.35rem;
   padding: 0.75rem 0.5rem;
   border: 1.5px solid var(--border);
   border-radius: var(--radius-md);
   background: var(--surface);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+  min-height: 60px;
 }
 
 .layoutBtn:hover {
@@ -685,7 +698,7 @@
   font-weight: 600;
   font-family: var(--font-display);
   cursor: pointer;
-  transition: all 0.2s var(--ease-smooth);
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
   box-shadow: 0 4px 14px rgba(29, 78, 216, 0.35);
   min-height: 48px;
 }
@@ -711,7 +724,7 @@
   font-size: 0.9rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: border-color 0.15s ease, color 0.15s ease;
   min-height: 48px;
 }
 
@@ -733,7 +746,7 @@
   font-weight: 700;
   font-family: var(--font-display);
   cursor: pointer;
-  transition: all 0.2s var(--ease-smooth);
+  transition: transform 0.15s ease, box-shadow 0.2s ease, opacity 0.2s ease;
   box-shadow: 0 4px 20px rgba(29, 78, 216, 0.4);
   min-height: 52px;
 }
@@ -934,9 +947,10 @@
 /* ── Preview Grid ──────────────────────────────────────────── */
 .previewGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr));
   gap: 1.25rem;
   margin-top: 1.5rem;
+  touch-action: pan-y;
 }
 
 /* ── Preview Card ──────────────────────────────────────────── */
@@ -947,11 +961,14 @@
   border-radius: var(--radius-lg);
   padding: 1.25rem;
   cursor: pointer;
-  transition: all 0.2s var(--ease-smooth);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
   overflow: hidden;
+  content-visibility: auto;
+  contain-intrinsic-size: 0 240px;
+  touch-action: pan-y;
 }
 
 .previewCard:hover {
@@ -1041,7 +1058,8 @@
   font-size: 0.75rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+  min-height: 38px;
 }
 
 .previewActionBtn:hover:not(:disabled) {
@@ -1133,7 +1151,8 @@
   font-size: 0.78rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+  min-height: 38px;
 }
 
 .variantBtnActive {
@@ -1177,7 +1196,8 @@
   font-weight: 600;
   color: var(--text-muted);
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: border-color 0.15s ease, color 0.15s ease;
+  min-height: 36px;
 }
 
 .copyBtn:hover {
@@ -1218,14 +1238,15 @@
   border-radius: var(--radius-sm);
 }
 
-/* ── Logo Editor ───────────────────────────────────────────── */
+/* ── Logo Editor (Responsive Bottom Sheet & Desktop Sidebar) ── */
 .editorBackdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.5);
-  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(6px);
   z-index: 1000;
   animation: fadeIn 0.2s ease;
+  touch-action: pan-y;
 }
 
 @keyframes fadeIn {
@@ -1238,15 +1259,16 @@
   top: 0;
   right: 0;
   bottom: 0;
-  width: min(520px, 100vw);
+  width: min(540px, 100vw);
   background: var(--surface);
   border-left: 1px solid var(--border);
   z-index: 1001;
   display: flex;
   flex-direction: column;
-  box-shadow: -20px 0 60px rgba(0,0,0,0.3);
-  animation: slideInRight 0.3s var(--ease-out);
+  box-shadow: -20px 0 60px rgba(0, 0, 0, 0.35);
+  animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   overflow: hidden;
+  touch-action: pan-y;
 }
 
 @keyframes slideInRight {
@@ -1254,206 +1276,407 @@
   to   { transform: translateX(0); }
 }
 
+/* Mobile Bottom Sheet Layout for < 768px */
+@media (max-width: 767px) {
+  .editorPanel.mobileEditorSheet {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100dvh;
+    border-left: none;
+    border-top: none;
+    border-radius: 0;
+    animation: slideInUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes slideInUp {
+    from { transform: translateY(100%); }
+    to   { transform: translateY(0); }
+  }
+}
+
 .editorHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.25rem 1.5rem;
+  padding: 0.85rem 1.25rem;
   border-bottom: 1px solid var(--border);
   background: var(--surface);
+  flex-shrink: 0;
+  min-height: 56px;
+}
+
+.editorHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.brandTitleHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.headerDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
   flex-shrink: 0;
 }
 
 .editorTitle {
   font-family: var(--font-display);
-  font-size: 1.15rem;
-  font-weight: 700;
+  font-size: 1.05rem;
+  font-weight: 800;
   color: var(--text);
+  white-space: nowrap;
+}
+
+.activeBrandBadge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: var(--surface-2);
+  color: var(--primary);
+  padding: 0.2rem 0.55rem;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .editorHeaderActions {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.5rem;
 }
 
 .editorSaveBtn {
-  padding: 0.5rem 1.25rem;
-  background: var(--primary);
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, #1D4ED8 0%, #3B82F6 100%);
   color: white;
   border: none;
-  border-radius: var(--radius-full);
-  font-size: 0.875rem;
-  font-weight: 600;
+  border-radius: 10px;
+  font-size: 0.84rem;
+  font-weight: 700;
   cursor: pointer;
-  transition: all 0.15s ease;
+  box-shadow: 0 2px 8px rgba(29, 78, 216, 0.3);
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .editorSaveBtn:hover {
-  background: var(--primary-light);
   transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(29, 78, 216, 0.45);
 }
 
 .editorCloseBtn {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
   border: 1px solid var(--border);
-  background: transparent;
+  background: var(--surface-2);
   color: var(--text-muted);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.15s ease;
-}
-
-.editorCloseBtn:hover {
-  background: var(--surface-2, var(--bg-2));
-  color: var(--text);
-}
-
-.editorBody {
-  flex: 1;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  padding-bottom: env(safe-area-inset-bottom, 0);
-}
-
-.editorPreviewSection {
-  padding: 1.5rem;
-  border-bottom: 1px solid var(--border);
-  background: var(--surface-2, var(--bg-2));
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.75rem;
+  transition: color 0.15s ease, background-color 0.15s ease;
   flex-shrink: 0;
 }
 
-.editorPreviewWrap {
-  border-radius: var(--radius-md);
-  padding: 1.5rem;
-  min-height: 160px;
+.editorCloseBtn:hover {
+  background: var(--surface-3, var(--bg-2));
+  color: var(--text);
+}
+
+/* ── Dynamic Responsive Viewport Stage ──────────────────────── */
+.editorStageSection {
+  padding: 1rem 1.25rem 0.75rem;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  flex-shrink: 0;
+  touch-action: pan-y;
+}
+
+.editorCanvasWrapper {
+  width: 100%;
+  max-width: 320px;
+  height: 200px;
+  border-radius: 14px;
+  padding: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  transition: background 0.3s ease;
   border: 1px solid var(--border);
+  background: #ffffff;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  transition: background 0.25s ease;
+  position: relative;
+  touch-action: pan-y;
+  overflow: hidden;
+}
+
+@media (max-width: 767px) {
+  .editorCanvasWrapper {
+    max-width: 100%;
+    height: clamp(160px, 32vh, 220px);
+  }
+}
+
+.interactiveCanvas {
+  touch-action: none !important;
+  box-shadow: 0 0 0 2px var(--primary);
 }
 
 .editorPreviewImg {
   max-width: 100%;
-  max-height: 160px;
+  max-height: 100%;
   object-fit: contain;
   display: block;
+  pointer-events: none;
+  user-select: none;
 }
 
-.editorPreviewControls {
+.stageControlBar {
   display: flex;
+  align-items: center;
+  justify-content: center;
   gap: 0.5rem;
+  width: 100%;
+  flex-wrap: wrap;
 }
 
-.bgToggleBtn {
-  padding: 0.35rem 1rem;
-  border-radius: 99px;
+.stagePillBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
   border: 1px solid var(--border);
-  background: transparent;
+  background: var(--surface);
   color: var(--text-muted);
-  font-size: 0.78rem;
+  font-size: 0.76rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
+  min-height: 36px;
 }
 
-.bgToggleBtnActive {
+.stagePillBtn:hover {
+  border-color: var(--primary);
+  color: var(--text);
+}
+
+.stagePillActive {
   border-color: var(--primary);
   color: var(--primary);
   background: rgba(29, 78, 216, 0.08);
 }
 
-.editorControls {
+.touchModeActive {
+  background: rgba(29, 78, 216, 0.12);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+/* ── Tool Navigation Bar (Horizontal Tab Pills) ─────────────── */
+.toolTabBar {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 1.25rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  flex-shrink: 0;
+  touch-action: pan-x;
+  -webkit-overflow-scrolling: touch;
+}
+
+.toolTabBar::-webkit-scrollbar {
+  display: none;
+}
+
+.toolTabBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.95rem;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  min-height: 44px;
+}
+
+.toolTabBtn:hover {
+  color: var(--text);
+  border-color: var(--primary);
+}
+
+.toolTabBtnActive {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(29, 78, 216, 0.3);
+}
+
+/* ── Scrollable Tool Drawer Body ────────────────────────────── */
+.toolDrawerBody {
   flex: 1;
   overflow-y: auto;
-  padding: 0 1.5rem 1.5rem;
+  padding: 1.25rem;
   display: flex;
   flex-direction: column;
-  gap: 0;
+  gap: 1.25rem;
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
 }
 
 .editorSection {
-  padding: 1.25rem 0;
-  border-bottom: 1px solid var(--border);
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.85rem;
 }
 
-.editorSection:last-child {
-  border-bottom: none;
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--text);
 }
 
 .editorSectionTitle {
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   font-weight: 700;
-  color: var(--text-dim);
+  color: var(--text);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.04em;
 }
 
 .editorChipRow {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.45rem;
 }
 
 .editorChip {
-  padding: 0.35rem 0.85rem;
-  border-radius: 99px;
-  border: 1.5px solid var(--border);
-  background: transparent;
+  padding: 0.5rem 0.9rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
   color: var(--text-muted);
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
 }
 
 .editorChip:hover {
   border-color: var(--primary);
-  color: var(--primary);
+  color: var(--text);
 }
 
 .editorChipActive {
   border-color: var(--primary);
   background: rgba(29, 78, 216, 0.1);
   color: var(--primary);
-  font-weight: 600;
+  font-weight: 700;
 }
 
-/* ── Export Section ────────────────────────────────────────── */
+.sliderGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  margin-top: 0.5rem;
+}
+
+.sliderLabel {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.rangeSlider {
+  width: 100%;
+  accent-color: var(--primary);
+  cursor: pointer;
+  height: 28px;
+}
+
+.fieldInput {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  font-size: 0.92rem;
+  outline: none;
+  min-height: 44px;
+  transition: border-color 0.15s ease;
+}
+
+.fieldInput:focus {
+  border-color: var(--primary);
+  background: var(--surface);
+}
+
+.fieldHint {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  line-height: 1.4;
+}
+
+/* ── Export Actions ─────────────────────────────────────────── */
 .exportGroup {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
+  flex-direction: column;
+  gap: 0.6rem;
 }
 
 .exportBtn {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
-  padding: 0.55rem 1rem;
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius-sm);
-  background: var(--surface);
-  color: var(--text-muted);
-  font-size: 0.82rem;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface-2);
+  color: var(--text);
+  font-size: 0.88rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
+  min-height: 48px;
 }
 
 .exportBtn:hover:not(:disabled) {
@@ -1465,11 +1688,7 @@
 .exportBtnSuccess {
   border-color: var(--success) !important;
   color: var(--success) !important;
-}
-
-.exportBtnSm {
-  font-size: 0.78rem;
-  padding: 0.45rem 0.85rem;
+  background: rgba(22, 163, 74, 0.08) !important;
 }
 
 .pngExportGroup {
@@ -1480,142 +1699,48 @@
 }
 
 .exportLabel {
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: var(--text-dim);
-}
-
-.exportNote {
-  font-size: 0.75rem;
-  color: var(--text-dim);
-  font-style: italic;
-  margin-top: 0.25rem;
-}
-
-/* ── Info Strip ────────────────────────────────────────────── */
-.infoStrip {
-  border-top: 1px solid var(--border);
-  background: var(--surface);
-  padding: 1.5rem;
-}
-
-.infoStripInner {
-  max-width: 780px;
-  margin: 0 auto;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-  justify-content: center;
-}
-
-.infoItem {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.875rem;
-  color: var(--text-muted);
-  font-weight: 500;
-}
-
-.infoIcon {
-  font-size: 1.1rem;
-}
-
-/* ── Mockup Studio & Advanced Editor Controls ──────────────── */
-.editorHeaderLeft {
-  display: flex;
-  align-items: center;
-  gap: 1.25rem;
-  flex-wrap: wrap;
-}
-
-.editorTabToggle {
-  display: inline-flex;
-  background: var(--surface-2, var(--bg-2));
-  padding: 0.25rem;
-  border-radius: 99px;
-  border: 1px solid var(--border);
-}
-
-.editorTabBtn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.35rem 0.85rem;
-  border-radius: 99px;
-  border: none;
-  background: transparent;
-  color: var(--text-muted);
-  font-size: 0.78rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-
-.editorTabBtnActive {
-  background: var(--surface);
-  color: var(--primary);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-}
-
-.sectionHeader {
-  display: flex;
-  align-items: center;
-  gap: 0.45rem;
-  color: var(--text);
-  margin-bottom: 0.25rem;
-}
-
-.sliderGroup {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-  margin-top: 0.75rem;
-}
-
-.sliderLabel {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.78rem;
-  font-weight: 600;
+  font-size: 0.8rem;
+  font-weight: 700;
   color: var(--text-muted);
 }
 
-.rangeSlider {
-  width: 100%;
-  accent-color: var(--primary);
-  cursor: pointer;
+.exportBtnSm {
+  font-size: 0.82rem;
+  padding: 0.5rem 0.85rem;
+  min-height: 44px;
 }
 
+/* ── Mockup Studio Scene ────────────────────────────────────── */
 .mockupTabContainer {
-  padding: 1.5rem;
+  width: 100%;
 }
 
 .mockupStudioRoot {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
 .mockupTabs {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.45rem;
 }
 
 .mockupTabBtn {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
-  padding: 0.5rem 1rem;
-  background: var(--surface-2, var(--bg-2));
+  gap: 0.4rem;
+  padding: 0.5rem 0.85rem;
+  background: var(--surface-2);
   border: 1px solid var(--border);
-  border-radius: 99px;
-  font-size: 0.85rem;
+  border-radius: 10px;
+  font-size: 0.82rem;
   font-weight: 600;
   color: var(--text-muted);
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: border-color 0.15s ease, color 0.15s ease;
+  min-height: 44px;
 }
 
 .mockupTabBtn:hover {
@@ -1630,40 +1755,34 @@
 }
 
 .mockupDisplayContainer {
-  background: var(--surface-2, var(--bg-2));
+  background: var(--surface-2);
   border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 2rem 1.5rem;
-  min-height: 380px;
+  border-radius: 14px;
+  padding: 1.5rem 1rem;
+  min-height: 300px;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
+  touch-action: pan-y;
 }
 
 /* 1. Business Card Scene */
 .mockupCardScene {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
   width: 100%;
-  max-width: 360px;
-}
-
-@media (min-width: 480px) {
-  .mockupCardScene {
-    flex-direction: row;
-    max-width: 100%;
-    justify-content: center;
-  }
+  align-items: center;
 }
 
 .businessCardFront,
 .businessCardBack {
-  width: 240px;
-  height: 140px;
+  width: min(280px, 100%);
+  height: 155px;
   background: #ffffff;
   border-radius: 8px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
   padding: 1rem;
   display: flex;
   flex-direction: column;
@@ -1673,7 +1792,7 @@
 }
 
 .businessCardFront {
-  border-left-width: 4px;
+  border-left-width: 5px;
 }
 
 .cardLogoWrap {
@@ -1688,25 +1807,25 @@
 }
 
 .cardPersonName {
-  font-size: 0.78rem;
+  font-size: 0.8rem;
   font-weight: 800;
   color: #111827;
 }
 
 .cardPersonRole {
-  font-size: 0.65rem;
+  font-size: 0.68rem;
   color: #6b7280;
   margin-bottom: 0.35rem;
 }
 
 .cardDivider {
-  height: 1.5px;
+  height: 2px;
   width: 28px;
   margin-bottom: 0.35rem;
 }
 
 .cardMeta {
-  font-size: 0.58rem;
+  font-size: 0.6rem;
   color: #4b5563;
   line-height: 1.35;
 }
@@ -1718,8 +1837,8 @@
 }
 
 .cardBackLogoImg {
-  max-width: 120px;
-  max-height: 60px;
+  max-width: 130px;
+  max-height: 65px;
   object-fit: contain;
 }
 
@@ -1731,12 +1850,12 @@
 }
 
 .mobilePhoneFrame {
-  width: 240px;
-  height: 400px;
+  width: min(230px, 100%);
+  height: 380px;
   background: #1f2937;
-  border-radius: 36px;
-  padding: 10px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  border-radius: 32px;
+  padding: 8px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
   border: 3px solid #374151;
 }
 
@@ -1744,7 +1863,7 @@
   width: 100%;
   height: 100%;
   background: #f9fafb;
-  border-radius: 26px;
+  border-radius: 24px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -1753,52 +1872,52 @@
 .mobileStatusBar {
   display: flex;
   justify-content: space-between;
-  padding: 6px 14px 2px;
+  padding: 6px 12px 2px;
   font-size: 0.62rem;
   font-weight: 700;
   color: #111827;
 }
 
 .mobileAppHeader {
-  padding: 0.75rem 1rem;
+  padding: 0.65rem 0.85rem;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .mobileHeaderLogo {
-  max-height: 28px;
-  max-width: 120px;
+  max-height: 26px;
+  max-width: 110px;
   object-fit: contain;
 }
 
 .mobileAppBody {
-  padding: 1rem 0.85rem;
+  padding: 0.75rem;
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.6rem;
 }
 
 .mobileHeroBanner {
   background: #ffffff;
-  border-radius: 12px;
-  padding: 0.75rem;
+  border-radius: 10px;
+  padding: 0.65rem;
   border: 1px solid #e5e7eb;
 }
 
 .mobileHeroTitle {
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 800;
   color: #111827;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.2rem;
 }
 
 .mobileHeroSub {
-  font-size: 0.65rem;
+  font-size: 0.62rem;
   color: #6b7280;
-  margin-bottom: 0.5rem;
-  line-height: 1.3;
+  margin-bottom: 0.4rem;
+  line-height: 1.25;
 }
 
 .mobileActionBtn {
@@ -1808,15 +1927,15 @@
   border: none;
   border-radius: 6px;
   color: white;
-  font-size: 0.68rem;
+  font-size: 0.65rem;
   font-weight: 700;
   cursor: pointer;
 }
 
 .mobileCardPlaceholder {
-  height: 36px;
+  height: 30px;
   background: #e5e7eb;
-  border-radius: 8px;
+  border-radius: 6px;
   opacity: 0.6;
 }
 
@@ -1826,10 +1945,11 @@
   flex-direction: column;
   align-items: center;
   gap: 0.75rem;
+  width: 100%;
 }
 
 .tshirtMockupBody {
-  width: 240px;
+  width: min(240px, 100%);
   height: 240px;
   background: #18181b;
   border-radius: 20px 20px 8px 8px;
@@ -1843,8 +1963,8 @@
 .tshirtCollar {
   position: absolute;
   top: 0;
-  width: 80px;
-  height: 30px;
+  width: 75px;
+  height: 28px;
   border-bottom: 3px solid #27272a;
   border-radius: 0 0 50px 50px;
 }
@@ -1852,7 +1972,7 @@
 .tshirtChestLogo {
   max-width: 130px;
   max-height: 65px;
-  margin-top: 15px;
+  margin-top: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1874,14 +1994,14 @@
 /* 4. Storefront Signage Scene */
 .mockupStorefrontScene {
   width: 100%;
-  max-width: 380px;
+  max-width: 360px;
   display: flex;
   justify-content: center;
 }
 
 .storefrontWall {
   width: 100%;
-  height: 200px;
+  height: 190px;
   background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
   border-radius: 12px;
   display: flex;
@@ -1895,16 +2015,17 @@
 .storefrontSignboard {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(8px);
-  padding: 1.25rem 2rem;
+  padding: 1rem 1.5rem;
   border-radius: 8px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
   position: relative;
   z-index: 2;
+  max-width: 85%;
 }
 
 .storefrontLogoImg {
-  max-width: 180px;
-  max-height: 70px;
+  max-width: 160px;
+  max-height: 60px;
   object-fit: contain;
   display: block;
 }
@@ -1918,4 +2039,5 @@
   background: linear-gradient(45deg, transparent 40%, rgba(255, 255, 255, 0.05) 50%, transparent 60%);
   pointer-events: none;
 }
+
 

@@ -36,7 +36,7 @@ export function App() {
       window.scrollTo(0, 0);
     };
 
-    window.addEventListener('popstate', handleLocationChange);
+    window.addEventListener('popstate', handleLocationChange, { passive: true });
     return () => {
       window.removeEventListener('popstate', handleLocationChange);
     };

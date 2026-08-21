@@ -76,7 +76,8 @@
   border-radius: 18px;
   border: 1px solid var(--border);
   box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.08);
-  transition: all 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  touch-action: pan-y;
 }
 
 .searchForm:focus-within {
@@ -128,7 +129,9 @@
   justify-content: center;
   padding: 0.25rem;
   border-radius: 50%;
-  transition: color 0.15s;
+  transition: color 0.15s ease;
+  min-width: 44px;
+  min-height: 44px;
 }
 
 .clearBtn:hover {
@@ -153,7 +156,8 @@
   font-weight: 600;
   font-size: 0.92rem;
   cursor: pointer;
-  transition: all 0.15s;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  min-height: 44px;
 }
 
 .filterToggleBtn:hover,
@@ -178,8 +182,9 @@
   font-weight: 700;
   cursor: pointer;
   box-shadow: 0 4px 14px rgba(29, 78, 216, 0.35);
-  transition: all 0.2s;
+  transition: transform 0.15s ease, box-shadow 0.2s ease, opacity 0.15s ease;
   white-space: nowrap;
+  min-height: 44px;
 }
 
 .submitBtn:hover:not(:disabled) {
@@ -218,177 +223,212 @@
 }
 
 .tagBtn {
-  background: var(--surface-2);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.85rem;
+  background: var(--surface);
   border: 1px solid var(--border);
-  color: var(--text-muted);
   border-radius: 999px;
-  padding: 0.3rem 0.75rem;
+  color: var(--text-muted);
   font-size: 0.82rem;
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
-  transition: all 0.15s;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  min-height: 38px;
 }
 
 .tagBtn:hover {
+  background: var(--surface-2);
+  color: var(--text);
+  border-color: var(--primary);
+}
+
+.tagBtnActive {
+  background: rgba(29, 78, 216, 0.1);
   border-color: var(--primary);
   color: var(--primary);
-  background: rgba(29, 78, 216, 0.05);
+  font-weight: 600;
 }
 
-/* ── 3-Axis Filter Matrix ───────────────────────────────────── */
-.filterMatrix {
-  max-height: 0;
-  overflow: hidden;
-  opacity: 0;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  margin-bottom: 0;
+/* ── Filter Panel ───────────────────────────────────────────── */
+.filterPanel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+  box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.06);
+  transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  touch-action: pan-y;
 }
 
-.filterMatrixOpen {
-  max-height: 800px;
-  opacity: 1;
-  margin-bottom: 2rem;
+.filterHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.filterTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.resetBtn {
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.15s ease;
+  padding: 0.4rem 0.6rem;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.resetBtn:hover {
+  color: var(--primary);
+}
+
+.filterGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .filterGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 .filterGroup {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 1.25rem;
-  margin-bottom: 1rem;
-}
-
-.filterGroupHeader {
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: var(--text);
-  margin-bottom: 0.85rem;
-}
-
-.stylePills {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  flex-direction: column;
   gap: 0.6rem;
 }
 
-.stylePill {
+.filterLabel {
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-dim);
+}
+
+.stylePillsGrid {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0.75rem 1rem;
-  background: var(--surface-2);
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.stylePill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
   border: 1px solid var(--border);
-  border-radius: 12px;
+  background: var(--surface-2);
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-weight: 500;
   cursor: pointer;
-  text-align: left;
-  transition: all 0.15s;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  min-height: 40px;
 }
 
 .stylePill:hover {
   border-color: var(--primary);
-  background: rgba(29, 78, 216, 0.04);
+  color: var(--text);
 }
 
 .stylePillActive {
-  background: rgba(29, 78, 216, 0.08);
+  background: var(--primary);
   border-color: var(--primary);
-  box-shadow: 0 0 0 1px var(--primary);
+  color: #fff;
+  font-weight: 600;
 }
 
-.stylePillLabel {
+.tempSliderWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.tempLabels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  color: var(--text-dim);
+}
+
+.tempRange {
+  width: 100%;
+  accent-color: var(--primary);
+  cursor: pointer;
+  height: 24px;
+}
+
+.tempValue {
+  font-size: 0.85rem;
   font-weight: 700;
-  font-size: 0.9rem;
-  color: var(--text);
-}
-
-.stylePillActive .stylePillLabel {
   color: var(--primary);
 }
 
-.stylePillExample {
-  font-size: 0.75rem;
-  color: var(--text-dim);
-  margin-top: 0.15rem;
-}
-
-.filterRowTwo {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1rem;
-}
-
-.subFilterGroup {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 1.25rem;
-}
-
-.segmentedControl {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
-  gap: 0.4rem;
-  background: var(--surface-2);
-  padding: 0.35rem;
-  border-radius: 12px;
-  border: 1px solid var(--border);
-}
-
-.segmentBtn {
+.lengthGroup {
   display: flex;
-  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.lengthBtn {
+  flex: 1;
+  padding: 0.55rem 0.5rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  min-height: 44px;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.5rem 0.4rem;
-  background: transparent;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.15s;
 }
 
-.segmentTitle {
-  font-size: 0.85rem;
-  font-weight: 700;
+.lengthBtn:hover {
+  border-color: var(--primary);
   color: var(--text);
 }
 
-.segmentTemp {
-  font-size: 0.7rem;
-  color: var(--text-dim);
-  margin-top: 0.1rem;
-}
-
-.segmentBtnActive {
-  background: var(--surface);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-}
-
-.segmentBtnActive .segmentTitle {
+.lengthBtnActive {
+  background: rgba(29, 78, 216, 0.1);
+  border-color: var(--primary);
   color: var(--primary);
 }
 
 /* ── Results Bar ────────────────────────────────────────────── */
 .resultsBar {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
-  padding: 1rem 0;
-  margin-bottom: 1.25rem;
-  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 2.5rem 0 1.5rem;
+  padding: 0 0.5rem;
 }
 
 .resultsCount {
   font-size: 0.95rem;
-  color: var(--text-muted);
-}
-
-.resultsCount strong {
+  font-weight: 700;
   color: var(--text);
 }
 
@@ -398,32 +438,32 @@
   gap: 0.6rem;
 }
 
-.savedDrawerTrigger {
+.savedDrawerBtn {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  padding: 0.55rem 0.9rem;
-  background: var(--surface);
-  border: 1px solid var(--border);
+  padding: 0.55rem 0.95rem;
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.25);
   border-radius: 10px;
-  color: var(--text);
+  color: #EF4444;
   font-size: 0.88rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.15s;
+  transition: background-color 0.15s ease, color 0.15s ease;
+  min-height: 44px;
 }
 
-.savedDrawerTrigger:hover {
-  border-color: #EF4444;
-  color: #EF4444;
+.savedDrawerBtn:hover {
+  background: rgba(239, 68, 68, 0.15);
 }
 
 .savedBadge {
   background: #EF4444;
   color: #fff;
   font-size: 0.75rem;
-  font-weight: 800;
-  padding: 0.1rem 0.45rem;
+  font-weight: 700;
+  padding: 0.15rem 0.45rem;
   border-radius: 999px;
 }
 
@@ -439,7 +479,8 @@
   font-size: 0.88rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.15s;
+  transition: color 0.15s ease, border-color 0.15s ease;
+  min-height: 44px;
 }
 
 .refreshBtn:hover:not(:disabled) {
@@ -450,29 +491,12 @@
 /* ── Name Cards Grid ────────────────────────────────────────── */
 .nameGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
   gap: 1.25rem;
+  touch-action: pan-y;
 }
 
 /* ── NameCard Component Styles ──────────────────────────────── */
-.nameCard {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 18px;
-  padding: 1.25rem;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.04);
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-}
-
-.nameCard:hover {
-  transform: translateY(-3px);
-  border-color: rgba(29, 78, 216, 0.4);
-  box-shadow: 0 12px 28px -6px rgba(29, 78, 216, 0.12);
-}
-
 .cardHeader {
   display: flex;
   align-items: center;
@@ -507,7 +531,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.15s;
+  transition: color 0.15s ease, background-color 0.15s ease;
+  min-width: 44px;
+  min-height: 44px;
 }
 
 .iconBtn:hover {
@@ -529,7 +555,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.15s;
+  transition: color 0.15s ease, transform 0.15s ease;
+  min-width: 44px;
+  min-height: 44px;
 }
 
 .heartBtn:hover {
@@ -617,7 +645,8 @@
   font-size: 0.78rem;
   font-weight: 600;
   color: var(--text);
-  transition: all 0.15s;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+  min-height: 40px;
 }
 
 .domainPill:hover {
@@ -694,7 +723,15 @@
   font-weight: 700;
   font-size: 0.88rem;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: transform 0.15s ease, background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+  min-height: 44px;
+}
+
+.createLogoBtn:hover {
+  background: linear-gradient(135deg, #1D4ED8 0%, #3B82F6 100%);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 4px 14px rgba(29, 78, 216, 0.3);
 }
 
 .createLogoBtn:hover {
