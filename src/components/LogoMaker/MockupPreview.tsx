@@ -21,10 +21,13 @@ interface MockupPreviewProps {
 }
 
 const MOCKUP_TABS: { id: MockupType; label: string; icon: string }[] = [
-  { id: 'business-card', label: 'Business Card', icon: '📇' },
-  { id: 'mobile-screen', label: 'Mobile App',    icon: '📱' },
-  { id: 't-shirt',       label: 'Apparel / Merch',icon: '👕' },
-  { id: 'storefront',    label: 'Store Signage', icon: '🏬' },
+  { id: 'business-card',   label: 'Business Card',  icon: '📇' },
+  { id: 'social-banner',   label: 'Social Cover',   icon: '🌐' },
+  { id: 'email-signature', label: 'Email Sig',      icon: '✉️' },
+  { id: 'mobile-screen',   label: 'Mobile App',     icon: '📱' },
+  { id: 't-shirt',         label: 'Apparel / Merch',icon: '👕' },
+  { id: 'storefront',      label: 'Store Signage',  icon: '🏬' },
+  { id: 'letterhead',      label: 'Letterhead',     icon: '📄' },
 ];
 
 export const MockupPreview: React.FC<MockupPreviewProps> = ({
@@ -80,7 +83,41 @@ export const MockupPreview: React.FC<MockupPreviewProps> = ({
           </div>
         )}
 
-        {/* 2. MOBILE SCREEN MOCKUP */}
+        {/* 2. SOCIAL MEDIA COVER MOCKUP */}
+        {activeMockup === 'social-banner' && (
+          <div className={styles.mockupSocialScene}>
+            <div
+              className={styles.socialBannerBody}
+              style={{ background: `linear-gradient(135deg, ${logo.primaryColor} 0%, ${logo.secondaryColor} 100%)` }}
+            >
+              <div className={styles.socialBannerLeft}>
+                <img src={logoDataUrl} alt={`${businessName} social cover`} className={styles.socialBannerLogo} style={{ filter: 'brightness(0) invert(1)' }} />
+                <span className={styles.socialBannerTagline}>{tagline || 'The Next-Gen Brand Experience'}</span>
+                <span className={styles.socialBannerBadge}>✦ Official Verified Channel</span>
+              </div>
+              <img src={logoDataUrl} alt="" className={styles.socialBannerWatermark} />
+            </div>
+          </div>
+        )}
+
+        {/* 3. EMAIL SIGNATURE MOCKUP */}
+        {activeMockup === 'email-signature' && (
+          <div className={styles.mockupEmailScene}>
+            <div className={styles.emailSignatureCard}>
+              <div className={styles.emailAvatar} style={{ borderColor: logo.primaryColor }}>
+                {businessName.slice(0, 2).toUpperCase()}
+              </div>
+              <div className={styles.emailInfo}>
+                <span className={styles.emailName}>Jordan Hayes</span>
+                <span className={styles.emailTitle}>Executive Director &bull; {businessName}</span>
+                <img src={logoDataUrl} alt={`${businessName} email signature`} className={styles.emailLogo} />
+                <span className={styles.emailContactLine}>✉ jordan@{businessName.toLowerCase().replace(/\s+/g, '')}.com &bull; 🌐 www.{businessName.toLowerCase().replace(/\s+/g, '')}.com</span>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* 4. MOBILE SCREEN MOCKUP */}
         {activeMockup === 'mobile-screen' && (
           <div className={styles.mockupMobileScene}>
             <div className={styles.mobilePhoneFrame}>
@@ -109,7 +146,7 @@ export const MockupPreview: React.FC<MockupPreviewProps> = ({
           </div>
         )}
 
-        {/* 3. T-SHIRT APPAREL MOCKUP */}
+        {/* 5. T-SHIRT APPAREL MOCKUP */}
         {activeMockup === 't-shirt' && (
           <div className={styles.mockupTshirtScene}>
             <div className={styles.tshirtGraphicWrapper}>
@@ -124,7 +161,7 @@ export const MockupPreview: React.FC<MockupPreviewProps> = ({
           </div>
         )}
 
-        {/* 4. STOREFRONT SIGNAGE MOCKUP */}
+        {/* 6. STOREFRONT SIGNAGE MOCKUP */}
         {activeMockup === 'storefront' && (
           <div className={styles.mockupStorefrontScene}>
             <div className={styles.storefrontWall}>
@@ -133,6 +170,33 @@ export const MockupPreview: React.FC<MockupPreviewProps> = ({
                 <img src={logoDataUrl} alt={`${businessName} outdoor signage`} className={styles.storefrontLogoImg} />
               </div>
               <div className={styles.storefrontGlassReflection} />
+            </div>
+          </div>
+        )}
+
+        {/* 7. CORPORATE LETTERHEAD MOCKUP */}
+        {activeMockup === 'letterhead' && (
+          <div className={styles.mockupLetterheadScene}>
+            <div className={styles.letterheadBody}>
+              <div className={styles.letterheadTopAccent} style={{ background: `linear-gradient(90deg, ${logo.primaryColor}, ${logo.secondaryColor})` }} />
+              <div className={styles.letterheadHeader}>
+                <img src={logoDataUrl} alt={`${businessName} letterhead`} className={styles.letterheadLogo} />
+                <div className={styles.letterheadCompanyMeta}>
+                  <strong>{businessName} Inc.</strong><br />
+                  100 Innovation Blvd, Suite 400<br />
+                  contact@{businessName.toLowerCase().replace(/\s+/g, '')}.com
+                </div>
+              </div>
+              <div className={styles.letterheadContentPlaceholder}>
+                <div className={styles.letterheadLine} style={{ width: '80%' }} />
+                <div className={styles.letterheadLine} style={{ width: '95%' }} />
+                <div className={styles.letterheadLine} style={{ width: '90%' }} />
+                <div className={styles.letterheadLine} style={{ width: '60%' }} />
+              </div>
+              <div className={styles.letterheadFooter}>
+                <span>CONFIDENTIAL &bull; FOR INTERNAL USE ONLY</span>
+                <span>Page 1 of 1</span>
+              </div>
             </div>
           </div>
         )}

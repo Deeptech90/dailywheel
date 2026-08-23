@@ -4,12 +4,13 @@
    and 1-click "Create Logo with This Name" CTA
    ============================================================ */
 
-import React, { useState } from 'react';
-import { Heart, Sparkles, Copy, Check, ExternalLink, ArrowRight } from 'lucide-react';
+import React, { useState, useMemo } from 'react';
+import { Heart, Sparkles, Copy, Check, ExternalLink, ArrowRight, Palette } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { GeneratedBusinessName, TLD, DomainStatus } from '../../types';
 import { useBrandState } from '../../context/BrandStateContext';
 import { getRegistrarUrl } from '../../engines/domainChecker';
+import { generateDynamicLogoPreview } from '../../engines/dynamicLogoGenerator';
 import styles from './NameGenerator.module.css';
 
 interface NameCardProps {
@@ -22,6 +23,10 @@ export const NameCard: React.FC<NameCardProps> = ({ item }) => {
   const { isNameSaved, saveName, removeSavedName, createLogoWithName } = useBrandState();
   const [copied, setCopied] = useState(false);
   const saved = isNameSaved(item.id) || isNameSaved(item.name);
+
+  const logoPreview = useMemo(() => {
+    return generateDynamicLogoPreview(item.name, item.style);
+  }, [item.name, item.style]);
 
   const handleToggleHeart = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -82,6 +87,24 @@ export const NameCard: React.FC<NameCardProps> = ({ item }) => {
             <Heart size={18} fill={saved ? '#EF4444' : 'none'} color={saved ? '#EF4444' : 'currentColor'} />
           </button>
         </div>
+      </div>
+
+      {/* Dynamic Logo Live Preview Tile (Phase 1 Dynamic Canvas Engine) */}
+      <div
+        className={styles.logoPreviewBanner}
+        onClick={handleCreateLogo}
+        title="Click to customize this logo in Vector Studio"
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => e.key === 'Enter' && handleCreateLogo(e as any)}
+      >
+        <div
+          className={styles.logoPreviewSvgWrap}
+          dangerouslySetInnerHTML={{ __html: logoPreview.svgString }}
+        />
+        <span className={styles.logoPreviewTag}>
+          <Sparkles size={11} color="#A855F7" /> Edit in Studio
+        </span>
       </div>
 
       {/* Main Brand Typography Presentation */}

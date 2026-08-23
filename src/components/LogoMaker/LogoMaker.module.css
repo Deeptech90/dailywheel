@@ -2040,4 +2040,205 @@
   pointer-events: none;
 }
 
+/* 5. Social Media Cover Scene */
+.mockupSocialScene {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  justify-content: center;
+}
+
+.socialBannerBody {
+  width: 100%;
+  height: 160px;
+  border-radius: 12px;
+  padding: 1.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.socialBannerLeft {
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.socialBannerLogo {
+  max-height: 48px;
+  max-width: 150px;
+  object-fit: contain;
+}
+
+.socialBannerTagline {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.85);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.socialBannerBadge {
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  width: fit-content;
+  backdrop-filter: blur(4px);
+}
+
+.socialBannerWatermark {
+  position: absolute;
+  right: -20px;
+  bottom: -20px;
+  opacity: 0.12;
+  filter: brightness(0) invert(1);
+  max-width: 160px;
+}
+
+/* 6. Professional Email Signature Scene */
+.mockupEmailScene {
+  width: 100%;
+  max-width: 440px;
+  display: flex;
+  justify-content: center;
+}
+
+.emailSignatureCard {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  border: 1px solid #e5e7eb;
+}
+
+.emailAvatar {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  color: #111827;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  border: 2px solid #e5e7eb;
+}
+
+.emailInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.emailName {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: #111827;
+}
+
+.emailTitle {
+  font-size: 0.72rem;
+  color: #6b7280;
+  margin-bottom: 0.25rem;
+}
+
+.emailLogo {
+  max-height: 24px;
+  max-width: 110px;
+  object-fit: contain;
+  margin-top: 0.2rem;
+}
+
+.emailContactLine {
+  font-size: 0.65rem;
+  color: #4b5563;
+}
+
+/* 7. Corporate Letterhead Scene */
+.mockupLetterheadScene {
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  justify-content: center;
+}
+
+.letterheadBody {
+  width: 100%;
+  height: 250px;
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.letterheadTopAccent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+}
+
+.letterheadHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-top: 0.5rem;
+}
+
+.letterheadLogo {
+  max-height: 32px;
+  max-width: 120px;
+  object-fit: contain;
+}
+
+.letterheadCompanyMeta {
+  font-size: 0.55rem;
+  color: #6b7280;
+  text-align: right;
+  line-height: 1.35;
+}
+
+.letterheadContentPlaceholder {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin: 0.75rem 0;
+}
+
+.letterheadLine {
+  height: 4px;
+  background: #f3f4f6;
+  border-radius: 2px;
+}
+
+.letterheadFooter {
+  border-top: 1px solid #f3f4f6;
+  padding-top: 0.4rem;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.52rem;
+  color: #9ca3af;
+}
+
+
 

@@ -8,7 +8,7 @@ export type LayoutChoice = 'horizontal' | 'stacked' | 'icon-only' | 'text-only' 
 export type AspectRatio = '1:1' | '16:9' | '4:3';
 export type ExportFormat = 'svg' | 'png' | 'pdf' | 'jpg';
 export type PromptVariant = 'concise' | 'detailed' | 'creative' | 'minimalist';
-export type MockupType = 'business-card' | 'mobile-screen' | 't-shirt' | 'storefront';
+export type MockupType = 'business-card' | 'mobile-screen' | 't-shirt' | 'storefront' | 'social-banner' | 'email-signature' | 'letterhead';
 
 export type Industry =
   | 'technology' | 'saas' | 'food-beverage' | 'health-wellness' | 'finance'
