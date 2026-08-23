@@ -245,11 +245,32 @@ async function main() {
     ]
   });
 
+  const orgSchema = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "UniqueBusinessName.com",
+    "url": SITE_URL,
+    "logo": `${SITE_URL}/icon-512.png`,
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "email": "hello@uniquebusinessname.com",
+      "contactType": "Customer Support"
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Palm Road, Shipra Suncity, Indirapuram",
+      "addressLocality": "Ghaziabad",
+      "addressRegion": "Uttar Pradesh",
+      "postalCode": "201014",
+      "addressCountry": "IN"
+    }
+  });
+
   const homepagePatched = patchIndexHtml(indexHtml, HOMEPAGE_PRERENDER_CONTENT, {
-    extraSchema: `<script type="application/ld+json">${homepageFaqSchema}</script>`,
+    extraSchema: `<script type="application/ld+json">${homepageFaqSchema}</script>\n    <script type="application/ld+json">${orgSchema}</script>`,
   });
   fs.writeFileSync(path.join(DIST_DIR, 'index.html'), homepagePatched);
-  console.log('✅ Homepage HTML patched with pre-rendered content');
+  console.log('✅ Homepage HTML patched with pre-rendered content and Organization schema');
 
   // ── Logo Maker static shell ────────────────────────────────────────────────
   writeStaticPage('/logo-maker', LOGO_MAKER_PRERENDER, {

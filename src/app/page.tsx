@@ -272,9 +272,15 @@ export default function Home() {
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.25rem', color: 'var(--text)', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <span style={{ color: 'var(--primary)' }}>✦</span> UniqueBusinessName
             </div>
-            <p style={{ color: 'var(--text-dim)', fontSize: '0.88rem', lineHeight: 1.5, maxWidth: '280px' }}>
+            <p style={{ color: 'var(--text-dim)', fontSize: '0.88rem', lineHeight: 1.5, maxWidth: '280px', marginBottom: '0.75rem' }}>
               Enterprise-grade AI Business Name Generator and Vector Logo Creator Suite.
             </p>
+            <div style={{ color: 'var(--text-dim)', fontSize: '0.8rem', lineHeight: 1.5, borderTop: '1px dashed var(--border)', paddingTop: '0.75rem' }}>
+              📍 <strong>Location:</strong><br />
+              Palm Road, Shipra Suncity,<br />
+              Indirapuram, Ghaziabad,<br />
+              Uttar Pradesh 201014, India
+            </div>
           </div>
 
           <div>
@@ -322,6 +328,7 @@ export default function Home() {
             <h4 style={{ color: 'var(--text)', fontWeight: 700, marginBottom: '0.85rem', fontSize: '0.95rem' }}>Company &amp; Legal</h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
               <Link href="/about" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '0.88rem' }}>About Us</Link>
+              <Link href="/contact" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '0.88rem' }}>Contact &amp; Support</Link>
               <Link href="/blog" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '0.88rem' }}>Blog &amp; Guides</Link>
               <Link href="/privacy" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '0.88rem' }}>Privacy Policy</Link>
               <Link href="/terms" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '0.88rem' }}>Terms of Service</Link>

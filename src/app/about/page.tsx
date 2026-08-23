@@ -202,6 +202,26 @@ export default function AboutUs() {
           ))}
         </div>
 
+        {/* Office Location & Contact */}
+        <div style={{
+          background: 'var(--surface)',
+          border: '1px solid var(--border)',
+          borderRadius: 'var(--radius-lg)',
+          padding: '2rem',
+          marginBottom: '3.5rem',
+          boxShadow: 'var(--shadow-sm)',
+        }}>
+          <h2 style={{ fontFamily: 'var(--font-display)', color: 'var(--text)', fontSize: '1.25rem', fontWeight: 800, marginBottom: '1rem', letterSpacing: '-0.02em' }}>
+            📍 Our Registered Location
+          </h2>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', lineHeight: 1.6, margin: 0 }}>
+            <strong>UniqueBusinessName.com</strong><br />
+            Palm Road, Shipra Suncity, Indirapuram,<br />
+            Ghaziabad, Uttar Pradesh 201014, India<br />
+            Inquiries: <a href="mailto:hello@uniquebusinessname.com" style={{ color: 'var(--primary)', textDecoration: 'none', fontWeight: 600 }}>hello@uniquebusinessname.com</a>
+          </p>
+        </div>
+
         {/* CTA */}
         <div style={{ textAlign: 'center' }}>
           <Link

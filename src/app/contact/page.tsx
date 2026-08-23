@@ -249,6 +249,52 @@ export default function Contact() {
             </form>
           )}
         </div>
+
+        {/* Office & Headquarters Information Card */}
+        <div style={{
+          marginTop: '2.5rem',
+          background: 'var(--surface)',
+          border: '1px solid var(--border)',
+          borderRadius: 'var(--radius-lg)',
+          padding: '2rem',
+          boxShadow: 'var(--shadow-sm)',
+        }}>
+          <h2 style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: '1.25rem',
+            fontWeight: 800,
+            color: 'var(--text)',
+            marginBottom: '1.25rem',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+          }}>
+            🏢 Registered Office &amp; Headquarters
+          </h2>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.5rem' }}>
+            <div>
+              <div style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-dim)', fontWeight: 700, marginBottom: '0.35rem' }}>
+                Physical Address
+              </div>
+              <div style={{ color: 'var(--text)', fontSize: '0.95rem', lineHeight: 1.6, fontWeight: 500 }}>
+                Palm Road, Shipra Suncity,<br />
+                Indirapuram, Ghaziabad,<br />
+                Uttar Pradesh 201014, India
+              </div>
+            </div>
+
+            <div>
+              <div style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-dim)', fontWeight: 700, marginBottom: '0.35rem' }}>
+                Support &amp; Inquiries
+              </div>
+              <div style={{ color: 'var(--text)', fontSize: '0.95rem', lineHeight: 1.6 }}>
+                Email: <a href="mailto:hello@uniquebusinessname.com" style={{ color: 'var(--primary)', textDecoration: 'none', fontWeight: 600 }}>hello@uniquebusinessname.com</a><br />
+                Hours: Mon – Fri, 9:00 AM – 6:00 PM IST
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

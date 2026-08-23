@@ -63,12 +63,15 @@ export default function TermsOfService() {
       </section>
 
       <section className={styles.contactBox}>
-        <h2 className={styles.sectionTitle} style={{ marginTop: 0 }}>Support & Contact</h2>
+        <h2 className={styles.sectionTitle} style={{ marginTop: 0 }}>Support &amp; Contact</h2>
         <p className={styles.text}>
-          For legal inquiries, please contact:
+          For legal and general inquiries, please contact:
         </p>
         <p className={styles.text}>
           Email: <span className={styles.highlight}>legal@uniquebusinessname.com</span>
+        </p>
+        <p className={styles.text}>
+          Address: <span className={styles.highlight}>Palm Road, Shipra Suncity, Indirapuram, Ghaziabad, Uttar Pradesh 201014, India</span>
         </p>
       </section>
     </div>

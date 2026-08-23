@@ -103,12 +103,15 @@ export default function PrivacyPolicy() {
       </section>
 
       <section className={styles.contactBox}>
-        <h2 className={styles.sectionTitle} style={{ marginTop: 0 }}>Contact Support</h2>
+        <h2 className={styles.sectionTitle} style={{ marginTop: 0 }}>Contact Support &amp; Data Controller</h2>
         <p className={styles.text}>
           If you have any questions about this Privacy Policy, please contact us at:
         </p>
         <p className={styles.text}>
           Email: <span className={styles.highlight}>support@uniquebusinessname.com</span>
+        </p>
+        <p className={styles.text}>
+          Registered Address: <span className={styles.highlight}>Palm Road, Shipra Suncity, Indirapuram, Ghaziabad, Uttar Pradesh 201014, India</span>
         </p>
       </section>
     </div>
