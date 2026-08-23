@@ -6,7 +6,7 @@ import LogoMakerApp from '../../components/LogoMaker/LogoMakerApp';
 
 export default function LogoMakerPage() {
   useEffect(() => {
-    document.title = 'Free AI Logo Maker — Create a Professional Logo | UniqueBusinessName.com';
+    document.title = 'Free Online Logo Maker and Download — Create & Export Vector Logos | UniqueBusinessName.com';
     // Update meta description
     let meta = document.querySelector<HTMLMetaElement>('meta[name="description"]');
     if (!meta) {
@@ -15,8 +15,16 @@ export default function LogoMakerPage() {
       document.head.appendChild(meta);
     }
     meta.content =
-      'Create a unique, professional logo for your business in minutes. Choose from 6 template styles, ' +
-      'customize colors, fonts and icons, then download as SVG or PNG — 100% free.';
+      'Free online logo maker and download suite for modern founders. Choose from 6 template styles, ' +
+      'customize colors, fonts and icons, then download as SVG, PNG or PDF — 100% free with full commercial rights.';
+
+    let keywordsMeta = document.querySelector<HTMLMetaElement>('meta[name="keywords"]');
+    if (!keywordsMeta) {
+      keywordsMeta = document.createElement('meta');
+      keywordsMeta.name = 'keywords';
+      document.head.appendChild(keywordsMeta);
+    }
+    keywordsMeta.content = 'free online logo maker and download, free logo maker, download vector logo, svg logo download, transparent png logo';
   }, []);
 
   return <LogoMakerApp />;

@@ -148,9 +148,9 @@ const LOGO_MAKER_PRERENDER = `
 <div id="root">
   <div style="min-height:100vh;font-family:system-ui,sans-serif;color:#111827">
     <main style="max-width:900px;margin:0 auto;padding:2rem 1.5rem">
-      <h1 style="font-size:2rem;font-weight:900;line-height:1.1;margin-bottom:1rem">Free Business Logo Creator Suite &mdash; Vector Brand Generator</h1>
+      <h1 style="font-size:2rem;font-weight:900;line-height:1.1;margin-bottom:1rem">Free Online Logo Maker and Download &mdash; Vector Brand Generator</h1>
       <p style="color:#4B5563;line-height:1.7;margin-bottom:1.5rem">
-        Design professional vector logos in minutes with our 6-stage guided logo wizard and interactive canvas customizer.
+        Free online logo maker and download suite for modern founders. Design professional vector logos in minutes with our 6-stage guided logo wizard and interactive canvas customizer.
         Explore curated color palettes, searchable SVG vector symbols, live font styling, and real-world mockup studio previews.
         Export print-ready SVG, transparent PNG, and PDF files with 100% commercial ownership.
       </p>
@@ -225,12 +225,17 @@ async function main() {
       {
         "@type": "Question",
         "name": "How does the AI Business Name Generator work?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Our AI naming engine leverages large language models and phonetic synthesis algorithms tuned for morphological brandability across 8 naming styles with real-time domain lookups." }
+        "acceptedAnswer": { "@type": "Answer", "text": "Our AI naming engine leverages large language models and phonetic synthesis algorithms to generate brandable business names across 8 distinct styles." }
+      },
+      {
+        "@type": "Question",
+        "name": "Is UniqueBusinessName a free online logo maker and download tool?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes! UniqueBusinessName is a 100% free online logo maker and download platform. You can generate unlimited brand logos, test real-world mockup previews, and download high-resolution SVG, transparent PNG, and PDF brand packages with zero subscription paywalls." }
       },
       {
         "@type": "Question",
         "name": "Can I instantly create a logo for a generated business name?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Every generated name card has a 1-click Create Logo with This Name action that pre-populates your brand identity into the Logo Creator Suite." }
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Every name card features a 1-click 'Create Logo with This Name' button that seamlessly transfers your active brand name into the Logo Creator Suite without losing state." }
       },
       {
         "@type": "Question",
@@ -248,17 +253,17 @@ async function main() {
 
   // ── Logo Maker static shell ────────────────────────────────────────────────
   writeStaticPage('/logo-maker', LOGO_MAKER_PRERENDER, {
-    title: 'Free Business Logo Creator Suite | UniqueBusinessName.com',
-    description: 'Design professional vector logos in minutes with our 6-stage guided logo wizard and interactive canvas customizer. Export print-ready SVG, PNG, and PDF brand packages.',
+    title: 'Free Online Logo Maker and Download — Vector Brand Suite | UniqueBusinessName.com',
+    description: 'Free online logo maker and download suite. Design professional vector logos in minutes with our 6-stage guided logo wizard and interactive canvas customizer. Export print-ready SVG, PNG, and PDF brand packages.',
     canonical: `${SITE_URL}/logo-maker`,
-    ogTitle: 'Business Logo Creator Suite — UniqueBusinessName.com',
-    ogDescription: 'Design professional vector logos and preview live product mockups. 100% free vector and PNG exports.',
+    ogTitle: 'Free Online Logo Maker and Download — UniqueBusinessName.com',
+    ogDescription: 'Design professional vector logos and preview live product mockups. Free online logo maker and download in vector SVG and PNG.',
     ogUrl: `${SITE_URL}/logo-maker`,
     extraSchema: `<script type="application/ld+json">${JSON.stringify({
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      "name": "Business Logo Creator Suite",
-      "description": "An interactive AI logo maker and vector brand identity generator with real-world mockup studio.",
+      "name": "Free Online Logo Maker and Download Suite",
+      "description": "A free online logo maker and download platform with interactive vector brand identity customizer and mockup studio.",
       "url": `${SITE_URL}/logo-maker`,
       "applicationCategory": "DesignApplication",
       "operatingSystem": "All",

@@ -27,6 +27,10 @@ const FAQS = [
     a: 'The Business Logo Creator Suite exports complete brand asset packages including infinite-resolution vector SVGs (ideal for print, signage, and embroidery), high-resolution transparent PNGs (512px, 1024px, 2048px), and print-ready PDF brand sheets.'
   },
   {
+    q: 'Is UniqueBusinessName a free online logo maker and download tool?',
+    a: 'Yes! UniqueBusinessName is a 100% free online logo maker and download platform. You can generate unlimited brand logos, test real-world mockup studio previews, and download high-resolution SVG, transparent PNG, and PDF brand packages with zero subscription paywalls.'
+  },
+  {
     q: 'Do I have full commercial ownership of generated names and logos?',
     a: 'Yes. All business names and logo graphics generated on UniqueBusinessName.com come with 100% full commercial rights. You can trademark your name, register your domain, and use your logo on physical merchandise, websites, apps, and storefronts without attribution.'
   },
@@ -244,10 +248,10 @@ export default function Home() {
               <Palette size={24} />
             </div>
             <h3 style={{ fontSize: '1.25rem', fontWeight: 800, marginBottom: '0.5rem', color: 'var(--text)' }}>
-              3. Vector Logo Creator Suite
+              3. Free Online Logo Maker and Download Suite
             </h3>
             <p style={{ color: 'var(--text-muted)', fontSize: '0.92rem', lineHeight: 1.6 }}>
-              Transfer your selected name into a 6-stage logo creator. Customise typography font families, letter spacing, icon scales, color palettes, and preview live on product mockups.
+              Transfer your selected name into our free online logo maker and download print-ready vector SVGs, high-resolution transparent PNGs, and PDF brand packages. Customize typography, colors, and live mockups instantly.
             </p>
           </div>
         </div>
