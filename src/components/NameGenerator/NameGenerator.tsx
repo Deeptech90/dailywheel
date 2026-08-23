@@ -63,7 +63,12 @@ const POPULAR_KEYWORDS = [
   'Health & Yoga', 'Luxury Fashion', 'Cybersecurity', 'Modern Studio'
 ];
 
-export const NameGenerator: React.FC = () => {
+export interface NameGeneratorProps {
+  initialKeywords?: string;
+  initialStyle?: NamingStyle;
+}
+
+export const NameGenerator: React.FC<NameGeneratorProps> = ({ initialKeywords, initialStyle }) => {
   const {
     savedNames,
     removeSavedName,
@@ -73,8 +78,8 @@ export const NameGenerator: React.FC = () => {
     createLogoWithName
   } = useBrandState();
 
-  const [keywords, setKeywords] = useState<string>('cloud analytics');
-  const [selectedStyle, setSelectedStyle] = useState<NamingStyle>('brandable');
+  const [keywords, setKeywords] = useState<string>(initialKeywords || 'cloud analytics');
+  const [selectedStyle, setSelectedStyle] = useState<NamingStyle>(initialStyle || 'brandable');
   const [randomness, setRandomness] = useState<RandomnessLevel>('medium');
   const [lengthFilter, setLengthFilter] = useState<NameLengthFilter>('all');
   const [showFilters, setShowFilters] = useState<boolean>(true);

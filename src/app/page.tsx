@@ -303,6 +303,18 @@ export default function Home() {
           </div>
 
           <div>
+            <h4 style={{ color: 'var(--text)', fontWeight: 700, marginBottom: '0.85rem', fontSize: '0.95rem' }}>Compare Alternatives</h4>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+              <Link href="/alternatives/namelix" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '0.88rem' }}>Namelix Alternative</Link>
+              <Link href="/alternatives/looka" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '0.88rem' }}>Looka Alternative</Link>
+              <Link href="/alternatives/business-name-generator" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '0.88rem' }}>BNG Alternative</Link>
+              <Link href="/alternatives/godaddy" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '0.88rem' }}>GoDaddy Alternative</Link>
+              <Link href="/alternatives/canva" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '0.88rem' }}>Canva Alternative</Link>
+              <Link href="/alternatives/design-com" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '0.88rem' }}>Design.com Alternative</Link>
+            </div>
+          </div>
+
+          <div>
             <h4 style={{ color: 'var(--text)', fontWeight: 700, marginBottom: '0.85rem', fontSize: '0.95rem' }}>Company &amp; Legal</h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
               <Link href="/about" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '0.88rem' }}>About Us</Link>

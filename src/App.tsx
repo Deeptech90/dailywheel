@@ -19,11 +19,13 @@ const NotFound = lazy(() => import('./app/not-found'));
 const BlogIndexPage = lazy(() => import('./components/Blog/BlogIndexPage').then(m => ({ default: m.BlogIndexPage })));
 const BlogPostPage = lazy(() => import('./components/Blog/BlogPostPage').then(m => ({ default: m.BlogPostPage })));
 const CategoryLandingPage = lazy(() => import('./components/CategoryLandingPage/CategoryLandingPage').then(m => ({ default: m.CategoryLandingPage })));
+const CompetitorPage = lazy(() => import('./components/CompetitorPage/CompetitorPage').then(m => ({ default: m.CompetitorPage })));
 
 import { InstallPrompt } from './components/InstallPrompt/InstallPrompt';
 import { UpdatePrompt } from './components/UpdatePrompt/UpdatePrompt';
 import { getBlogPostBySlug } from './data/blogPosts';
 import { getCategoryBySlug } from './data/seoCategories';
+import { getCompetitorBySlug } from './data/competitorComparisons';
 
 export function App() {
   const [currentPath, setCurrentPath] = useState('/');
@@ -66,6 +68,23 @@ export function App() {
       const slug = currentPath.split('/generator/')[1]?.replace(/\/$/, '');
       const category = getCategoryBySlug(slug);
       return category ? <CategoryLandingPage category={category} /> : <NotFound />;
+    }
+
+    if (currentPath === '/alternatives' || currentPath === '/alternatives/') {
+      const defaultComp = getCompetitorBySlug('namelix');
+      return defaultComp ? <CompetitorPage comparison={defaultComp} /> : <NotFound />;
+    }
+
+    if (currentPath.startsWith('/alternatives/')) {
+      const slug = currentPath.split('/alternatives/')[1]?.replace(/\/$/, '');
+      const comp = getCompetitorBySlug(slug);
+      return comp ? <CompetitorPage comparison={comp} /> : <NotFound />;
+    }
+
+    if (currentPath.startsWith('/compare/')) {
+      const slug = currentPath.split('/compare/')[1]?.replace(/\/$/, '');
+      const comp = getCompetitorBySlug(slug);
+      return comp ? <CompetitorPage comparison={comp} /> : <NotFound />;
     }
 
     return <NotFound />;

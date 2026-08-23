@@ -52,6 +52,15 @@ const blogs = [
   { slug: 'brand-personality-archetypes', title: 'Finding Your Brand Personality Archetype', desc: 'Are you the Hero, the Magician, or the Outlaw? Discover which archetype fits your brand.' }
 ];
 
+const competitors = [
+  { slug: 'namelix', name: 'Namelix', title: 'Top Namelix Alternative (2026) | UniqueBusinessName vs Namelix', desc: 'Searching for a free Namelix alternative? Discover UniqueBusinessName: AI business names, real-time .com domain verification, and 1-click vector logo generation.' },
+  { slug: 'looka', name: 'Looka', title: 'Best Looka Name Generator Alternative (2026) | UniqueBusinessName', desc: 'Looking for a Looka business name generator alternative? Generate catchy brand names and export high-res vector logos without expensive subscriptions.' },
+  { slug: 'business-name-generator', name: 'BusinessNameGenerator.com', title: 'Top BusinessNameGenerator.com Alternative (2026) | UniqueBusinessName', desc: 'Tired of generic names and ad-heavy pages on BusinessNameGenerator.com? Experience AI-driven brandable names with instant DNS checks and logo makers.' },
+  { slug: 'godaddy', name: 'GoDaddy', title: 'GoDaddy Name Generator Alternative (2026) | UniqueBusinessName', desc: 'Looking for a GoDaddy Business Name Generator alternative? Get creative AI brand names with unbiased domain checks and free vector logos.' },
+  { slug: 'canva', name: 'Canva', title: 'Canva Name Generator Alternative (2026) | UniqueBusinessName', desc: 'Searching for a Canva business name generator alternative? Discover brandable AI names, live domain lookups, and instant logo exports.' },
+  { slug: 'design-com', name: 'Design.com', title: 'Design.com Name Generator Alternative (2026) | UniqueBusinessName', desc: 'Looking for a free Design.com name generator alternative? Generate unique business names with instant domain verification and free vector logos.' }
+];
+
 const SITE_URL = 'https://uniquebusinessname.com';
 const DIST_DIR = path.resolve('dist');
 const TODAY = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
@@ -333,6 +342,43 @@ async function main() {
     sitemapEntries.push({ url: `/blog/${blog.slug}`, priority: '0.7', changefreq: 'monthly' });
   });
   console.log(`✅ ${blogs.length} blog pages written`);
+
+  // ── Competitor Alternative pages ──────────────────────────────────────────
+  competitors.forEach((comp) => {
+    const prerender = `
+<div id="root">
+  <div style="min-height:100vh;font-family:system-ui,sans-serif;color:#111827">
+    <main style="max-width:900px;margin:0 auto;padding:2rem 1.5rem">
+      <h1 style="font-size:2rem;font-weight:900;line-height:1.1;margin-bottom:1rem">${comp.title}</h1>
+      <p style="color:#4B5563;line-height:1.7;margin-bottom:1.5rem">${comp.desc}</p>
+      <p style="color:#4B5563">
+        Discover why founders are switching from ${comp.name} to UniqueBusinessName for real-time .com domain checking and 1-click vector logo generation.
+      </p>
+      <p style="color:#4B5563"><a href="/">Back to AI Name Generator</a> &bull; <a href="/alternatives">All Alternatives</a></p>
+    </main>
+  </div>
+</div>`;
+    const schema = {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": `${comp.name} Alternative - UniqueBusinessName`,
+      "description": comp.desc,
+      "url": `${SITE_URL}/alternatives/${comp.slug}`,
+      "applicationCategory": "BusinessApplication",
+      "offers": { "@type": "Offer", "price": "0.00", "priceCurrency": "USD" }
+    };
+    writeStaticPage(`/alternatives/${comp.slug}`, prerender, {
+      title: comp.title,
+      description: comp.desc,
+      canonical: `${SITE_URL}/alternatives/${comp.slug}`,
+      ogTitle: comp.title,
+      ogDescription: comp.desc,
+      ogUrl: `${SITE_URL}/alternatives/${comp.slug}`,
+      extraSchema: `<script type="application/ld+json">${JSON.stringify(schema)}</script>`,
+    });
+    sitemapEntries.push({ url: `/alternatives/${comp.slug}`, priority: '0.9', changefreq: 'weekly' });
+  });
+  console.log(`✅ ${competitors.length} competitor alternative pages written`);
 
   // ── Sitemap ────────────────────────────────────────────────────────────────
   const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
