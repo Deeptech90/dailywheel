@@ -131,7 +131,7 @@ export default function Home() {
   const homeSchema = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": "UniqueBusinessName.com — AI Business Name Generator With Logo & Free Logo Maker",
+    "name": "UniqueBusinessName.com — AI Business Name Generator & Company Logo Maker",
     "url": "https://uniquebusinessname.com",
     "applicationCategory": "BusinessApplication",
     "operatingSystem": "All",
@@ -141,18 +141,18 @@ export default function Home() {
       "price": "0.00",
       "priceCurrency": "USD"
     },
-    "description": "Generate unique, creative, and brandable business name ideas with our free AI business name generator with logo, Indian brand naming engine, Namelix alternative, and vector logo maker.",
+    "description": "Create logo for business free and generate brandable names with our company logo maker, 3D logo studio, free logo design templates, and vector SVG exports.",
     "featureList": [
+      "Create Logo for Business Free",
+      "Company Logo Maker & AI Studio",
+      "Company Name Logo Maker Free",
+      "Company 3D Logo Maker Mockups",
+      "Creative Logo Design Free Download",
+      "Free Logo Design Templates",
+      "Name Logo Design",
+      "Company Stamp Logo Maker",
       "AI Business Name Generator",
-      "Business Name Generator With Logo",
-      "Free Business Name Ideas Engine",
-      "Business Name Generator Indian",
-      "AI Free & No AI Generator Modes",
-      "Namelix Alternative Suite",
-      "Vector Logo Maker & Logo Generator",
       "Real-Time Domain Verification (.com, .io, .ai, .app)",
-      "Mockup Studio Previews",
-      "1-Click State Bridge",
       "Vector SVG & High-Res PNG Exports",
       "PWA Installable",
       "Offline Support"
@@ -162,9 +162,9 @@ export default function Home() {
   return (
     <div style={{ minHeight: '100vh', fontFamily: 'var(--font-body)', color: 'var(--text)' }}>
       <SEOHead
-        title="AI Business Name Generator With Logo — Free Business Name Ideas & Logo Maker | UniqueBusinessName.com"
-        description="Generate brandable names with the #1 free AI business name generator with logo. Discover creative business name ideas, Indian startup names, Namelix alternatives, and create vector logos with our free logo maker & logo generator."
-        keywords="business name generator, business name generators, business name generator ai, business name ideas, free business name generator, business name generator namelix, business name generator with logo, business name generator indian, business name generator ai free, business name generator no ai, namelix, logo maker, logo generator, business generator name, company generator name, generator business names, name generator for a business, names for a company generator, names for companies generator, name business generator, free online logo maker and download, instant domain check"
+        title="AI Business Name Generator & Company Logo Maker — Free Logo Design & Download | UniqueBusinessName.com"
+        description="Create logo for business free with the #1 AI company logo maker and business name generator. Discover creative logo design free download, 3D mockups, company name logo maker free templates, and instant vector SVG downloads."
+        keywords="create logo for business, logo design, create logo free, free online logo maker and download, free logo design and download, name logo design, free logo design templates, creative logo design free download, logo design online, company logo maker, company name logo maker, company design logo maker, company logo maker free, company logo maker ai, company name logo maker free, company brand logo maker, company stamp logo maker, company business logo maker, company 3d logo maker, business name generator, business name generators, business name generator ai, business name ideas, free business name generator, business name generator namelix, business name generator with logo, business name generator indian, business name generator ai free, business name generator no ai, namelix, logo maker, logo generator, business generator name, company generator name, generator business names, name generator for a business, names for a company generator, names for companies generator, name business generator, instant domain check"
         url="https://uniquebusinessname.com/"
         type="WebApplication"
         schema={homeSchema}
@@ -378,6 +378,22 @@ export default function Home() {
               <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', lineHeight: 1.7, margin: 0 }}>
                 UniqueBusinessName offers unbiased DNS lookups for clean available domains, zero broker markups, 8 fine-tuned naming styles, and an in-house vector <strong>logo maker</strong> completely free of charge.
               </p>
+            </div>
+
+            {/* Pillar 5 */}
+            <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', padding: '2rem', boxShadow: 'var(--shadow-sm)' }}>
+              <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.35rem', fontWeight: 800, color: 'var(--text)', marginBottom: '0.75rem' }}>
+                5. Create Logo for Business: The Complete Company Logo Maker Suite
+              </h3>
+              <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', lineHeight: 1.7, marginBottom: '1rem' }}>
+                Looking to <strong>create logo for business</strong> or discover an AI-powered <strong>company logo maker</strong>? Our suite provides everything required to launch your brand identity:
+              </p>
+              <ul style={{ paddingLeft: '1.5rem', color: 'var(--text-muted)', fontSize: '0.95rem', lineHeight: 1.7, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                <li><strong>Company Name Logo Maker Free:</strong> Generate monogram marks, geometric vectors, and custom typography tailored for modern <strong>name logo design</strong>.</li>
+                <li><strong>Free Logo Design Templates:</strong> Choose from Minimalist, Tech Gradient, Modern Studio, and <strong>company stamp logo maker</strong> archetypes.</li>
+                <li><strong>Company 3D Logo Maker Mockups:</strong> Test your logo rendered on photorealistic apparel, mobile app mockups, and business cards.</li>
+                <li><strong>Creative Logo Design Free Download:</strong> Export infinite-resolution vector SVG, high-res transparent PNG (up to 2048px), and print-ready PDF brand packages with 100% commercial ownership.</li>
+              </ul>
             </div>
           </div>
         </div>
