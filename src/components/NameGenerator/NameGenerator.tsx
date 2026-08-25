@@ -168,7 +168,7 @@ export const NameGenerator: React.FC<NameGeneratorProps> = ({ initialKeywords, i
           AI Business Name Generator
         </h1>
         <p className={styles.mainSubtitle}>
-          Generate catchy, brandable, high-conversion company names with instant domain checks and automated logo creation.
+          The free AI name generator for a business and company generator name engine. Discover brandable names for companies generator, live domain checks, and instant vector logos.
         </p>
 
         {/* Search Input Bar */}
