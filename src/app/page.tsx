@@ -17,7 +17,15 @@ import { SEOHead } from '../components/SEOHead/SEOHead';
 const FAQS = [
   {
     q: 'How does the AI Business Name Generator work?',
-    a: 'Our AI naming engine leverages large language models and phonetic synthesis algorithms tuned for morphological brandability. You provide keywords and configure naming styles (Brandable, Compound, Alternate Spellings, Real Words, Rhyming, Non-English Roots), decoding randomness temperature, and length constraints. As names are synthesized, real-time asynchronous DNS lookups verify .com, .io, .ai, and .app domain availability.'
+    a: 'Our AI naming engine leverages large language models and phonetic synthesis algorithms tuned for morphological brandability. You provide keywords and configure naming styles (Brandable, Compound, Alternate Spellings, Real Words, Rhyming, Non-English Roots), decoding randomness temperature, and length constraints. As names are synthesized, real-time asynchronous DNS lookups verify .com, .io, .ai, .app domain availability.'
+  },
+  {
+    q: 'Can I design a logo for business cards and business plans online with AI?',
+    a: 'Yes! Our design logo for business ai studio creates print-ready 300DPI vector SVGs and high-resolution transparent PNGs formatted specifically for business cards, stationery, investor pitch decks, and business plan cover pages.'
+  },
+  {
+    q: 'How do I start designing a new logo for business without expensive local agencies near me?',
+    a: 'Instead of paying thousands for design logo for business near me services, UniqueBusinessName lets you design your own logo for business online in minutes. Enjoy instant vector SVG downloads, 3D mockup previews, and 100% full commercial rights.'
   },
   {
     q: 'Is UniqueBusinessName a free business name generator with logo?',
@@ -71,53 +79,48 @@ function FAQAccordion() {
               border: '1px solid var(--border)',
               borderRadius: 'var(--radius-md)',
               overflow: 'hidden',
-              boxShadow: isOpen ? 'var(--shadow-sm)' : 'none',
-              transition: 'all 0.2s ease',
+              transition: 'border-color 0.2s ease',
             }}
           >
             <button
+              type="button"
               onClick={() => setOpenIndex(isOpen ? -1 : i)}
               style={{
                 width: '100%',
+                padding: '1.1rem 1.25rem',
                 display: 'flex',
-                justifyContent: 'space-between',
                 alignItems: 'center',
-                padding: '1.25rem 1.5rem',
+                justifyContent: 'space-between',
+                gap: '1rem',
                 background: 'transparent',
                 border: 'none',
-                color: 'var(--text)',
-                fontFamily: 'var(--font-display)',
-                fontSize: '1.05rem',
-                fontWeight: 600,
                 cursor: 'pointer',
                 textAlign: 'left',
+                color: 'var(--text)',
+                fontFamily: 'inherit',
+                fontWeight: 700,
+                fontSize: '0.95rem',
               }}
             >
-              {faq.q}
-              <ChevronDown
-                size={18}
-                style={{
-                  transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
-                  transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                  color: isOpen ? 'var(--primary)' : 'var(--text-dim)',
-                  flexShrink: 0,
-                  marginLeft: '1rem',
-                }}
-              />
+              <span>{faq.q}</span>
+              <span style={{ fontSize: '1.2rem', color: 'var(--text-muted)', transform: isOpen ? 'rotate(45deg)' : 'none', transition: 'transform 0.2s ease', flexShrink: 0 }}>
+                +
+              </span>
             </button>
-            <div
-              style={{
-                maxHeight: isOpen ? '300px' : '0',
-                opacity: isOpen ? 1 : 0,
-                overflow: 'hidden',
-                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                background: 'var(--surface-2)',
-              }}
-            >
-              <p style={{ margin: 0, padding: '0 1.5rem 1.25rem', color: 'var(--text-muted)', lineHeight: 1.6, fontSize: '0.95rem' }}>
+            {isOpen && (
+              <div
+                style={{
+                  padding: '0 1.25rem 1.25rem',
+                  color: 'var(--text-muted)',
+                  fontSize: '0.9rem',
+                  lineHeight: 1.65,
+                  borderTop: '1px solid var(--border-light)',
+                  paddingTop: '0.75rem',
+                }}
+              >
                 {faq.a}
-              </p>
-            </div>
+              </div>
+            )}
           </div>
         );
       })}
@@ -131,7 +134,7 @@ export default function Home() {
   const homeSchema = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": "UniqueBusinessName.com — AI Business Name Generator & Company Logo Maker",
+    "name": "Design Logo for Business Free & AI Business Name Generator — UniqueBusinessName.com",
     "url": "https://uniquebusinessname.com",
     "applicationCategory": "BusinessApplication",
     "operatingSystem": "All",
@@ -141,16 +144,20 @@ export default function Home() {
       "price": "0.00",
       "priceCurrency": "USD"
     },
-    "description": "Create logo for business free and generate brandable names with our company logo maker, 3D logo studio, free logo design templates, and vector SVG exports.",
+    "description": "Design logo for business free and generate brandable names with our company logo maker, graphic design online studio, business card exports, and vector SVG downloads.",
     "featureList": [
-      "Create Logo for Business Free",
+      "Design Logo for Business Free",
+      "Design Logo for Business AI",
+      "Design Logo for Business Online",
+      "Design Your Own Logo for Business",
+      "Design a Logo for Business Card",
+      "Design a Cover Page and Logo for Business Plan",
+      "Graphic Design Logo for Business",
+      "Designing a New Logo for Business",
       "Company Logo Maker & AI Studio",
-      "Company Name Logo Maker Free",
       "Company 3D Logo Maker Mockups",
       "Creative Logo Design Free Download",
       "Free Logo Design Templates",
-      "Name Logo Design",
-      "Company Stamp Logo Maker",
       "AI Business Name Generator",
       "Real-Time Domain Verification (.com, .io, .ai, .app)",
       "Vector SVG & High-Res PNG Exports",
@@ -162,9 +169,9 @@ export default function Home() {
   return (
     <div style={{ minHeight: '100vh', fontFamily: 'var(--font-body)', color: 'var(--text)' }}>
       <SEOHead
-        title="AI Business Name Generator & Company Logo Maker — Free Logo Design & Download | UniqueBusinessName.com"
-        description="Create logo for business free with the #1 AI company logo maker and business name generator. Discover creative logo design free download, 3D mockups, company name logo maker free templates, and instant vector SVG downloads."
-        keywords="create logo for business, logo design, create logo free, free online logo maker and download, free logo design and download, name logo design, free logo design templates, creative logo design free download, logo design online, company logo maker, company name logo maker, company design logo maker, company logo maker free, company logo maker ai, company name logo maker free, company brand logo maker, company stamp logo maker, company business logo maker, company 3d logo maker, business name generator, business name generators, business name generator ai, business name ideas, free business name generator, business name generator namelix, business name generator with logo, business name generator indian, business name generator ai free, business name generator no ai, namelix, logo maker, logo generator, business generator name, company generator name, generator business names, name generator for a business, names for a company generator, names for companies generator, name business generator, instant domain check"
+        title="Design Logo for Business Free — AI Company Logo Maker & Brand Name Generator | UniqueBusinessName.com"
+        description="Design logo for business free with the #1 AI company logo maker and business name generator. Design your own logo for business cards, business plans, 3D mockups, and instant vector SVG downloads."
+        keywords="design logo for business, designing a new logo for business, design your own logo for business, design a logo for business card, design a cover page and logo for business plan, design logo for business free, design logo for business ai, design logo for business online, design logo for business near me, graphic design logo for business, create logo for business, logo design, create logo free, free online logo maker and download, free logo design and download, name logo design, free logo design templates, creative logo design free download, logo design online, company logo maker, company name logo maker, company design logo maker, company logo maker free, company logo maker ai, company name logo maker free, company brand logo maker, company stamp logo maker, company business logo maker, company 3d logo maker, business name generator, business name generators, business name generator ai, business name ideas, free business name generator, business name generator namelix, business name generator with logo, business name generator indian, business name generator ai free, business name generator no ai, namelix, logo maker, logo generator, business generator name, company generator name, generator business names, name generator for a business, names for a company generator, names for companies generator, name business generator, instant domain check"
         url="https://uniquebusinessname.com/"
         type="WebApplication"
         schema={homeSchema}
@@ -383,16 +390,17 @@ export default function Home() {
             {/* Pillar 5 */}
             <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', padding: '2rem', boxShadow: 'var(--shadow-sm)' }}>
               <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.35rem', fontWeight: 800, color: 'var(--text)', marginBottom: '0.75rem' }}>
-                5. Create Logo for Business: The Complete Company Logo Maker Suite
+                5. Design Logo for Business: Online AI Graphic Design &amp; Brand Suite
               </h3>
               <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', lineHeight: 1.7, marginBottom: '1rem' }}>
-                Looking to <strong>create logo for business</strong> or discover an AI-powered <strong>company logo maker</strong>? Our suite provides everything required to launch your brand identity:
+                Looking to <strong>design logo for business free</strong> or discover an AI-powered <strong>company logo maker</strong>? Whether you are <strong>designing a new logo for business</strong> or want to <strong>design your own logo for business</strong> online, our suite provides complete creative control:
               </p>
               <ul style={{ paddingLeft: '1.5rem', color: 'var(--text-muted)', fontSize: '0.95rem', lineHeight: 1.7, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                <li><strong>Company Name Logo Maker Free:</strong> Generate monogram marks, geometric vectors, and custom typography tailored for modern <strong>name logo design</strong>.</li>
-                <li><strong>Free Logo Design Templates:</strong> Choose from Minimalist, Tech Gradient, Modern Studio, and <strong>company stamp logo maker</strong> archetypes.</li>
-                <li><strong>Company 3D Logo Maker Mockups:</strong> Test your logo rendered on photorealistic apparel, mobile app mockups, and business cards.</li>
-                <li><strong>Creative Logo Design Free Download:</strong> Export infinite-resolution vector SVG, high-res transparent PNG (up to 2048px), and print-ready PDF brand packages with 100% commercial ownership.</li>
+                <li><strong>Design Logo for Business AI &amp; Online:</strong> Generate bespoke monogram marks, geometric vectors, and custom typography with intelligent color harmonization.</li>
+                <li><strong>Design a Logo for Business Card:</strong> Export print-ready 300DPI vector SVGs and transparent PNGs formatted specifically for luxury business cards, stickers, and letterheads.</li>
+                <li><strong>Design a Cover Page and Logo for Business Plan:</strong> Create high-resolution brand assets and presentation covers to impress prospective investors and partners.</li>
+                <li><strong>Graphic Design Logo for Business vs. &ldquo;Near Me&rdquo;:</strong> Avoid paying high agency retainers for <em>design logo for business near me</em> services. Our online AI graphic design studio delivers instant results with zero watermarks and 100% full commercial rights.</li>
+                <li><strong>Company 3D Logo Maker Mockups &amp; Free Downloads:</strong> Test your logo rendered on photorealistic apparel, mobile app mockups, and signage before downloading print-ready SVG, PNG, and PDF files.</li>
               </ul>
             </div>
           </div>
