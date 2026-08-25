@@ -59,8 +59,8 @@ const LENGTH_OPTIONS: { id: NameLengthFilter; label: string; chars: string }[] =
 ];
 
 const POPULAR_KEYWORDS = [
-  'AI Tech', 'SaaS Platform', 'Coffee Shop', 'Eco Green', 'Fintech',
-  'Health & Yoga', 'Luxury Fashion', 'Cybersecurity', 'Modern Studio'
+  'AI Tech', 'Indian Startup', 'SaaS Platform', 'Free Logo Ideas', 'Coffee Shop', 
+  'Eco Green', 'Fintech', 'Health & Yoga', 'Luxury Fashion', 'Cybersecurity'
 ];
 
 export interface NameGeneratorProps {
@@ -159,16 +159,16 @@ export const NameGenerator: React.FC<NameGeneratorProps> = ({ initialKeywords, i
       <div className={styles.searchHero}>
         <div className={styles.badgeWrap}>
           <span className={styles.heroBadge}>
-            <Sparkles size={14} /> AI Brand Engine
+            <Sparkles size={14} /> Free Business Name Generator With Logo
           </span>
-          <span className={styles.subBadge}>Advanced Neural Generator</span>
+          <span className={styles.subBadge}>AI Free &amp; Instant Vector Exports</span>
         </div>
 
         <h1 className={styles.mainTitle}>
           AI Business Name Generator
         </h1>
         <p className={styles.mainSubtitle}>
-          The free AI name generator for a business and company generator name engine. Discover brandable names for companies generator, live domain checks, and instant vector logos.
+          The #1 free AI business name generator with logo and company generator name engine. Discover creative business name ideas, Indian startup names, real-time domain checks, and instant vector logos.
         </p>
 
         {/* Search Input Bar */}
