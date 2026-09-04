@@ -29,10 +29,20 @@ import {
   TLD,
   DomainStatus
 } from '../../types';
-import { generateNames, synthesizeBrandNames } from '../../engines/namingEngine';
+import { generateNames, synthesizeBrandNames, INDUSTRY_CATEGORIES } from '../../engines/namingEngine';
 import { useBrandState } from '../../context/BrandStateContext';
 import { NameCard } from './NameCard';
 import styles from './NameGenerator.module.css';
+
+export interface GenerationBatch {
+  id: string;
+  timestamp: number;
+  keywords: string;
+  category: string;
+  categoryLabel: string;
+  style: NamingStyle;
+  names: GeneratedBusinessName[];
+}
 
 const NAMING_STYLES: { id: NamingStyle; label: string; example: string; desc: string }[] = [
   { id: 'brandable', label: 'Brandable', example: 'Google, Vroom', desc: 'Catchy, invented coinages' },
@@ -66,9 +76,10 @@ const POPULAR_KEYWORDS = [
 export interface NameGeneratorProps {
   initialKeywords?: string;
   initialStyle?: NamingStyle;
+  initialCategory?: string;
 }
 
-export const NameGenerator: React.FC<NameGeneratorProps> = ({ initialKeywords, initialStyle }) => {
+export const NameGenerator: React.FC<NameGeneratorProps> = ({ initialKeywords, initialStyle, initialCategory }) => {
   const {
     savedNames,
     removeSavedName,
@@ -79,16 +90,24 @@ export const NameGenerator: React.FC<NameGeneratorProps> = ({ initialKeywords, i
   } = useBrandState();
 
   const [keywords, setKeywords] = useState<string>(initialKeywords || 'cloud analytics');
+  const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory || 'all');
   const [selectedStyle, setSelectedStyle] = useState<NamingStyle>(initialStyle || 'brandable');
   const [randomness, setRandomness] = useState<RandomnessLevel>('medium');
   const [lengthFilter, setLengthFilter] = useState<NameLengthFilter>('all');
   const [showFilters, setShowFilters] = useState<boolean>(true);
 
   const [names, setNames] = useState<GeneratedBusinessName[]>([]);
+  const [visibleCount, setVisibleCount] = useState<number>(12);
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
   const [generationCount, setGenerationCount] = useState<number>(0);
 
+  // Refine, don't restart: store previous batches so prior suggestions are preserved
+  const [previousBatches, setPreviousBatches] = useState<GenerationBatch[]>([]);
+  const [showPreviousSuggestions, setShowPreviousSuggestions] = useState<boolean>(true);
+
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const currentKeywordsRef = useRef<string>(keywords);
+  currentKeywordsRef.current = keywords;
 
   // Callback to update domain availability on individual cards asynchronously
   const handleDomainUpdate = useCallback((nameId: string, domainMap: Record<TLD, DomainStatus>) => {
@@ -98,10 +117,16 @@ export const NameGenerator: React.FC<NameGeneratorProps> = ({ initialKeywords, i
       }
       return item;
     }));
+
+    setPreviousBatches(prevBatches => prevBatches.map(batch => ({
+      ...batch,
+      names: batch.names.map(item => item.id === nameId ? { ...item, domains: domainMap } : item)
+    })));
   }, []);
 
-  const runGeneration = useCallback(async (queryKeywords?: string) => {
+  const runGeneration = useCallback(async (queryKeywords?: string, queryCategory?: string) => {
     const activeKeywords = queryKeywords !== undefined ? queryKeywords : keywords;
+    const activeCategory = queryCategory !== undefined ? queryCategory : selectedCategory;
     if (!activeKeywords.trim()) return;
 
     setIsGenerating(true);
@@ -110,12 +135,32 @@ export const NameGenerator: React.FC<NameGeneratorProps> = ({ initialKeywords, i
       keywords: activeKeywords,
       style: selectedStyle,
       randomness,
-      length: lengthFilter
+      length: lengthFilter,
+      industry: activeCategory
     };
 
     try {
       const generated = await generateNames(config, preferenceWeights, handleDomainUpdate);
+
+      // Preserve previous batch before replacing
+      if (names.length > 0) {
+        const catLabel = INDUSTRY_CATEGORIES.find(c => c.id === selectedCategory)?.label || 'All Industries';
+        setPreviousBatches(prev => [
+          {
+            id: `batch-${Date.now()}`,
+            timestamp: Date.now(),
+            keywords: currentKeywordsRef.current,
+            category: selectedCategory,
+            categoryLabel: catLabel,
+            style: selectedStyle,
+            names: [...names]
+          },
+          ...prev.slice(0, 4) // Retain last 5 batches
+        ]);
+      }
+
       setNames(generated);
+      setVisibleCount(12);
       setGenerationCount(c => c + 1);
 
       if (generationCount === 0) {
@@ -129,17 +174,17 @@ export const NameGenerator: React.FC<NameGeneratorProps> = ({ initialKeywords, i
       }
     } catch (err) {
       console.error('Generation error:', err);
-      // Fallback
-      const fallbackNames = synthesizeBrandNames(config, preferenceWeights, 24);
+      const fallbackNames = synthesizeBrandNames(config, preferenceWeights, 30);
       setNames(fallbackNames);
+      setVisibleCount(12);
     } finally {
       setIsGenerating(false);
     }
-  }, [keywords, selectedStyle, randomness, lengthFilter, preferenceWeights, handleDomainUpdate, generationCount]);
+  }, [keywords, selectedCategory, selectedStyle, randomness, lengthFilter, preferenceWeights, handleDomainUpdate, generationCount, names]);
 
   // Initial load generation
   useEffect(() => {
-    runGeneration('cloud analytics');
+    runGeneration('cloud analytics', 'all');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -151,6 +196,19 @@ export const NameGenerator: React.FC<NameGeneratorProps> = ({ initialKeywords, i
   const handleKeywordTagClick = (tag: string) => {
     setKeywords(tag);
     runGeneration(tag);
+  };
+
+  const handleCategorySelect = (categoryId: string) => {
+    setSelectedCategory(categoryId);
+    runGeneration(keywords, categoryId);
+  };
+
+  const handleRestoreBatch = (batch: GenerationBatch) => {
+    setNames(batch.names);
+    setKeywords(batch.keywords);
+    setSelectedCategory(batch.category);
+    setSelectedStyle(batch.style);
+    setVisibleCount(12);
   };
 
   return (
@@ -171,8 +229,28 @@ export const NameGenerator: React.FC<NameGeneratorProps> = ({ initialKeywords, i
           The #1 free AI business name generator with logo and company generator name engine. Discover creative business name ideas, Indian startup names, real-time domain checks, and instant vector logos.
         </p>
 
-        {/* Search Input Bar */}
+        {/* Search Input Bar with Industry Category Selector */}
         <form onSubmit={handleSubmit} className={styles.searchForm}>
+          {/* Category Dropdown */}
+          <div className={styles.categoryDropdownWrap}>
+            <label htmlFor="industry-category-select" className={styles.categoryDropdownLabel}>Industry</label>
+            <select
+              id="industry-category-select"
+              value={selectedCategory}
+              onChange={(e) => handleCategorySelect(e.target.value)}
+              className={styles.categorySelect}
+              aria-label="Select industry category"
+            >
+              {INDUSTRY_CATEGORIES.map(cat => (
+                <option key={cat.id} value={cat.id}>
+                  {cat.icon} {cat.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className={styles.inputDivider} />
+
           <div className={styles.inputWrapper}>
             <Search className={styles.searchIcon} size={22} />
             <input
@@ -229,6 +307,23 @@ export const NameGenerator: React.FC<NameGeneratorProps> = ({ initialKeywords, i
             </button>
           </div>
         </form>
+
+        {/* Industry Category Quick-Pills */}
+        <div className={styles.categoryQuickPills} role="group" aria-label="Quick Industry Filter">
+          <span className={styles.quickTagsLabel}>Industries:</span>
+          {INDUSTRY_CATEGORIES.slice(0, 10).map(cat => (
+            <button
+              key={cat.id}
+              type="button"
+              className={`${styles.categoryPill} ${selectedCategory === cat.id ? styles.categoryPillActive : ''}`}
+              onClick={() => handleCategorySelect(cat.id)}
+              aria-pressed={selectedCategory === cat.id}
+            >
+              <span className={styles.categoryPillIcon}>{cat.icon}</span>
+              <span>{cat.label}</span>
+            </button>
+          ))}
+        </div>
 
         {/* Popular Keyword Suggestions */}
         <div className={styles.quickTags}>
@@ -343,7 +438,14 @@ export const NameGenerator: React.FC<NameGeneratorProps> = ({ initialKeywords, i
       <div className={styles.resultsBar}>
         <div className={styles.resultsCount}>
           <span className={styles.resultsCountBadge}>{names.length} Ideas</span>
-          <span>Brandable names for <span className={styles.resultsKeywordHighlight}>&ldquo;{keywords}&rdquo;</span></span>
+          <span>
+            Brandable names for <span className={styles.resultsKeywordHighlight}>&ldquo;{keywords}&rdquo;</span>
+            {selectedCategory !== 'all' && (
+              <span className={styles.categoryHighlightBadge}>
+                &bull; {INDUSTRY_CATEGORIES.find(c => c.id === selectedCategory)?.label}
+              </span>
+            )}
+          </span>
         </div>
 
         <div className={styles.resultsActions}>
@@ -365,20 +467,95 @@ export const NameGenerator: React.FC<NameGeneratorProps> = ({ initialKeywords, i
             className={styles.refreshBtn}
             onClick={() => runGeneration()}
             disabled={isGenerating}
-            title="Generate more variations"
+            title="Refine and generate more variations"
           >
             <RefreshCw size={15} className={isGenerating ? styles.spinner : ''} />
-            <span>Shuffle &amp; Generate More</span>
+            <span>Shuffle &amp; Regenerate</span>
           </button>
         </div>
       </div>
 
-      {/* Name Cards Grid */}
+      {/* Name Cards Grid (Showing visibleCount of 30) */}
       <div className={styles.nameGrid}>
-        {names.map(item => (
+        {names.slice(0, visibleCount).map(item => (
           <NameCard key={item.id} item={item} />
         ))}
       </div>
+
+      {/* Load More Pagination */}
+      {names.length > visibleCount && (
+        <div className={styles.loadMoreWrap}>
+          <button
+            type="button"
+            className={styles.loadMoreBtn}
+            onClick={() => setVisibleCount(c => Math.min(names.length, c + 12))}
+            id="load-more-names-btn"
+          >
+            <span>Load More Names ({names.length - visibleCount} remaining)</span>
+            <ArrowRight size={16} />
+          </button>
+        </div>
+      )}
+
+      {/* Refine, don't restart: Previous Suggestions Section */}
+      {previousBatches.length > 0 && (
+        <div className={styles.previousSection}>
+          <div className={styles.previousHeader}>
+            <button
+              type="button"
+              className={styles.previousToggleBtn}
+              onClick={() => setShowPreviousSuggestions(p => !p)}
+              aria-expanded={showPreviousSuggestions}
+            >
+              <span className={styles.previousClockIcon}>🕒</span>
+              <span className={styles.previousTitle}>
+                Previous Suggestions ({previousBatches.reduce((acc, b) => acc + b.names.length, 0)} names from {previousBatches.length} search{previousBatches.length > 1 ? 'es' : ''})
+              </span>
+              <span className={styles.previousToggleState}>
+                {showPreviousSuggestions ? '▲ Hide' : '▼ View'}
+              </span>
+            </button>
+            <button
+              type="button"
+              className={styles.clearHistoryBtn}
+              onClick={() => setPreviousBatches([])}
+              title="Clear previous search history"
+            >
+              Clear History
+            </button>
+          </div>
+
+          {showPreviousSuggestions && (
+            <div className={styles.previousBatchesContainer}>
+              {previousBatches.map(batch => (
+                <div key={batch.id} className={styles.previousBatchCard}>
+                  <div className={styles.previousBatchMeta}>
+                    <div className={styles.previousBatchInfo}>
+                      <span className={styles.batchKeywords}>&ldquo;{batch.keywords}&rdquo;</span>
+                      <span className={styles.batchCategoryBadge}>{batch.categoryLabel}</span>
+                      <span className={styles.batchStyleBadge}>{batch.style}</span>
+                      <span className={styles.batchCountBadge}>{batch.names.length} ideas</span>
+                    </div>
+                    <button
+                      type="button"
+                      className={styles.restoreBatchBtn}
+                      onClick={() => handleRestoreBatch(batch)}
+                      title="Restore this search to active results"
+                    >
+                      Restore This Batch
+                    </button>
+                  </div>
+                  <div className={styles.previousBatchGrid}>
+                    {batch.names.slice(0, 6).map(item => (
+                      <NameCard key={item.id} item={item} />
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Empty State */}
       {names.length === 0 && !isGenerating && (

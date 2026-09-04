@@ -1,9 +1,7 @@
-/* ============================================================
-   Step 3: Generate & Preview
-   ============================================================ */
 import { GeneratedLogo, LogoInputs, DesignPrefs, PromptSet, PromptVariant } from '../../../types/logoMaker';
 import { LogoPreviewCard } from '../LogoPreviewCard';
 import { PromptPreview } from '../PromptPreview';
+import { BrandKitView } from '../BrandKit/BrandKitView';
 import styles from '../LogoMaker.module.css';
 
 interface GenerateStepProps {
@@ -37,6 +35,7 @@ export function GenerateStep({
   onPromptVariantChange, onCustomPromptChange,
 }: GenerateStepProps) {
   const hasLogos = logos.length > 0;
+  const selectedLogo = logos.find(l => l.id === selectedLogoId) || logos[0] || null;
 
   return (
     <div className={styles.stepContainer}>
@@ -206,6 +205,15 @@ export function GenerateStep({
           )}
         </button>
       </div>
+
+      {/* ── Brand Kit & Print Assets (Design.com Parity) ─────── */}
+      {hasLogos && !isGenerating && selectedLogo && (
+        <BrandKitView
+          logo={selectedLogo}
+          businessName={inputs.businessName}
+          tagline={inputs.tagline}
+        />
+      )}
 
       {/* ── Ownership note ─────────────────────────────────────── */}
       {hasLogos && (

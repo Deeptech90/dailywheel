@@ -114,12 +114,20 @@ export const NameCard: React.FC<NameCardProps> = ({ item }) => {
           <span>[{item.phonetic}]</span>
           <span className={styles.scorePill}>{item.score}% Match</span>
         </div>
-        <p className={styles.meaningText}>{item.meaning}</p>
+        <div className={styles.rationaleBox}>
+          <span className={styles.rationaleLabel}>Why it fits:</span>
+          <p className={styles.meaningText}>{item.meaning}</p>
+        </div>
       </div>
 
       {/* Domain Availability Live Status Grid */}
       <div className={styles.domainSection}>
-        <div className={styles.domainLabel}>Domain Availability</div>
+        <div className={styles.domainHeaderRow}>
+          <span className={styles.domainLabel}>Domain Availability</span>
+          <span className={`${styles.comBadge} ${styles[`comBadge_${item.domains['.com'] || 'checking'}`]}`}>
+            .com: {item.domains['.com'] === 'available' ? 'Available' : item.domains['.com'] === 'checking' ? 'Checking…' : item.domains['.com'] === 'premium' ? 'Premium' : 'Taken'}
+          </span>
+        </div>
         <div className={styles.domainPills}>
           {TLD_LIST.map((tld) => {
             const status: DomainStatus = item.domains[tld] || 'checking';
@@ -131,7 +139,7 @@ export const NameCard: React.FC<NameCardProps> = ({ item }) => {
                 href={regUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`${styles.domainPill} ${styles[`domain_${status}`]}`}
+                className={`${styles.domainPill} ${styles[`domain_${status}`]} ${tld === '.com' ? styles.domainComPill : ''}`}
                 title={`Check ${item.name}${tld} (${status})`}
                 onClick={(e) => e.stopPropagation()}
               >

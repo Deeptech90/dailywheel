@@ -79,21 +79,26 @@ export async function generateLogos(
   return { logos, source: 'client' };
 }
 
-/* ── Rate limit tracking (simple client-side) ────────────────── */
+/* ── Rate limit tracking (per-minute throttle, unlimited total generations) ── */
 const RATE_LIMIT_KEY = 'ubn_logo_gen_timestamps';
-const MAX_GENS_PER_HOUR = 20;
+const MAX_GENS_PER_MINUTE = 10; // Per-minute throttle to prevent accidental spam; total generations are unlimited
 
 export function checkRateLimit(): { allowed: boolean; remaining: number; resetIn: number } {
   const raw = localStorage.getItem(RATE_LIMIT_KEY);
   const now = Date.now();
-  const hourAgo = now - 3600_000;
+  const minuteAgo = now - 60_000;
 
-  let timestamps: number[] = raw ? JSON.parse(raw) : [];
-  timestamps = timestamps.filter(t => t > hourAgo);
+  let timestamps: number[] = [];
+  try {
+    timestamps = raw ? JSON.parse(raw) : [];
+  } catch {
+    timestamps = [];
+  }
+  timestamps = timestamps.filter(t => t > minuteAgo);
 
-  const remaining = Math.max(0, MAX_GENS_PER_HOUR - timestamps.length);
+  const remaining = Math.max(0, MAX_GENS_PER_MINUTE - timestamps.length);
   const oldest = timestamps[0] ?? now;
-  const resetIn = Math.max(0, Math.ceil((oldest + 3600_000 - now) / 60_000));
+  const resetIn = Math.max(0, Math.ceil((oldest + 60_000 - now) / 1000));
 
   return { allowed: remaining > 0, remaining, resetIn };
 }
@@ -101,9 +106,14 @@ export function checkRateLimit(): { allowed: boolean; remaining: number; resetIn
 export function recordGeneration(): void {
   const raw = localStorage.getItem(RATE_LIMIT_KEY);
   const now = Date.now();
-  const hourAgo = now - 3600_000;
-  let timestamps: number[] = raw ? JSON.parse(raw) : [];
-  timestamps = timestamps.filter(t => t > hourAgo);
+  const minuteAgo = now - 60_000;
+  let timestamps: number[] = [];
+  try {
+    timestamps = raw ? JSON.parse(raw) : [];
+  } catch {
+    timestamps = [];
+  }
+  timestamps = timestamps.filter(t => t > minuteAgo);
   timestamps.push(now);
   localStorage.setItem(RATE_LIMIT_KEY, JSON.stringify(timestamps));
 }

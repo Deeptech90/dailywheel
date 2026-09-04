@@ -28,7 +28,9 @@ export function sanitizeDomainName(name: string): string {
 }
 
 /**
- * Check single domain via Cloudflare DNS over HTTPS (DoH)
+ * Check single domain via Cloudflare DNS over HTTPS (DoH).
+ * Provider Swap Point: To connect a commercial domain registrar API (e.g. GoDaddy, Namecheap,
+ * WhoisXML, Domainr), replace or extend this function.
  * If DNS returns NXDOMAIN (Status 3), domain has no DNS records -> strongly likely available.
  * If DNS returns NOERROR (Status 0) with A/CNAME records -> definitely taken.
  */

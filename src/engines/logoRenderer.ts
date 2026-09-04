@@ -322,11 +322,11 @@ export function generateLogoVariants(
   promptString: string = ''
 ): GeneratedLogo[] {
   const configs: LogoVariantConfig[] = [
-    { templateStyle: 'minimal', layout: 'horizontal', fontStyle: 'geometric', label: 'Modern Minimal Horizontal' },
-    { templateStyle: 'minimal', layout: 'stacked', fontStyle: 'sans', label: 'Balanced Icon Stack' },
-    { templateStyle: 'wordmark', layout: 'horizontal', fontStyle: 'display', label: 'Bold Typographic Wordmark' },
+    { templateStyle: 'minimal', layout: 'horizontal', fontStyle: 'geometric', label: 'Minimal Icon + Text Lockup' },
+    { templateStyle: 'wordmark', layout: 'horizontal', fontStyle: 'display', label: 'Minimal Typographic Wordmark' },
+    { templateStyle: 'lettermark', layout: 'stacked', fontStyle: 'geometric', label: 'Monogram / Lettermark' },
+    { templateStyle: 'mascot', layout: 'stacked', fontStyle: 'sans', label: 'Illustrative / Mascot Emblem' },
     { templateStyle: 'emblem', layout: 'stacked', fontStyle: 'serif', label: 'Classic Heritage Crest' },
-    { templateStyle: 'lettermark', layout: 'stacked', fontStyle: 'geometric', label: 'Monogram Brand Tile' },
     { templateStyle: 'abstract', layout: 'horizontal', fontStyle: 'sans', label: 'Modern Geometric Duo' },
   ];
 

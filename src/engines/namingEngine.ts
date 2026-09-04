@@ -15,6 +15,191 @@ import {
 } from '../types';
 import { checkDomainAvailability } from './domainChecker';
 
+// ── Curated Industry Categories with Specialized Vocabularies ──
+export interface IndustryCategory {
+  id: string;
+  label: string;
+  icon: string;
+  roots: string[];
+  evocative: string[];
+  modifiers: string[];
+  descriptor: string;
+}
+
+export const INDUSTRY_CATEGORIES: IndustryCategory[] = [
+  {
+    id: 'all',
+    label: 'All Industries',
+    icon: '✨',
+    roots: ['nova', 'prime', 'apex', 'sync', 'flow', 'meta', 'omni', 'zen'],
+    evocative: ['Vantage', 'Horizon', 'Catalyst', 'Summit', 'Prism', 'Orbit'],
+    modifiers: ['Next', 'Pure', 'True', 'Bold', 'Bright', 'Clear'],
+    descriptor: 'universal brand appeal'
+  },
+  {
+    id: 'tech-saas',
+    label: 'Tech & SaaS',
+    icon: '💻',
+    roots: ['cloud', 'stack', 'byte', 'algo', 'sync', 'node', 'cyber', 'quant', 'synt', 'logic', 'vect'],
+    evocative: ['Matrix', 'Engine', 'Node', 'Stack', 'Protocol', 'Vertex', 'Circuit', 'Pipeline'],
+    modifiers: ['Cyber', 'Neural', 'Agile', 'Smart', 'Hyper', 'Cloud', 'Data'],
+    descriptor: 'agile digital innovation'
+  },
+  {
+    id: 'food-beverage',
+    label: 'Food & Beverage',
+    icon: '🍽️',
+    roots: ['brew', 'roast', 'crust', 'bite', 'grain', 'taste', 'harvest', 'flavor', 'sip', 'bean'],
+    evocative: ['Spoon', 'Kettle', 'Table', 'Harvest', 'Pantry', 'Grill', 'Cellar', 'Bake'],
+    modifiers: ['Fresh', 'Artisan', 'Golden', 'Pure', 'Sweet', 'Crisp', 'Wild'],
+    descriptor: 'artisan culinary craft'
+  },
+  {
+    id: 'retail-ecommerce',
+    label: 'Retail & E-Commerce',
+    icon: '🛍️',
+    roots: ['cart', 'shop', 'mart', 'box', 'pack', 'find', 'drop', 'trend', 'haul'],
+    evocative: ['Market', 'Corner', 'Bazaar', 'Avenue', 'Depot', 'Parcel', 'Plaza'],
+    modifiers: ['Smart', 'Prime', 'Direct', 'Quick', 'Daily', 'Global'],
+    descriptor: 'modern consumer commerce'
+  },
+  {
+    id: 'beauty-wellness',
+    label: 'Beauty & Wellness',
+    icon: '✨',
+    roots: ['glow', 'bloom', 'luxe', 'silk', 'radi', 'pure', 'aura', 'bella', 'flora'],
+    evocative: ['Oasis', 'Blossom', 'Botanica', 'Elixir', 'Ritual', 'Serene', 'Velvet'],
+    modifiers: ['Pure', 'Soft', 'Luminous', 'Natural', 'Gentle', 'Radiant'],
+    descriptor: 'radiant holistic care'
+  },
+  {
+    id: 'health-fitness',
+    label: 'Health & Fitness',
+    icon: '💪',
+    roots: ['vital', 'pulse', 'fit', 'stride', 'surge', 'kin', 'flex', 'stamina', 'peak'],
+    evocative: ['Sprint', 'Thrive', 'Iron', 'Apex', 'Core', 'Vigor', 'Endure'],
+    modifiers: ['Active', 'Peak', 'Vital', 'Iron', 'Swift', 'Dynamic'],
+    descriptor: 'high-energy physical vitality'
+  },
+  {
+    id: 'professional-services',
+    label: 'Professional Services',
+    icon: '👔',
+    roots: ['strat', 'consul', 'advis', 'integ', 'pinn', 'trust', 'clar', 'counsel'],
+    evocative: ['Vanguard', 'Alliance', 'Partners', 'Beacon', 'Anchor', 'Insight'],
+    modifiers: ['Global', 'True', 'Grand', 'Clear', 'Prime', 'Select'],
+    descriptor: 'trusted executive authority'
+  },
+  {
+    id: 'finance-fintech',
+    label: 'Finance & Fintech',
+    icon: '💳',
+    roots: ['vault', 'coin', 'vest', 'lend', 'yield', 'asset', 'ledger', 'cap', 'fund'],
+    evocative: ['Capital', 'Trust', 'Reserve', 'Wealth', 'Mint', 'Equity', 'Ledger'],
+    modifiers: ['Secure', 'First', 'Noble', 'Iron', 'Direct', 'Solid'],
+    descriptor: 'secure wealth and liquidity'
+  },
+  {
+    id: 'real-estate',
+    label: 'Real Estate & Property',
+    icon: '🏠',
+    roots: ['haven', 'roof', 'terra', 'domus', 'land', 'stone', 'estate', 'dwell'],
+    evocative: ['Abode', 'Haven', 'Harbor', 'Manor', 'Ridge', 'Vista', 'Terrace'],
+    modifiers: ['Grand', 'Prime', 'Oak', 'Urban', 'Civic', 'True'],
+    descriptor: 'enduring property prestige'
+  },
+  {
+    id: 'creative-design',
+    label: 'Creative & Design',
+    icon: '🎨',
+    roots: ['pix', 'craft', 'hue', 'draw', 'tint', 'canvas', 'form', 'spark', 'motif'],
+    evocative: ['Studio', 'Atelier', 'Prism', 'Palette', 'Canvas', 'Draft', 'Vivid'],
+    modifiers: ['Vivid', 'Bold', 'Fresh', 'Modern', 'Wild', 'Pure'],
+    descriptor: 'expressive visual design'
+  },
+  {
+    id: 'construction-trades',
+    label: 'Construction & Trades',
+    icon: '🔨',
+    roots: ['build', 'forge', 'steel', 'timber', 'solid', 'craft', 'iron', 'beam'],
+    evocative: ['Mason', 'Forge', 'Timber', 'Keystone', 'Framework', 'Hammer'],
+    modifiers: ['Hardy', 'Solid', 'True', 'Master', 'Tough', 'Iron'],
+    descriptor: 'rugged structural mastery'
+  },
+  {
+    id: 'education-coaching',
+    label: 'Education & Coaching',
+    icon: '🎓',
+    roots: ['learn', 'mind', 'cogni', 'tutor', 'skill', 'mentor', 'scholar', 'path'],
+    evocative: ['Academy', 'Guide', 'Mentor', 'Compass', 'Quest', 'Summit'],
+    modifiers: ['Bright', 'Wise', 'Next', 'Clear', 'True', 'Prime'],
+    descriptor: 'empowering knowledge transfer'
+  },
+  {
+    id: 'travel-hospitality',
+    label: 'Travel & Hospitality',
+    icon: '✈️',
+    roots: ['voy', 'roam', 'trek', 'path', 'stay', 'wander', 'haven', 'lodge'],
+    evocative: ['Compass', 'Voyage', 'Journey', 'Oasis', 'Harbor', 'Expedition'],
+    modifiers: ['Sunny', 'Grand', 'Wild', 'Blue', 'Open', 'Serene'],
+    descriptor: 'enriching world discovery'
+  },
+  {
+    id: 'fashion-apparel',
+    label: 'Fashion & Apparel',
+    icon: '👗',
+    roots: ['thread', 'stitch', 'vogue', 'cloth', 'drape', 'couture', 'line', 'mode'],
+    evocative: ['Atelier', 'Silhouette', 'Weave', 'Apparel', 'Label', 'Attire'],
+    modifiers: ['Haute', 'Urban', 'Luxe', 'Velvet', 'Sleek', 'Pure'],
+    descriptor: 'distinctive sartorial elegance'
+  },
+  {
+    id: 'entertainment-media',
+    label: 'Entertainment & Media',
+    icon: '🎬',
+    roots: ['cast', 'stream', 'reel', 'sound', 'flick', 'vibe', 'wave', 'scene'],
+    evocative: ['Cinema', 'Stage', 'Amplify', 'Flick', 'Spotlight', 'Echo'],
+    modifiers: ['Loud', 'Epic', 'Live', 'Vivid', 'Prime', 'Wild'],
+    descriptor: 'dynamic audience immersion'
+  },
+  {
+    id: 'legal-compliance',
+    label: 'Legal & Compliance',
+    icon: '⚖️',
+    roots: ['lex', 'juris', 'veritas', 'justi', 'legal', 'counsel', 'pact', 'rule'],
+    evocative: ['Gavel', 'Charter', 'Alliance', 'Counsel', 'Shield', 'Pact'],
+    modifiers: ['Just', 'True', 'Prime', 'Noble', 'Firm', 'Clear'],
+    descriptor: 'principled legal integrity'
+  },
+  {
+    id: 'automotive-transport',
+    label: 'Automotive & Transport',
+    icon: '🚗',
+    roots: ['moto', 'gear', 'drive', 'speed', 'turbo', 'torque', 'shift', 'wheel', 'glide'],
+    evocative: ['Velocity', 'Piston', 'Cruise', 'Apex', 'Torque', 'Fleet'],
+    modifiers: ['Turbo', 'Rapid', 'Apex', 'Swift', 'Direct', 'Heavy'],
+    descriptor: 'engineered mechanical precision'
+  },
+  {
+    id: 'pet-care-services',
+    label: 'Pet Care & Services',
+    icon: '🐾',
+    roots: ['paw', 'bark', 'tail', 'fur', 'snout', 'whisk', 'wag', 'hound'],
+    evocative: ['Paws', 'Haven', 'Pack', 'Companions', 'Meadow', 'Collar'],
+    modifiers: ['Happy', 'Gentle', 'Loyal', 'Warm', 'Pure', 'Cozy'],
+    descriptor: 'devoted animal companionship'
+  },
+  {
+    id: 'eco-sustainability',
+    label: 'Eco & Clean Energy',
+    icon: '🌱',
+    roots: ['eco', 'terra', 'green', 'leaf', 'solar', 'renew', 'earth', 'clean', 'bio'],
+    evocative: ['Canopy', 'Forest', 'Current', 'Meadow', 'Horizon', 'Bloom'],
+    modifiers: ['Green', 'Pure', 'Clean', 'True', 'Solar', 'Renew'],
+    descriptor: 'regenerative planet stewardship'
+  }
+];
+
 // ── Morphological Root Lexicons & Affixes ──────────────────────
 const PREFIXES = [
   'nova', 'omni', 'sync', 'hyper', 'meta', 'vivid', 'prime', 'sol',
@@ -102,7 +287,7 @@ function generatePhoneticGuide(name: string): string {
 export function synthesizeBrandNames(
   config: NamingFilterConfig,
   preferenceWeights?: Record<NamingStyle, number>,
-  count: number = 24
+  count: number = 30
 ): GeneratedBusinessName[] {
   const { keywords, style, randomness, length } = config;
   const rawKeywords = keywords
@@ -111,7 +296,13 @@ export function synthesizeBrandNames(
     .map(k => k.trim())
     .filter(Boolean);
 
-  const baseWord = rawKeywords[0] || 'brand';
+  const categoryId = config.industry || 'all';
+  const category = INDUSTRY_CATEGORIES.find(c => c.id === categoryId) || INDUSTRY_CATEGORIES[0];
+  const catRoots = category.roots.length > 0 ? category.roots : PREFIXES;
+  const catEvocative = category.evocative.length > 0 ? category.evocative : EVOCATIVE_WORDS;
+  const catModifiers = category.modifiers.length > 0 ? category.modifiers : MODIFIERS;
+
+  const baseWord = rawKeywords[0] || (category.id !== 'all' ? category.roots[0] : 'brand');
   const cleanBase = baseWord.replace(/[^a-z]/g, '');
   const capitalizedBase = cleanBase.charAt(0).toUpperCase() + cleanBase.slice(1);
 
@@ -120,38 +311,42 @@ export function synthesizeBrandNames(
 
   const targetStyle = style || 'brandable';
 
-  for (let i = 0; i < count * 3; i++) {
+  for (let i = 0; i < count * 4; i++) {
     let nameStr = '';
     let meaning = '';
     let phonetic = '';
 
     switch (targetStyle) {
       case 'brandable': {
-        const prefix = PREFIXES[i % PREFIXES.length];
+        const rootWord = i % 2 === 0 ? catRoots[i % catRoots.length] : PREFIXES[i % PREFIXES.length];
+        const prefix = rootWord.charAt(0).toUpperCase() + rootWord.slice(1);
         const suffix = SUFFIXES[(i * 3) % SUFFIXES.length];
         if (randomness === 'low') {
           nameStr = `${capitalizedBase}${suffix}`;
-          meaning = `Modern brandable coinage built directly from '${baseWord}'.`;
+          meaning = `Modern coinage built directly from '${baseWord}'.`;
         } else if (randomness === 'high') {
-          const root = PREFIXES[(i * 7) % PREFIXES.length];
-          nameStr = `${root.charAt(0).toUpperCase() + root.slice(1)}${suffix}`;
-          meaning = `Abstract, highly memorable modern coinage with crisp phonetics.`;
+          nameStr = `${prefix}${suffix}`;
+          meaning = `Abstract coinage evoking ${category.descriptor}.`;
         } else {
-          nameStr = `${prefix.charAt(0).toUpperCase() + prefix.slice(1)}${cleanBase.slice(0, 3)}${suffix}`;
-          meaning = `Balanced tech-forward brand coinage combining '${baseWord}' with dynamic affixes.`;
+          nameStr = `${prefix}${cleanBase.slice(0, 3)}${suffix}`;
+          meaning = `Dynamic blend expressing ${category.descriptor}.`;
         }
         break;
       }
 
       case 'compound': {
-        const mod = MODIFIERS[i % MODIFIERS.length];
-        const evo = EVOCATIVE_WORDS[(i * 2) % EVOCATIVE_WORDS.length];
+        const mod = catModifiers[i % catModifiers.length];
+        const evo = catEvocative[(i * 2) % catEvocative.length];
         if (randomness === 'low') {
           nameStr = `${capitalizedBase}${evo}`;
-          meaning = `Compound blend pairing '${baseWord}' with core value word '${evo}'.`;
+          meaning = `Compound blend pairing '${baseWord}' with '${evo}'.`;
+        } else if (randomness === 'high') {
+          const secondEvo = catEvocative[(i + 3) % catEvocative.length];
+          nameStr = `${mod}${secondEvo}`;
+          meaning = `High-impact compound signaling ${category.descriptor}.`;
         } else {
           nameStr = `${mod}${capitalizedBase}`;
-          meaning = `High-impact compound mark expressing quality and momentum.`;
+          meaning = `Bold compound projecting market momentum and trust.`;
         }
         break;
       }
@@ -164,21 +359,21 @@ export function synthesizeBrandNames(
         } else {
           nameStr = `${alt}${suffix}`;
         }
-        meaning = `Catchy phonetic alternate spelling designed for high domain availability.`;
+        meaning = `Catchy phonetic spelling with high domain availability.`;
         break;
       }
 
       case 'real-word': {
-        const word = EVOCATIVE_WORDS[(i + cleanBase.length) % EVOCATIVE_WORDS.length];
+        const word = catEvocative[(i + cleanBase.length) % catEvocative.length];
         nameStr = word;
-        meaning = `Prestigious dictionary word delivering immediate trust and authority.`;
+        meaning = `Prestigious dictionary word delivering authority and clarity.`;
         break;
       }
 
       case 'rhyming': {
         const pair = RHYME_PAIRS[i % RHYME_PAIRS.length];
         nameStr = `${pair[0]}${pair[1]}`;
-        meaning = `Rhythmic rhyming pattern engineered for high cognitive recall.`;
+        meaning = `Rhythmic cadence engineered for maximum cognitive recall.`;
         break;
       }
 
@@ -195,17 +390,17 @@ export function synthesizeBrandNames(
       }
 
       case 'multiple-words': {
-        const mod = MODIFIERS[i % MODIFIERS.length];
-        const evo = EVOCATIVE_WORDS[(i * 3) % EVOCATIVE_WORDS.length];
+        const mod = catModifiers[i % catModifiers.length];
+        const evo = catEvocative[(i * 3) % catEvocative.length];
         nameStr = `${mod} ${capitalizedBase || evo}`;
-        meaning = `Two-word narrative brand statement conveying expansive vision.`;
+        meaning = `Two-word narrative expressing ${category.descriptor}.`;
         break;
       }
 
       case 'person-name': {
         const surname = SURNAMES[i % SURNAMES.length];
         nameStr = surname;
-        meaning = `Heritage person-name conveying boutique craftsmanship and prestige.`;
+        meaning = `Heritage surname conveying boutique craftsmanship and prestige.`;
         break;
       }
     }
@@ -299,7 +494,7 @@ export async function generateNames(
           id: `name-api-${Date.now()}-${idx}`,
           name: item.name,
           phonetic: item.phonetic || generatePhoneticGuide(item.name),
-          meaning: item.meaning || `AI-crafted ${config.style} brand name tailored for '${config.keywords}'.`,
+          meaning: item.meaning || `AI-crafted ${config.style} brand name for ${config.industry || 'your business'}.`,
           style: config.style,
           lengthCategory: item.name.length <= 6 ? 'short' : item.name.length > 12 ? 'long' : 'medium',
           score: item.score || (88 + Math.floor(Math.random() * 10)),
@@ -319,7 +514,7 @@ export async function generateNames(
   }
 
   if (names.length === 0) {
-    names = synthesizeBrandNames(config, preferenceWeights, 24);
+    names = synthesizeBrandNames(config, preferenceWeights, 30);
   }
 
   // Kick off asynchronous domain availability checking without blocking return

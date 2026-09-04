@@ -38,12 +38,14 @@ export default async function handler(request: VercelRequest, response: VercelRe
     const temperature = randomness === 'low' ? 0.2 : randomness === 'high' ? 1.1 : 0.7;
 
     const prompt = `You are a world-class brand naming strategist.
-Generate 20 unique, brandable, high-conversion business names for:
+Generate 30 unique, brandable, high-conversion business names tailored for:
 - Concept / Keywords: "${keywords}"
+- Industry Category: ${industry}
 - Naming Style: ${style}
 - Randomness / Creativity: ${randomness}
 - Target Length: ${length}
-- Industry: ${industry}
+
+Each name MUST have a short rationale in the "meaning" field (STRICTLY UNDER 12 WORDS) explaining why it fits (tone, wordplay, or what it evokes in the ${industry} industry).
 
 Return ONLY a valid JSON object matching this schema:
 {
@@ -51,7 +53,7 @@ Return ONLY a valid JSON object matching this schema:
     {
       "name": "BrandName",
       "phonetic": "PRON-un-see-AY-shun",
-      "meaning": "1-sentence brand story/rationale",
+      "meaning": "Punchy rationale under 12 words explaining tone or wordplay",
       "score": 95
     }
   ]
