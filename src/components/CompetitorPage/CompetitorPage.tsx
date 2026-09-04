@@ -80,7 +80,6 @@ export function CompetitorPage({ comparison }: { comparison: CompetitorCompariso
       <SEOHead
         title={comparison.title}
         description={comparison.metaDescription}
-        keywords={`${comparison.primaryKeyword}, ${comparison.competitorName.toLowerCase()} alternative, business name generator, free logo maker`}
         url={`https://uniquebusinessname.com/alternatives/${comparison.slug}`}
         type="WebApplication"
         schema={richSchema}

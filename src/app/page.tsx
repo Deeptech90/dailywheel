@@ -169,9 +169,8 @@ export default function Home() {
   return (
     <div style={{ minHeight: '100vh', fontFamily: 'var(--font-body)', color: 'var(--text)' }}>
       <SEOHead
-        title="Design Logo for Business Free — AI Company Logo Maker & Brand Name Generator | UniqueBusinessName.com"
-        description="Design logo for business free with the #1 AI company logo maker and business name generator. Design your own logo for business cards, business plans, 3D mockups, and instant vector SVG downloads."
-        keywords="design logo for business, designing a new logo for business, design your own logo for business, design a logo for business card, design a cover page and logo for business plan, design logo for business free, design logo for business ai, design logo for business online, design logo for business near me, graphic design logo for business, create logo for business, logo design, create logo free, free online logo maker and download, free logo design and download, name logo design, free logo design templates, creative logo design free download, logo design online, company logo maker, company name logo maker, company design logo maker, company logo maker free, company logo maker ai, company name logo maker free, company brand logo maker, company stamp logo maker, company business logo maker, company 3d logo maker, business name generator, business name generators, business name generator ai, business name ideas, free business name generator, business name generator namelix, business name generator with logo, business name generator indian, business name generator ai free, business name generator no ai, namelix, logo maker, logo generator, business generator name, company generator name, generator business names, name generator for a business, names for a company generator, names for companies generator, name business generator, instant domain check"
+        title="Free AI Business Name Generator with Logo Maker | UniqueBusinessName.com"
+        description="Generate unique AI business names with live domain checks and design your logo free — all in one tool. Business name generator, brand name ideas, and company logo maker."
         url="https://uniquebusinessname.com/"
         type="WebApplication"
         schema={homeSchema}

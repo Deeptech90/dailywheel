@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from '../../components/Link/Link';
+import { SEOHead } from '../../components/SEOHead/SEOHead';
 import { useAuth } from '../../context/AuthContext';
 import { useSubscription } from '../../hooks/useSubscription';
 import { logEvent } from '../../utils/analytics';
@@ -93,8 +94,27 @@ export default function PricingPage() {
     return `Upgrade to ${plan.charAt(0).toUpperCase() + plan.slice(1)}`;
   };
 
+  const pricingSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Pricing — UniqueBusinessName.com',
+    url: 'https://uniquebusinessname.com/pricing',
+    description: 'Choose the right plan for your brand. Free, Pro ($12/mo), and Business ($39/mo) tiers with unlimited AI name generation, logo exports, and zero ads.',
+    offers: [
+      { '@type': 'Offer', name: 'Free', price: '0', priceCurrency: 'USD' },
+      { '@type': 'Offer', name: 'Pro', price: '12', priceCurrency: 'USD', priceValidUntil: '2027-01-01' },
+      { '@type': 'Offer', name: 'Business', price: '39', priceCurrency: 'USD', priceValidUntil: '2027-01-01' },
+    ],
+  };
+
   return (
     <div className={styles.container}>
+      <SEOHead
+        title="Pricing Plans — AI Business Name Generator &amp; Logo Maker | UniqueBusinessName.com"
+        description="Choose the right plan for your brand. UniqueBusinessName.com offers a free tier plus Pro and Business plans with unlimited AI name generation, logo exports, and zero ads."
+        url="https://uniquebusinessname.com/pricing"
+        schema={pricingSchema}
+      />
       <header className={styles.header}>
         <Link href="/" className={styles.backBtn}>← Back</Link>
         <div className={styles.logo}>UBN <span>Pro</span></div>

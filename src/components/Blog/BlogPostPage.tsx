@@ -4,24 +4,35 @@ import { BlogPost } from '../../data/blogPosts';
 import styles from './Blog.module.css';
 
 export function BlogPostPage({ post }: { post: BlogPost }) {
+  const postUrl = `https://uniquebusinessname.com/blog/${post.slug}`;
+
   const articleSchema = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": post.title,
-    "datePublished": post.date,
-    "author": {
-      "@type": "Person",
-      "name": post.author
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: post.title,
+    url: postUrl,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': postUrl },
+    datePublished: post.date,
+    dateModified: post.date,
+    author: {
+      '@type': 'Organization',
+      name: 'UniqueBusinessName.com',
+      url: 'https://uniquebusinessname.com',
     },
-    "description": post.excerpt
+    publisher: {
+      '@type': 'Organization',
+      name: 'UniqueBusinessName.com',
+      url: 'https://uniquebusinessname.com',
+    },
+    description: post.excerpt,
   };
 
   return (
     <div className={styles.container}>
-      <SEOHead 
-        title={`${post.title} | UBN Blog`}
+      <SEOHead
+        title={`${post.title} | UniqueBusinessName Blog`}
         description={post.excerpt}
-        keywords={post.keywords}
+        url={postUrl}
         type="Article"
         schema={articleSchema}
       />

@@ -1,32 +1,10 @@
 /* ============================================================
    /logo-maker — Page
    ============================================================ */
-import { useEffect } from 'react';
 import LogoMakerApp from '../../components/LogoMaker/LogoMakerApp';
 import { SEOHead } from '../../components/SEOHead/SEOHead';
 
 export default function LogoMakerPage() {
-  useEffect(() => {
-    document.title = 'Design Logo for Business Free — AI Graphic Design Studio & 3D Logo Maker | UniqueBusinessName.com';
-    let meta = document.querySelector<HTMLMetaElement>('meta[name="description"]');
-    if (!meta) {
-      meta = document.createElement('meta');
-      meta.name = 'description';
-      document.head.appendChild(meta);
-    }
-    meta.content =
-      'Design logo for business free with the #1 AI company logo maker. Design your own logo for business cards, business plan cover pages, and online branding with instant vector SVG downloads.';
-
-    let keywordsMeta = document.querySelector<HTMLMetaElement>('meta[name="keywords"]');
-    if (!keywordsMeta) {
-      keywordsMeta = document.createElement('meta');
-      keywordsMeta.name = 'keywords';
-      document.head.appendChild(keywordsMeta);
-    }
-    keywordsMeta.content =
-      'design logo for business, designing a new logo for business, design your own logo for business, design a logo for business card, design a cover page and logo for business plan, design logo for business free, design logo for business ai, design logo for business online, design logo for business near me, graphic design logo for business, create logo for business, logo design, create logo free, free online logo maker and download, free logo design and download, name logo design, free logo design templates, creative logo design free download, logo design online, company logo maker, company name logo maker, company design logo maker, company logo maker free, company logo maker ai, company name logo maker free, company brand logo maker, company stamp logo maker, company business logo maker, company 3d logo maker';
-  }, []);
-
   const logoMakerSchema = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
@@ -63,7 +41,6 @@ export default function LogoMakerPage() {
       <SEOHead
         title="Design Logo for Business Free — AI Graphic Design Studio & 3D Logo Maker | UniqueBusinessName.com"
         description="Design logo for business free with the #1 AI company logo maker. Design your own logo for business cards, business plan cover pages, and online branding with instant vector SVG downloads."
-        keywords="design logo for business, designing a new logo for business, design your own logo for business, design a logo for business card, design a cover page and logo for business plan, design logo for business free, design logo for business ai, design logo for business online, design logo for business near me, graphic design logo for business, create logo for business, logo design, create logo free, free online logo maker and download, free logo design and download, name logo design, free logo design templates, creative logo design free download, logo design online, company logo maker, company name logo maker, company design logo maker, company logo maker free, company logo maker ai, company name logo maker free, company brand logo maker, company stamp logo maker, company business logo maker, company 3d logo maker"
         url="https://uniquebusinessname.com/logo-maker"
         type="WebApplication"
         schema={logoMakerSchema}

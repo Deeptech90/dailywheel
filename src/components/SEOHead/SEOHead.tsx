@@ -3,21 +3,22 @@ import { useEffect } from 'react';
 interface SEOHeadProps {
   title: string;
   description: string;
-  keywords?: string;
+  /** @deprecated meta-keywords has no ranking value — omit from all pages */
+  keywords?: never;
   image?: string;
   url?: string;
   type?: 'WebSite' | 'WebApplication' | 'FAQPage' | 'Article' | 'Organization';
   schema?: Record<string, any>;
 }
 
-export function SEOHead({ title, description, keywords, image, url, type = 'WebSite', schema }: SEOHeadProps) {
+export function SEOHead({ title, description, image, url, type = 'WebSite', schema }: SEOHeadProps) {
   useEffect(() => {
     // 1. Update Title
     document.title = title;
 
-    // 2. Update standard meta
+    // 2. Update standard meta tags
     const setMeta = (name: string, content: string) => {
-      let el = document.querySelector(`meta[name="${name}"]`);
+      let el = document.querySelector<HTMLMetaElement>(`meta[name="${name}"]`);
       if (!el) {
         el = document.createElement('meta');
         el.setAttribute('name', name);
@@ -27,11 +28,21 @@ export function SEOHead({ title, description, keywords, image, url, type = 'WebS
     };
 
     setMeta('description', description);
-    if (keywords) setMeta('keywords', keywords);
 
-    // 3. Update Open Graph
+    // 3. Update canonical link (self-referencing per page)
+    if (url) {
+      let canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+      if (!canonical) {
+        canonical = document.createElement('link');
+        canonical.setAttribute('rel', 'canonical');
+        document.head.appendChild(canonical);
+      }
+      canonical.setAttribute('href', url);
+    }
+
+    // 4. Update Open Graph
     const setOg = (property: string, content: string) => {
-      let el = document.querySelector(`meta[property="${property}"]`);
+      let el = document.querySelector<HTMLMetaElement>(`meta[property="${property}"]`);
       if (!el) {
         el = document.createElement('meta');
         el.setAttribute('property', property);
@@ -46,34 +57,33 @@ export function SEOHead({ title, description, keywords, image, url, type = 'WebS
     if (image) setOg('og:image', image);
     if (url) setOg('og:url', url);
 
-    // 4. Inject JSON-LD Schema
+    // 5. Update Twitter Card (per-page, not boilerplate)
+    setMeta('twitter:card', 'summary_large_image');
+    setMeta('twitter:title', title);
+    setMeta('twitter:description', description);
+    if (image) setMeta('twitter:image', image);
+
+    // 6. Inject JSON-LD Schema
     const scriptId = 'json-ld-schema';
-    let script = document.getElementById(scriptId) as HTMLScriptElement;
+    let script = document.getElementById(scriptId) as HTMLScriptElement | null;
     if (!script) {
       script = document.createElement('script');
       script.id = scriptId;
       script.type = 'application/ld+json';
       document.head.appendChild(script);
     }
-    
-    // Default schema structure
+
     const defaultSchema = {
-      "@context": "https://schema.org",
-      "@type": type,
-      "name": title,
-      "description": description,
-      ...(url ? { "url": url } : {}),
-      ...(image ? { "image": image } : {})
+      '@context': 'https://schema.org',
+      '@type': type,
+      name: title,
+      description,
+      ...(url ? { url } : {}),
+      ...(image ? { image } : {}),
     };
 
-    script.innerText = JSON.stringify(schema || defaultSchema);
-
-    // Clean up
-    return () => {
-      // In a robust app you might revert to defaults, 
-      // but client routing just overwrites it on the next page
-    };
-  }, [title, description, keywords, image, url, type, schema]);
+    script.textContent = JSON.stringify(schema ?? defaultSchema);
+  }, [title, description, image, url, type, schema]);
 
   return null;
 }

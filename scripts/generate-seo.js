@@ -192,11 +192,12 @@ async function main() {
 
   const indexHtml = fs.readFileSync(path.join(DIST_DIR, 'index.html'), 'utf-8');
 
+  // NOTE: /pricing is added here, so do NOT push it again after writeStaticPage('/pricing')
   let sitemapEntries = [
     { url: '/',                priority: '1.0', changefreq: 'daily' },
     { url: '/logo-maker',      priority: '0.9', changefreq: 'monthly' },
-    { url: '/about',           priority: '0.7', changefreq: 'monthly' },
     { url: '/pricing',         priority: '0.8', changefreq: 'monthly' },
+    { url: '/about',           priority: '0.7', changefreq: 'monthly' },
     { url: '/blog',            priority: '0.8', changefreq: 'weekly' },
     { url: '/contact',         priority: '0.6', changefreq: 'monthly' },
     { url: '/privacy',         priority: '0.4', changefreq: 'monthly' },
@@ -206,11 +207,11 @@ async function main() {
   // ── Patch homepage HTML with pre-rendered content ─────────────────────────
   const patchIndexHtml = (htmlTemplate, prerenderContent, opts = {}) => {
     const {
-      title = 'Design Logo for Business Free — AI Company Logo Maker & Brand Name Generator | UniqueBusinessName.com',
-      description = 'Design logo for business free with the #1 AI company logo maker and business name generator. Design your own logo for business cards, business plans, 3D mockups, and instant vector SVG downloads.',
+      title = 'Free AI Business Name Generator with Logo Maker | UniqueBusinessName.com',
+      description = 'Generate unique AI business names with live domain checks and design your logo free — all in one tool. Business name generator, brand name ideas, and company logo maker.',
       canonical = `${SITE_URL}/`,
-      ogTitle = 'Design Logo for Business Free — AI Company Logo Maker & Brand Name Generator',
-      ogDescription = 'Free online AI company logo maker and name generator. Design your own logo for business cards, plans, and export vector SVGs instantly.',
+      ogTitle = 'Free AI Business Name Generator with Logo Maker',
+      ogDescription = 'Generate unique AI business names with live domain checks and design your logo free — all in one tool.',
       ogUrl = `${SITE_URL}/`,
       extraSchema = '',
     } = opts;
@@ -226,6 +227,9 @@ async function main() {
       .replace(/<meta property="og:title" content="[^"]*"\s*\/?>/, `<meta property="og:title" content="${ogTitle}" />`)
       .replace(/<meta property="og:description" content="[^"]*"\s*\/?>/, `<meta property="og:description" content="${ogDescription}" />`)
       .replace(/<meta property="og:url" content="[^"]*"\s*\/?>/, `<meta property="og:url" content="${ogUrl}" />`)
+      // Update Twitter Card (per-route, not boilerplate homepage)
+      .replace(/<meta name="twitter:title" content="[^"]*"\s*\/?>/, `<meta name="twitter:title" content="${ogTitle}" />`)
+      .replace(/<meta name="twitter:description" content="[^"]*"\s*\/?>/, `<meta name="twitter:description" content="${description}" />`)
       // Inject extra schema before </head> if provided
       .replace('</head>', `${extraSchema}\n  </head>`)
       // Replace empty root div with pre-rendered content
@@ -335,6 +339,50 @@ async function main() {
     })}</script>`,
   });
   console.log('✅ /logo-maker static shell written');
+
+  // ── Pricing static shell ───────────────────────────────────────────────────
+  const PRICING_PRERENDER = `
+<div id="root">
+  <div style="min-height:100vh;font-family:system-ui,sans-serif;color:#111827">
+    <main style="max-width:900px;margin:0 auto;padding:2rem 1.5rem">
+      <h1 style="font-size:2rem;font-weight:900;line-height:1.1;margin-bottom:1rem">Pricing Plans &mdash; AI Business Name Generator &amp; Logo Maker</h1>
+      <p style="color:#4B5563;line-height:1.7;margin-bottom:1.5rem">
+        Choose the right plan for your brand. UniqueBusinessName.com offers a <strong>Free tier</strong>,
+        <strong>Pro ($12/mo)</strong>, and <strong>Business ($39/mo)</strong> with unlimited AI name generation,
+        logo exports, priority support, and zero ads.
+      </p>
+      <ul style="padding-left:1.5rem;line-height:1.7;color:#4B5563">
+        <li><strong>Free:</strong> 20 generations/day, 5 brand kits/day, save up to 25 brands</li>
+        <li><strong>Pro ($12/mo or $9/mo annual):</strong> Unlimited everything, PDF/JSON export, zero ads, priority AI</li>
+        <li><strong>Business ($39/mo or $29/mo annual):</strong> Team workspaces, admin dashboard, future API access</li>
+      </ul>
+      <p style="color:#4B5563;margin-top:2rem"><a href="/">Back to AI Name Generator</a> &bull; <a href="/logo-maker">Logo Maker</a></p>
+    </main>
+  </div>
+</div>`;
+
+  writeStaticPage('/pricing', PRICING_PRERENDER, {
+    title: 'Pricing Plans — AI Business Name Generator &amp; Logo Maker | UniqueBusinessName.com',
+    description: 'Choose the right plan for your brand. Free, Pro ($12/mo), and Business ($39/mo) tiers with unlimited AI name generation, logo exports, priority support, and zero ads.',
+    canonical: `${SITE_URL}/pricing`,
+    ogTitle: 'Pricing Plans — UniqueBusinessName.com',
+    ogDescription: 'Free, Pro, and Business plans for the AI Business Name Generator & Logo Maker. Unlimited generation, vector exports, and zero ads.',
+    ogUrl: `${SITE_URL}/pricing`,
+    extraSchema: `<script type="application/ld+json">${JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      name: 'Pricing — UniqueBusinessName.com',
+      url: `${SITE_URL}/pricing`,
+      description: 'Pricing plans for UniqueBusinessName.com AI Business Name Generator and Logo Maker.',
+      offers: [
+        { '@type': 'Offer', name: 'Free', price: '0', priceCurrency: 'USD' },
+        { '@type': 'Offer', name: 'Pro', price: '12', priceCurrency: 'USD' },
+        { '@type': 'Offer', name: 'Business', price: '39', priceCurrency: 'USD' },
+      ],
+    })}</script>`,
+  });
+  // /pricing is already in the initial sitemapEntries — no push needed here
+  console.log('✅ /pricing static shell written');
 
   // ── Industry category landing pages ──────────────────────────────────────
   industries.forEach((industry) => {
