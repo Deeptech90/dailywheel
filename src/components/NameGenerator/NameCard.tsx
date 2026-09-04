@@ -15,11 +15,12 @@ import styles from './NameGenerator.module.css';
 
 interface NameCardProps {
   item: GeneratedBusinessName;
+  index?: number;
 }
 
 const TLD_LIST: TLD[] = ['.com', '.io', '.ai', '.app'];
 
-export const NameCard: React.FC<NameCardProps> = ({ item }) => {
+export const NameCard: React.FC<NameCardProps> = ({ item, index = 0 }) => {
   const { isNameSaved, saveName, removeSavedName, createLogoWithName } = useBrandState();
   const [copied, setCopied] = useState(false);
   const saved = isNameSaved(item.id) || isNameSaved(item.name);
@@ -34,13 +35,12 @@ export const NameCard: React.FC<NameCardProps> = ({ item }) => {
       removeSavedName(item.id);
     } else {
       saveName(item);
-      // Trigger subtle celebratory confetti burst
       try {
         confetti({
-          particleCount: 28,
-          spread: 50,
+          particleCount: 22,
+          spread: 45,
           origin: { y: 0.8 },
-          colors: ['#1D4ED8', '#7C3AED', '#EC4899', '#10B981']
+          colors: ['#B8860B', '#C59B27', '#0F1726']
         });
       } catch {}
     }
@@ -59,7 +59,11 @@ export const NameCard: React.FC<NameCardProps> = ({ item }) => {
   };
 
   return (
-    <div className={styles.nameCard} id={`name-card-${item.id}`}>
+    <div
+      className={styles.nameCard}
+      id={`name-card-${item.id}`}
+      style={{ animationDelay: `${Math.min(index * 35, 420)}ms` }}
+    >
       {/* Top Header: Style pill & Heart button */}
       <div className={styles.cardHeader}>
         <span className={styles.styleBadge}>
@@ -163,9 +167,8 @@ export const NameCard: React.FC<NameCardProps> = ({ item }) => {
           onClick={handleCreateLogo}
           id={`create-logo-btn-${item.id}`}
         >
-          <Sparkles size={16} className={styles.sparkleIcon} />
-          <span>Create Logo with This Name</span>
-          <ArrowRight size={15} className={styles.arrowIcon} />
+          <Palette size={15} className={styles.sparkleIcon} />
+          <span>Open in Logo Studio</span>
         </button>
       </div>
     </div>

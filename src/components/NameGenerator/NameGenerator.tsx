@@ -215,18 +215,11 @@ export const NameGenerator: React.FC<NameGeneratorProps> = ({ initialKeywords, i
     <section className={styles.generatorRoot} id="name-generator-section">
       {/* Search Header Container */}
       <div className={styles.searchHero}>
-        <div className={styles.badgeWrap}>
-          <span className={styles.heroBadge}>
-            <Sparkles size={14} /> Free Business Name Generator With Logo
-          </span>
-          <span className={styles.subBadge}>AI Free &amp; Instant Vector Exports</span>
-        </div>
-
         <h1 className={styles.mainTitle}>
-          AI Business Name Generator
+          Distinctive business names, built with identity.
         </h1>
         <p className={styles.mainSubtitle}>
-          The #1 free AI business name generator with logo and company generator name engine. Discover creative business name ideas, Indian startup names, real-time domain checks, and instant vector logos.
+          Generate evocative brand names, verify domain availability in real time, and preview complete vector identities on production mockups.
         </p>
 
         {/* Search Input Bar with Industry Category Selector */}
@@ -477,8 +470,8 @@ export const NameGenerator: React.FC<NameGeneratorProps> = ({ initialKeywords, i
 
       {/* Name Cards Grid (Showing visibleCount of 30) */}
       <div className={styles.nameGrid}>
-        {names.slice(0, visibleCount).map(item => (
-          <NameCard key={item.id} item={item} />
+        {names.slice(0, visibleCount).map((item, index) => (
+          <NameCard key={item.id} item={item} index={index} />
         ))}
       </div>
 

@@ -1,13 +1,17 @@
 /* ============================================================
    MockupPreview — Real-World Product Mockup Studio
    Renders active brand logo across:
-   1. Business Card
-   2. Mobile Screen
-   3. T-Shirt Apparel
-   4. Storefront Signage
+   1. Business Card (Interactive + 600gsm Letterpress Proof)
+   2. Letterhead (Interactive + Archival Suite Proof)
+   3. Storefront (Cast Bronze Architectural Signage)
+   4. Packaging (Custom Rigid Matte Box Proof)
+   5. Mobile App Frame
+   6. Social Cover
+   7. Email Signature
+   8. Apparel / Merch
    ============================================================ */
 
-import React from 'react';
+import React, { useState } from 'react';
 import { GeneratedLogo, MockupType } from '../../types/logoMaker';
 import { svgToDataUrl } from '../../utils/logoExport';
 import styles from './LogoMaker.module.css';
@@ -22,12 +26,13 @@ interface MockupPreviewProps {
 
 const MOCKUP_TABS: { id: MockupType; label: string; icon: string }[] = [
   { id: 'business-card',   label: 'Business Card',  icon: '📇' },
+  { id: 'letterhead',      label: 'Stationery',     icon: '📄' },
+  { id: 'storefront',      label: 'Storefront',     icon: '🏬' },
+  { id: 'packaging',       label: 'Packaging',      icon: '📦' },
+  { id: 'mobile-screen',   label: 'Mobile App',     icon: '📱' },
   { id: 'social-banner',   label: 'Social Cover',   icon: '🌐' },
   { id: 'email-signature', label: 'Email Sig',      icon: '✉️' },
-  { id: 'mobile-screen',   label: 'Mobile App',     icon: '📱' },
-  { id: 't-shirt',         label: 'Apparel / Merch',icon: '👕' },
-  { id: 'storefront',      label: 'Store Signage',  icon: '🏬' },
-  { id: 'letterhead',      label: 'Letterhead',     icon: '📄' },
+  { id: 't-shirt',         label: 'Apparel',        icon: '👕' },
 ];
 
 export const MockupPreview: React.FC<MockupPreviewProps> = ({
@@ -37,6 +42,7 @@ export const MockupPreview: React.FC<MockupPreviewProps> = ({
   activeMockup,
   onSelectMockup,
 }) => {
+  const [photoProof, setPhotoProof] = useState<boolean>(true);
   const logoDataUrl = svgToDataUrl(logo.svgString);
 
   return (
@@ -56,34 +62,172 @@ export const MockupPreview: React.FC<MockupPreviewProps> = ({
         ))}
       </div>
 
+      {/* Proof Mode Toggle for Tangible Products */}
+      {(activeMockup === 'business-card' || activeMockup === 'letterhead') && (
+        <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '0.25rem' }}>
+          <button
+            type="button"
+            onClick={() => setPhotoProof(!photoProof)}
+            style={{
+              background: 'transparent',
+              border: '1px solid var(--color-border)',
+              borderRadius: 'var(--radius-sm)',
+              padding: '0.3rem 0.75rem',
+              fontSize: '0.78rem',
+              fontWeight: 600,
+              color: 'var(--color-brass)',
+              cursor: 'pointer',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.4rem',
+            }}
+          >
+            <span>{photoProof ? 'Switch to Vector Canvas' : '✦ View Physical Print Proof'}</span>
+          </button>
+        </div>
+      )}
+
       {/* Mockup Canvas Display */}
       <div className={styles.mockupDisplayContainer}>
         {/* 1. BUSINESS CARD MOCKUP */}
         {activeMockup === 'business-card' && (
-          <div className={styles.mockupCardScene}>
-            <div className={styles.businessCardFront} style={{ borderColor: logo.primaryColor }}>
-              <div className={styles.cardLogoWrap}>
-                <img src={logoDataUrl} alt={`${businessName} logo on business card`} className={styles.cardLogoImg} />
-              </div>
-              <div className={styles.cardContactDetails}>
-                <div className={styles.cardPersonName}>Alex Morgan</div>
-                <div className={styles.cardPersonRole}>Founder &amp; CEO</div>
-                <div className={styles.cardDivider} style={{ background: logo.primaryColor }} />
-                <div className={styles.cardMeta}>hello@{businessName.toLowerCase().replace(/\s+/g, '')}.com</div>
-                <div className={styles.cardMeta}>+1 (555) 234-5678</div>
-                <div className={styles.cardMeta}>www.{businessName.toLowerCase().replace(/\s+/g, '')}.com</div>
+          photoProof ? (
+            <div style={{ position: 'relative', width: '100%', maxWidth: '520px', borderRadius: 'var(--radius-md)', overflow: 'hidden', border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-subtle)' }}>
+              <img
+                src="/mockups/mockup_business_card.jpg"
+                alt={`${businessName} Letterpress Foil Cards`}
+                style={{ width: '100%', height: 'auto', display: 'block' }}
+              />
+              <div style={{ position: 'absolute', bottom: '0.75rem', left: '0.75rem', right: '0.75rem', background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(8px)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)', padding: '0.6rem 0.85rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.75rem' }}>
+                <div>
+                  <div style={{ fontSize: '0.7rem', fontWeight: 700, color: 'var(--color-brass)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                    Production Proof
+                  </div>
+                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '0.9rem', color: 'var(--color-ink)' }}>
+                    {businessName} • 600gsm Cotton Foil
+                  </div>
+                </div>
+                <img src={logoDataUrl} alt={businessName} style={{ height: '24px', maxWidth: '75px', objectFit: 'contain' }} />
               </div>
             </div>
-
-            <div className={styles.businessCardBack} style={{ background: `linear-gradient(135deg, ${logo.primaryColor} 0%, ${logo.secondaryColor} 100%)` }}>
-              <div className={styles.cardBackContent}>
-                <img src={logoDataUrl} alt={`${businessName} badge`} className={styles.cardBackLogoImg} style={{ filter: 'brightness(0) invert(1)' }} />
+          ) : (
+            <div className={styles.mockupCardScene}>
+              <div className={styles.businessCardFront} style={{ borderColor: logo.primaryColor }}>
+                <div className={styles.cardLogoWrap}>
+                  <img src={logoDataUrl} alt={`${businessName} logo on business card`} className={styles.cardLogoImg} />
+                </div>
+                <div className={styles.cardContactDetails}>
+                  <div className={styles.cardPersonName}>Alex Morgan</div>
+                  <div className={styles.cardPersonRole}>Founder &amp; CEO</div>
+                  <div className={styles.cardDivider} style={{ background: logo.primaryColor }} />
+                  <div className={styles.cardMeta}>hello@{businessName.toLowerCase().replace(/\s+/g, '')}.com</div>
+                  <div className={styles.cardMeta}>+1 (555) 234-5678</div>
+                  <div className={styles.cardMeta}>www.{businessName.toLowerCase().replace(/\s+/g, '')}.com</div>
+                </div>
               </div>
+
+              <div className={styles.businessCardBack} style={{ background: `linear-gradient(135deg, ${logo.primaryColor} 0%, ${logo.secondaryColor} 100%)` }}>
+                <div className={styles.cardBackContent}>
+                  <img src={logoDataUrl} alt={`${businessName} badge`} className={styles.cardBackLogoImg} style={{ filter: 'brightness(0) invert(1)' }} />
+                </div>
+              </div>
+            </div>
+          )
+        )}
+
+        {/* 2. CORPORATE LETTERHEAD MOCKUP */}
+        {activeMockup === 'letterhead' && (
+          photoProof ? (
+            <div style={{ position: 'relative', width: '100%', maxWidth: '520px', borderRadius: 'var(--radius-md)', overflow: 'hidden', border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-subtle)' }}>
+              <img
+                src="/mockups/mockup_letterhead.jpg"
+                alt={`${businessName} Stationery Suite`}
+                style={{ width: '100%', height: 'auto', display: 'block' }}
+              />
+              <div style={{ position: 'absolute', bottom: '0.75rem', left: '0.75rem', right: '0.75rem', background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(8px)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)', padding: '0.6rem 0.85rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.75rem' }}>
+                <div>
+                  <div style={{ fontSize: '0.7rem', fontWeight: 700, color: 'var(--color-brass)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                    Corporate Collateral
+                  </div>
+                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '0.9rem', color: 'var(--color-ink)' }}>
+                    {businessName} • Archival Executive Suite
+                  </div>
+                </div>
+                <img src={logoDataUrl} alt={businessName} style={{ height: '24px', maxWidth: '75px', objectFit: 'contain' }} />
+              </div>
+            </div>
+          ) : (
+            <div className={styles.mockupLetterheadScene}>
+              <div className={styles.letterheadBody}>
+                <div className={styles.letterheadTopAccent} style={{ background: `linear-gradient(90deg, ${logo.primaryColor}, ${logo.secondaryColor})` }} />
+                <div className={styles.letterheadHeader}>
+                  <img src={logoDataUrl} alt={`${businessName} letterhead`} className={styles.letterheadLogo} />
+                  <div className={styles.letterheadCompanyMeta}>
+                    <strong>{businessName} Inc.</strong><br />
+                    100 Innovation Blvd, Suite 400<br />
+                    contact@{businessName.toLowerCase().replace(/\s+/g, '')}.com
+                  </div>
+                </div>
+                <div className={styles.letterheadContentPlaceholder}>
+                  <div className={styles.letterheadLine} style={{ width: '80%' }} />
+                  <div className={styles.letterheadLine} style={{ width: '95%' }} />
+                  <div className={styles.letterheadLine} style={{ width: '90%' }} />
+                  <div className={styles.letterheadLine} style={{ width: '60%' }} />
+                </div>
+                <div className={styles.letterheadFooter}>
+                  <span>CONFIDENTIAL &bull; FOR INTERNAL USE ONLY</span>
+                  <span>Page 1 of 1</span>
+                </div>
+              </div>
+            </div>
+          )
+        )}
+
+        {/* 3. STOREFRONT SIGNAGE MOCKUP */}
+        {activeMockup === 'storefront' && (
+          <div style={{ position: 'relative', width: '100%', maxWidth: '520px', borderRadius: 'var(--radius-md)', overflow: 'hidden', border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-subtle)' }}>
+            <img
+              src="/mockups/mockup_storefront.jpg"
+              alt={`${businessName} Storefront Signage`}
+              style={{ width: '100%', height: 'auto', display: 'block' }}
+            />
+            <div style={{ position: 'absolute', bottom: '0.75rem', left: '0.75rem', right: '0.75rem', background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(8px)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)', padding: '0.6rem 0.85rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.75rem' }}>
+              <div>
+                <div style={{ fontSize: '0.7rem', fontWeight: 700, color: 'var(--color-brass)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  Architectural Exterior
+                </div>
+                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '0.9rem', color: 'var(--color-ink)' }}>
+                  {businessName} • Cast Bronze Facade
+                </div>
+              </div>
+              <img src={logoDataUrl} alt={businessName} style={{ height: '24px', maxWidth: '75px', objectFit: 'contain' }} />
             </div>
           </div>
         )}
 
-        {/* 2. SOCIAL MEDIA COVER MOCKUP */}
+        {/* 4. LUXURY PACKAGING MOCKUP */}
+        {activeMockup === 'packaging' && (
+          <div style={{ position: 'relative', width: '100%', maxWidth: '520px', borderRadius: 'var(--radius-md)', overflow: 'hidden', border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-subtle)' }}>
+            <img
+              src="/mockups/mockup_packaging.jpg"
+              alt={`${businessName} Luxury Rigid Box`}
+              style={{ width: '100%', height: 'auto', display: 'block' }}
+            />
+            <div style={{ position: 'absolute', bottom: '0.75rem', left: '0.75rem', right: '0.75rem', background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(8px)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)', padding: '0.6rem 0.85rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.75rem' }}>
+              <div>
+                <div style={{ fontSize: '0.7rem', fontWeight: 700, color: 'var(--color-brass)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  Unboxing Collateral
+                </div>
+                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '0.9rem', color: 'var(--color-ink)' }}>
+                  {businessName} • Rigid Matte Box
+                </div>
+              </div>
+              <img src={logoDataUrl} alt={businessName} style={{ height: '24px', maxWidth: '75px', objectFit: 'contain' }} />
+            </div>
+          </div>
+        )}
+
+        {/* 5. SOCIAL MEDIA COVER MOCKUP */}
         {activeMockup === 'social-banner' && (
           <div className={styles.mockupSocialScene}>
             <div
@@ -100,7 +244,7 @@ export const MockupPreview: React.FC<MockupPreviewProps> = ({
           </div>
         )}
 
-        {/* 3. EMAIL SIGNATURE MOCKUP */}
+        {/* 6. EMAIL SIGNATURE MOCKUP */}
         {activeMockup === 'email-signature' && (
           <div className={styles.mockupEmailScene}>
             <div className={styles.emailSignatureCard}>
@@ -117,7 +261,7 @@ export const MockupPreview: React.FC<MockupPreviewProps> = ({
           </div>
         )}
 
-        {/* 4. MOBILE SCREEN MOCKUP */}
+        {/* 7. MOBILE SCREEN MOCKUP */}
         {activeMockup === 'mobile-screen' && (
           <div className={styles.mockupMobileScene}>
             <div className={styles.mobilePhoneFrame}>
@@ -146,7 +290,7 @@ export const MockupPreview: React.FC<MockupPreviewProps> = ({
           </div>
         )}
 
-        {/* 5. T-SHIRT APPAREL MOCKUP */}
+        {/* 8. T-SHIRT APPAREL MOCKUP */}
         {activeMockup === 't-shirt' && (
           <div className={styles.mockupTshirtScene}>
             <div className={styles.tshirtGraphicWrapper}>
@@ -160,47 +304,8 @@ export const MockupPreview: React.FC<MockupPreviewProps> = ({
             </div>
           </div>
         )}
-
-        {/* 6. STOREFRONT SIGNAGE MOCKUP */}
-        {activeMockup === 'storefront' && (
-          <div className={styles.mockupStorefrontScene}>
-            <div className={styles.storefrontWall}>
-              <div className={styles.storefrontSignboard} style={{ borderLeft: `6px solid ${logo.primaryColor}` }}>
-                <div className={styles.storeSignBacklight} style={{ background: `radial-gradient(circle, ${logo.primaryColor}22 0%, transparent 70%)` }} />
-                <img src={logoDataUrl} alt={`${businessName} outdoor signage`} className={styles.storefrontLogoImg} />
-              </div>
-              <div className={styles.storefrontGlassReflection} />
-            </div>
-          </div>
-        )}
-
-        {/* 7. CORPORATE LETTERHEAD MOCKUP */}
-        {activeMockup === 'letterhead' && (
-          <div className={styles.mockupLetterheadScene}>
-            <div className={styles.letterheadBody}>
-              <div className={styles.letterheadTopAccent} style={{ background: `linear-gradient(90deg, ${logo.primaryColor}, ${logo.secondaryColor})` }} />
-              <div className={styles.letterheadHeader}>
-                <img src={logoDataUrl} alt={`${businessName} letterhead`} className={styles.letterheadLogo} />
-                <div className={styles.letterheadCompanyMeta}>
-                  <strong>{businessName} Inc.</strong><br />
-                  100 Innovation Blvd, Suite 400<br />
-                  contact@{businessName.toLowerCase().replace(/\s+/g, '')}.com
-                </div>
-              </div>
-              <div className={styles.letterheadContentPlaceholder}>
-                <div className={styles.letterheadLine} style={{ width: '80%' }} />
-                <div className={styles.letterheadLine} style={{ width: '95%' }} />
-                <div className={styles.letterheadLine} style={{ width: '90%' }} />
-                <div className={styles.letterheadLine} style={{ width: '60%' }} />
-              </div>
-              <div className={styles.letterheadFooter}>
-                <span>CONFIDENTIAL &bull; FOR INTERNAL USE ONLY</span>
-                <span>Page 1 of 1</span>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );
 };
+
