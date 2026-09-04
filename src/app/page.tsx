@@ -135,7 +135,7 @@ export default function Home() {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": "Design Logo for Business Free & AI Business Name Generator — UniqueBusinessName.com",
-    "url": "https://uniquebusinessname.com",
+    "url": "https://www.uniquebusinessname.com",
     "applicationCategory": "BusinessApplication",
     "operatingSystem": "All",
     "browserRequirements": "Requires JavaScript and HTML5 Canvas",
@@ -171,7 +171,7 @@ export default function Home() {
       <SEOHead
         title="Free AI Business Name Generator with Logo Maker | UniqueBusinessName.com"
         description="Generate unique AI business names with live domain checks and design your logo free — all in one tool. Business name generator, brand name ideas, and company logo maker."
-        url="https://uniquebusinessname.com/"
+        url="https://www.uniquebusinessname.com/"
         type="WebApplication"
         schema={homeSchema}
       />

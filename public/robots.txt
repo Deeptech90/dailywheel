@@ -3,4 +3,4 @@ Allow: /
 Disallow: /dashboard
 Disallow: /admin
 
-Sitemap: https://uniquebusinessname.com/sitemap.xml
+Sitemap: https://www.uniquebusinessname.com/sitemap.xml

@@ -1,4 +1,39 @@
 {
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "uniquebusinessname.com"
+        }
+      ],
+      "destination": "https://www.uniquebusinessname.com/$1",
+      "permanent": true
+    },
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "uniquebusiness.com"
+        }
+      ],
+      "destination": "https://www.uniquebusinessname.com/$1",
+      "permanent": true
+    },
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.uniquebusiness.com"
+        }
+      ],
+      "destination": "https://www.uniquebusinessname.com/$1",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" },
     { "source": "/((?!api/).*)", "destination": "/index.html" }

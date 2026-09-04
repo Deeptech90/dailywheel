@@ -18,9 +18,9 @@ export function CompetitorPage({ comparison }: { comparison: CompetitorCompariso
     "@graph": [
       {
         "@type": "WebApplication",
-        "@id": `https://uniquebusinessname.com/alternatives/${comparison.slug}#app`,
+        "@id": `https://www.uniquebusinessname.com/alternatives/${comparison.slug}#app`,
         "name": "Unique Business Name Generator",
-        "url": `https://uniquebusinessname.com/alternatives/${comparison.slug}`,
+        "url": `https://www.uniquebusinessname.com/alternatives/${comparison.slug}`,
         "applicationCategory": "BusinessApplication",
         "operatingSystem": "All",
         "browserRequirements": "Requires JavaScript",
@@ -38,31 +38,31 @@ export function CompetitorPage({ comparison }: { comparison: CompetitorCompariso
       },
       {
         "@type": "BreadcrumbList",
-        "@id": `https://uniquebusinessname.com/alternatives/${comparison.slug}#breadcrumb`,
+        "@id": `https://www.uniquebusinessname.com/alternatives/${comparison.slug}#breadcrumb`,
         "itemListElement": [
           {
             "@type": "ListItem",
             "position": 1,
             "name": "Home",
-            "item": "https://uniquebusinessname.com/"
+            "item": "https://www.uniquebusinessname.com/"
           },
           {
             "@type": "ListItem",
             "position": 2,
             "name": "Alternatives",
-            "item": "https://uniquebusinessname.com/alternatives"
+            "item": "https://www.uniquebusinessname.com/alternatives"
           },
           {
             "@type": "ListItem",
             "position": 3,
             "name": `${comparison.competitorName} Alternative`,
-            "item": `https://uniquebusinessname.com/alternatives/${comparison.slug}`
+            "item": `https://www.uniquebusinessname.com/alternatives/${comparison.slug}`
           }
         ]
       },
       {
         "@type": "FAQPage",
-        "@id": `https://uniquebusinessname.com/alternatives/${comparison.slug}#faq`,
+        "@id": `https://www.uniquebusinessname.com/alternatives/${comparison.slug}#faq`,
         "mainEntity": comparison.faqs.map(faq => ({
           "@type": "Question",
           "name": faq.question,
@@ -80,7 +80,7 @@ export function CompetitorPage({ comparison }: { comparison: CompetitorCompariso
       <SEOHead
         title={comparison.title}
         description={comparison.metaDescription}
-        url={`https://uniquebusinessname.com/alternatives/${comparison.slug}`}
+        url={`https://www.uniquebusinessname.com/alternatives/${comparison.slug}`}
         type="WebApplication"
         schema={richSchema}
       />

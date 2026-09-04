@@ -21,7 +21,7 @@ export default function PrivacyPolicy() {
 
       <section className={styles.section}>
         <p className={styles.text}>
-          At <span className={styles.highlight}>UniqueBusinessName.com</span>, accessible from https://uniquebusinessname.com, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by UniqueBusinessName.com and how we use it.
+          At <span className={styles.highlight}>UniqueBusinessName.com</span>, accessible from https://www.uniquebusinessname.com, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by UniqueBusinessName.com and how we use it.
         </p>
         <p className={styles.text}>
           If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us.

@@ -98,7 +98,7 @@ export default function PricingPage() {
     '@context': 'https://schema.org',
     '@type': 'WebPage',
     name: 'Pricing — UniqueBusinessName.com',
-    url: 'https://uniquebusinessname.com/pricing',
+    url: 'https://www.uniquebusinessname.com/pricing',
     description: 'Choose the right plan for your brand. Free, Pro ($12/mo), and Business ($39/mo) tiers with unlimited AI name generation, logo exports, and zero ads.',
     offers: [
       { '@type': 'Offer', name: 'Free', price: '0', priceCurrency: 'USD' },
@@ -112,7 +112,7 @@ export default function PricingPage() {
       <SEOHead
         title="Pricing Plans — AI Business Name Generator &amp; Logo Maker | UniqueBusinessName.com"
         description="Choose the right plan for your brand. UniqueBusinessName.com offers a free tier plus Pro and Business plans with unlimited AI name generation, logo exports, and zero ads."
-        url="https://uniquebusinessname.com/pricing"
+        url="https://www.uniquebusinessname.com/pricing"
         schema={pricingSchema}
       />
       <header className={styles.header}>

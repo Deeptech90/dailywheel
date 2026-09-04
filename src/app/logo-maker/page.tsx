@@ -9,7 +9,7 @@ export default function LogoMakerPage() {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": "Design Logo for Business Free — AI Graphic Design Studio & Company Logo Maker",
-    "url": "https://uniquebusinessname.com/logo-maker",
+    "url": "https://www.uniquebusinessname.com/logo-maker",
     "applicationCategory": "DesignApplication",
     "operatingSystem": "All",
     "browserRequirements": "Requires JavaScript and HTML5 Canvas",
@@ -41,7 +41,7 @@ export default function LogoMakerPage() {
       <SEOHead
         title="Design Logo for Business Free — AI Graphic Design Studio & 3D Logo Maker | UniqueBusinessName.com"
         description="Design logo for business free with the #1 AI company logo maker. Design your own logo for business cards, business plan cover pages, and online branding with instant vector SVG downloads."
-        url="https://uniquebusinessname.com/logo-maker"
+        url="https://www.uniquebusinessname.com/logo-maker"
         type="WebApplication"
         schema={logoMakerSchema}
       />

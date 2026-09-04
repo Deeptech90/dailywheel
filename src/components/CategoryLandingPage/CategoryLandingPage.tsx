@@ -13,9 +13,9 @@ export function CategoryLandingPage({ category }: { category: SEOCategory }) {
     "@graph": [
       {
         "@type": "WebApplication",
-        "@id": `https://uniquebusinessname.com/generator/${category.slug}#app`,
+        "@id": `https://www.uniquebusinessname.com/generator/${category.slug}#app`,
         "name": `${category.name} Business Name Generator`,
-        "url": `https://uniquebusinessname.com/generator/${category.slug}`,
+        "url": `https://www.uniquebusinessname.com/generator/${category.slug}`,
         "applicationCategory": "BusinessApplication",
         "operatingSystem": "All",
         "offers": {
@@ -26,31 +26,31 @@ export function CategoryLandingPage({ category }: { category: SEOCategory }) {
       },
       {
         "@type": "BreadcrumbList",
-        "@id": `https://uniquebusinessname.com/generator/${category.slug}#breadcrumb`,
+        "@id": `https://www.uniquebusinessname.com/generator/${category.slug}#breadcrumb`,
         "itemListElement": [
           {
             "@type": "ListItem",
             "position": 1,
             "name": "Home",
-            "item": "https://uniquebusinessname.com/"
+            "item": "https://www.uniquebusinessname.com/"
           },
           {
             "@type": "ListItem",
             "position": 2,
             "name": "Generators",
-            "item": "https://uniquebusinessname.com/generator"
+            "item": "https://www.uniquebusinessname.com/generator"
           },
           {
             "@type": "ListItem",
             "position": 3,
             "name": category.name,
-            "item": `https://uniquebusinessname.com/generator/${category.slug}`
+            "item": `https://www.uniquebusinessname.com/generator/${category.slug}`
           }
         ]
       },
       {
         "@type": "FAQPage",
-        "@id": `https://uniquebusinessname.com/generator/${category.slug}#faq`,
+        "@id": `https://www.uniquebusinessname.com/generator/${category.slug}#faq`,
         "mainEntity": category.faqs.map(faq => ({
           "@type": "Question",
           "name": faq.question,
@@ -68,6 +68,7 @@ export function CategoryLandingPage({ category }: { category: SEOCategory }) {
       <SEOHead 
         title={category.title}
         description={category.description}
+        url={`https://www.uniquebusinessname.com/generator/${category.slug}`}
         type="WebApplication"
         schema={categorySchema}
       />

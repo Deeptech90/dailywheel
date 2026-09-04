@@ -4,7 +4,7 @@ import { BlogPost } from '../../data/blogPosts';
 import styles from './Blog.module.css';
 
 export function BlogPostPage({ post }: { post: BlogPost }) {
-  const postUrl = `https://uniquebusinessname.com/blog/${post.slug}`;
+  const postUrl = `https://www.uniquebusinessname.com/blog/${post.slug}`;
 
   const articleSchema = {
     '@context': 'https://schema.org',
@@ -17,12 +17,12 @@ export function BlogPostPage({ post }: { post: BlogPost }) {
     author: {
       '@type': 'Organization',
       name: 'UniqueBusinessName.com',
-      url: 'https://uniquebusinessname.com',
+      url: 'https://www.uniquebusinessname.com',
     },
     publisher: {
       '@type': 'Organization',
       name: 'UniqueBusinessName.com',
-      url: 'https://uniquebusinessname.com',
+      url: 'https://www.uniquebusinessname.com',
     },
     description: post.excerpt,
   };

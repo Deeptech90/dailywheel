@@ -67,7 +67,7 @@ const competitors = [
   { slug: 'design-com', name: 'Design.com', title: 'Design.com Name Generator Alternative (2026) | UniqueBusinessName', desc: 'Looking for a free Design.com name generator alternative? Generate unique business names with instant domain verification and free vector logos.' }
 ];
 
-const SITE_URL = 'https://uniquebusinessname.com';
+const SITE_URL = 'https://www.uniquebusinessname.com';
 const DIST_DIR = path.resolve('dist');
 const TODAY = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
 
@@ -509,6 +509,10 @@ ${sitemapEntries.map(e => `  <url>
 </urlset>`;
 
   fs.writeFileSync(path.join(DIST_DIR, 'sitemap.xml'), sitemapXml);
+  const publicSitemapPath = path.resolve('public', 'sitemap.xml');
+  if (fs.existsSync(path.dirname(publicSitemapPath))) {
+    fs.writeFileSync(publicSitemapPath, sitemapXml);
+  }
   console.log('✅ sitemap.xml generated with', sitemapEntries.length, 'URLs');
 
   // ── Robots.txt ────────────────────────────────────────────────────────────
